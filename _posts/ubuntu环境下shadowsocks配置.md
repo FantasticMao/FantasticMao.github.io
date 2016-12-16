@@ -12,18 +12,22 @@ Shadowsocks（影梭）是一个使用socks5协议的开源代理工具，分为
 搜关键字“Shadowsocks账号”，搜索引擎会提供很多账号，不过账号的有效性不能保证。如大海捞针一般寻找账号，费心费神，不如自己付费，享受稳定服务（我只是分享......）。本人在 [https://crola.xyz/](https://crola.xyz/) 站点购买Shadowsocks服务端账号（我没有做广告......）。
 ![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/1.png)
 
-### 2. apt-get安装并配置Shadowsocks
-用傻瓜式命令`sudo apt-get install shadowsocks`安装Shadowsocks客户端。结束安装之后，编辑Shadowsocks配置文件`sudo vim /etc/shadowsocks/config.json`，将**server**、**server_port**、**password**与Shadowsocks服务端配置相匹配。
+### 2. 安装并配置Shadowsocks
+使用`sudo apt-get install shadowsocks`安装Shadowsocks客户端。结束安装之后，编辑Shadowsocks配置文件`sudo vim /etc/shadowsocks/config.json`，将**server**、**server_port**、**password**与Shadowsocks服务端配置相匹配。
 ![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/2.png)
 使用命令`sslocal -c /etc/shadowsocks/config.json`开启Shadowsocks代理。
 ![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/3.png)
 
-### 3. 配合Chrome浏览器翻墙
-新开一个终端，使用命令`google-chrome --proxy-server="socks5://127.0.0.1:1080"`让Chrome代理本机请求，就可以翻墙了。
-**注意：**该命令应在Chrome未启动时执行，否则失败。若你还在看这篇博客，你应当完全退出Chrome，再执行此命令。
+### 3. 使用Chrome浏览器翻墙
+新开一个终端，使用命令`google-chrome --proxy-server="socks5://127.0.0.1:1080"`让Chrome代理本机请求，实现chrome浏览器翻墙。
+**注意：**该命令应在Chrome未启动时执行，否则失败。
 ![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/4.png)
 
-### #附
-- 如果你的Ubuntu还未安装Chrome，那么你可能需要Firefox以替换，或者一个可以获取google-chrome-stable资源，或者一份我附件予你deb包的邮件。
-- 记录一下自己在安装Chrome时遇到的问题。由依赖关系问题导致安装失败，应当使用`sudo apt-get -f install`修复。
+### 4. 配置全局Socks代理翻墙
+第3步中只单独实现了Chrome翻墙，局限性很大。在系统设置-->网络-->网络代理中，填写Socks主机127.0.0.1和监听端口1080，并应用到整个系统，即可实现所有应用翻墙。
 ![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/5.png)
+
+### #附
+- 安装Chrome时，若由依赖关系问题导致安装失败，应当使用`sudo apt-get -f install`修复。
+![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/6.png)
+- 开启全局网络代理之后，退出时应**注意关闭**，否则将无法联网。
