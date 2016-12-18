@@ -3,8 +3,7 @@ title: Google Java编程风格指南
 date: 2016-12-08 23:04:45
 categories: Java
 ---
-转载并翻译自 [https://google.github.io/styleguide/javaguide.html](https://google.github.io/styleguide/javaguide.html) 。
-个人英语水平有限，应以原文档为标准......<!-- more -->
+转载并翻译自 [https://google.github.io/styleguide/javaguide.html](https://google.github.io/styleguide/javaguide.html) 。个人英语水平有限，应以原文档为标准......<!-- more -->
 
 ## [简介](#简介)
 本文档是Google Java编程规范的完整定义。一个Java源文件当且仅当遵守本规范时，才可被称为Google风格。
@@ -15,10 +14,10 @@ categories: Java
 在本文档中，除非另有说明：
 
 1. *class*类 可表示一个*ordinary class*普通的类、* enum class*枚举类、*interface*接口或*annotation*注解类型。
-2. *member*成 员可表示一个*nested class*嵌套类、*field*属性、*method*方法或*constructor*者构造方法，即除初始化方法和注释，类的所有最顶层内容。
+2. *member*成 员可表示一个*nested class*嵌套类、*field*属性、*method*方法或*constructor*者构造方法，即除初始化和注释，类的所有最顶层内容。
 3. *comment*注释 只表示*implementation comments*实现注释（/\* \*/）。我们不使用*documentation comments*文档注释，而是*javadoc*。
 
-其他术语出现在本文档中将另作说明。
+其他出现在本文档中的术语将另作说明。
 
 ### 指南说明
 本文档中的示例代不是完全规范的。也就是说，虽然示例代码是属于Google风格，但并不意味着这是实现代码的唯一优雅方式。示例中代码的风格不应被作为执行的准则。
@@ -65,13 +64,13 @@ categories: Java
 如果文件中包含许可证和版权信息，应当至于此处。
 
 ### package语句
-package语句不允许换行。单行字符限制（一行限制100字符）不适用于package语句。
+package语句不允许换行。单行字符限制（4.4章节 单行字符限制）不适用于package语句。
 
 ### import语句
 1. 不允许通配符
 	不允许使用静态或其它方式的通配符导入。
 2. 不允许换行
-	import语句不允许换行。单行字符限制（一行限制100字符）不适用于import语句。
+	import语句不允许换行。单行字符限制（4.4章节 单行字符限制）不适用于import语句。
 3. 顺序和间隔
 	import语句应按如下顺序分组：<br><ol><li>所有静态导入归一组。</li><li>所有非静态导入归一组。</li></ol>如果同时存在静态导入和非静态导入，则应使用空行分隔它们，且在这两组导入语句中，不允许存在其它空行。<br>每组中import语句按ASCII码排序。（**注意**：因`.`排在`;`之前，所以这与纯ASCII码排序略有不同）
 4. 不允许类的静态导入
@@ -83,22 +82,83 @@ package语句不允许换行。单行字符限制（一行限制100字符）不�
 2. 类内容顺序
 	类的成员或者初始化方法顺序对代码可读性有着很重要的影响。然而对此却没有一个统一正确的标准。不同的类可能有不同的排序方式。
 	重要的是，每个类都应遵从维护者可解释清楚的**逻辑顺序**排序。例如，新方法可能不是简单地放置在类的最后，因为如此产生的“按时间顺序添加”不遵从逻辑顺序。
-	1. 方法重载：不应被分离
-	当一个类拥有同名的多个构造器或者方法时，这些构造器或者方法不应被其他代码甚至是私有方法所分隔。
+	* 方法重载：不应被分离
+	当一个类拥有同名的多个构造器或者方法时，这些构造器或者方法不应被其他代码所分隔，甚至是私有方法。
 	
 ---
 
 ## [格式](#格式)
+术语说明：*block-like construct*块状结构 指类的实体、成员或构造器。注意，在后续4.8.3.1数组章节中，任何数组的初始化可被认为是一个块状结构。
 
-### 大括号
+### 花括号
+1. 花括号在被需要的地方使用
+	花括号在`if`、`else`、`for`、`do`、`while`语句使用，即使他们的实体是空的或者仅包含一条语句。
+2. 非空语句块：K&R风格
+	对于非空语句块和块状结构，花括号遵循K&R风格：<ul><li>左花括号之前不能换行。</li><li>左花括号之后换行。</li><li>右花括号之前换行。</li><li>只有右花括号结束了一条语句、一个方法实体、构造器或者命名的类时，右花括号之后才换行。例如`else`或`,`之后的花括号不允许换行。</li></ul>
+	例如：
+	```java
+	return () -> {
+	  while (condition()) {
+	    method();
+	  }
+	};
 
-### 块缩进：2个空格
+	return new MyClass() {
+	  @Override public void method() {
+	    if (condition()) {
+	      try {
+		something();
+	      } catch (ProblemException e) {
+		recover();
+	      }
+	    } else if (otherCondition()) {
+	      somethingElse();
+	    } else {
+	      lastThing();
+	    }
+	  }
+	};
+	```
+	一些特殊情况，将在4.8.1枚举类章节说明。
+3. 空语句块：可以简洁
+	一个空语句块或块状结构可以遵从K&R风格。或者，可以在左花括号起始之后，没有任何字符和换行，立即右花括号结束。除非它是*multi-block statement*多块语句（一个包含多块的语句，如：`if/else`、`try/catch/finally`）的一部分，则不允许这样做。
+	例如：
+	```
+	// This is acceptable
+	void doNothing() {}
+
+	// This is equally acceptable
+	void doNothingElse() {
+	}
+	```
+	```
+	  // This is not acceptable: No concise empty blocks in a multi-block statement
+	  try {
+	    doSomething();
+	  } catch (Exception e) {}
+	```
+
+### 块缩进：+2个空格
+每次新写一块或块状结构代码时，缩进增加两个空格。当语句块结束时，缩进返回至上一级别。块缩进规则适用于整个代码块和注释。
 
 ### 一个语句占一行
+每个语句后面都有换行符。
 
-### 一行字符限制：100
+### 单行字符限制：100
+Java代码每行限制100个字符。除非另有说明，任何超过此限制的都必须被换行。在4.5换行章节中会有具体的解释。
+特殊情况：
+* 遵循行限制规则无法实现的地方。（例如Javadoc中的URL、JSNI中的方法引用）
+* package语句和import语句。（详情请看3.2package语句和3.3import语句）
+* 注释中可能直接被复制粘贴执行的shell命令。
 
 ### 换行
+术语说明：可以合法占据一行的代码被拆分成多行，这种行为称作 *line-wrapping*换行。
+
+这儿并没有全面的、明确的规范适用于所有场景下的换行。对于统一行代码，通常有多种有效的方法。
+
+> 注意：换行的典型原因，是为了避免代码超出了单行字符的限制。即使单行代码可以被修正至符合单行字符限制，也可能会由作者自行决定而换行。
+
+> 小记：不需要换行，额外的方法或者局部变量可能也可以解决问题。
 
 ### 空格
 

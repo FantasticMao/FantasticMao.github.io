@@ -1,9 +1,9 @@
 ---
-title: Ubuntu环境下Shadowsocks配置
+title: Ubuntu下Shadowsocks配置
 date: 2016-12-05 23:15:14
 categories: 防坑指南
 ---
-Ubuntu环境下的Shadowsocks配置，翻越防火长城。向原作者clowwindy致敬。<!-- more -->
+Ubuntu操作系统下的Shadowsocks配置，翻越防火长城。向原作者clowwindy致敬。<!-- more -->
 
 ### 介绍
 Shadowsocks（影梭）是一个使用socks5协议的开源代理工具，分为服务端和客户端，访问墙外网络稳定且迅速。原作者[clowwindy](https://github.com/clowwindy)因在2015年8月受到某政府要求无奈停止维护并删除了项目代码。事件[传送门](https://web.archive.org/web/20150822042959/https://github.com/shadowsocks/shadowsocks-iOS/issues/124#issuecomment-133630294)。现在Shadowsocks由Github上的[shadowsocks组织](https://github.com/shadowsocks)维护，向无私且伟大的开源奉献者们致敬。
