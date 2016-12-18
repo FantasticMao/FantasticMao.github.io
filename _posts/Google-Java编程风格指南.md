@@ -64,13 +64,13 @@ categories: Java
 如果文件中包含许可证和版权信息，应当至于此处。
 
 ### package语句
-package语句不允许换行。单行字符限制（4.4章节 单行字符限制）不适用于package语句。
+package语句不允许换行。单行字符限制（4.4单行字符限制章节）不适用于package语句。
 
 ### import语句
 1. 不允许通配符
 	不允许使用静态或其它方式的通配符导入。
 2. 不允许换行
-	import语句不允许换行。单行字符限制（4.4章节 单行字符限制）不适用于import语句。
+	import语句不允许换行。单行字符限制（4.4单行字符限制章节）不适用于import语句。
 3. 顺序和间隔
 	import语句应按如下顺序分组：<br><ol><li>所有静态导入归一组。</li><li>所有非静态导入归一组。</li></ol>如果同时存在静态导入和非静态导入，则应使用空行分隔它们，且在这两组导入语句中，不允许存在其它空行。<br>每组中import语句按ASCII码排序。（**注意**：因`.`排在`;`之前，所以这与纯ASCII码排序略有不同）
 4. 不允许类的静态导入
@@ -123,7 +123,7 @@ package语句不允许换行。单行字符限制（4.4章节 单行字符限制
 3. 空语句块：可以简洁
 	一个空语句块或块状结构可以遵从K&R风格。或者，可以在左花括号起始之后，没有任何字符和换行，立即右花括号结束。除非它是*multi-block statement*多块语句（一个包含多块的语句，如：`if/else`、`try/catch/finally`）的一部分，则不允许这样做。
 	例如：
-	```
+	```java
 	// This is acceptable
 	void doNothing() {}
 
@@ -131,11 +131,11 @@ package语句不允许换行。单行字符限制（4.4章节 单行字符限制
 	void doNothingElse() {
 	}
 	```
-	```
-	  // This is not acceptable: No concise empty blocks in a multi-block statement
-	  try {
-	    doSomething();
-	  } catch (Exception e) {}
+	```java
+	// This is not acceptable: No concise empty blocks in a multi-block statement
+	try {
+	  doSomething();
+	} catch (Exception e) {}
 	```
 
 ### 块缩进：+2个空格
@@ -148,13 +148,13 @@ package语句不允许换行。单行字符限制（4.4章节 单行字符限制
 Java代码每行限制100个字符。除非另有说明，任何超过此限制的都必须被换行。在4.5换行章节中会有具体的解释。
 特殊情况：
 * 遵循行限制规则无法实现的地方。（例如Javadoc中的URL、JSNI中的方法引用）
-* package语句和import语句。（详情请看3.2package语句和3.3import语句）
+* package语句和import语句。（详情请看3.2package语句章节和3.3import语句章节）
 * 注释中可能直接被复制粘贴执行的shell命令。
 
 ### 换行
 术语说明：可以合法占据一行的代码被拆分成多行，这种行为称作 *line-wrapping*换行。
 
-这儿并没有全面的、明确的规范适用于所有场景下的换行。对于统一行代码，通常有多种有效的方法。
+这儿并没有全面的、明确的规范适用于所有场景下的换行。对于同一行代码，通常有多种有效的方法。
 
 > 注意：换行的典型原因，是为了避免代码超出了单行字符的限制。即使单行代码可以被修正至符合单行字符限制，也可能会由作者自行决定而换行。
 
