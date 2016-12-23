@@ -342,7 +342,7 @@ new int[] {             3,
 开始switch标签之后应换行并增加2个缩进级，如语句块刚开始一样。结束switch标签之后应返回上级缩进，如语句块结束一样。
 
 ##### 下降执行的注释
-在switch语句中，每个语句组都应突然终止（使用`break`、`continue`、`return`、或者抛出异常），或者以注释形式标记指出此处可能会执行到下一个语句组。能传达下降执行意思的所有注释都是可行的（如典型的`// fall through`）。在最后一个分组中，这个特殊的注释不是必须的。例如：
+在switch语句中，每个语句组都应突然终止（使用`break`、`continue`、`return`、或者抛出异常），或者以注释形式标记指出此处可能会执行到下一个语句组。所有能传达下降执行意思的注释都是可行的（如典型的`// fall through`）。在最后一个分组中，这个特殊的注释不是必须的。例如：
 ```java
 switch (input) {
   case 1:
@@ -358,7 +358,7 @@ switch (input) {
 ```
 注意`case 1:`之后没有注释，只有在语句组的结尾时才可这样。
 
-##### `default`语句组是必须的
+##### default语句组是必须的
 每个switch语句都必须包含`default`语句组，即使它不包含任何代码。
 
 #### 注解
@@ -407,10 +407,67 @@ public String getNameIfPresent() { ... }
 ## 命名
 
 ### 标识符通用规则
+标识符只允许使用ASCII字母和数字，且在少数情况中可以使用下划线。因此，每个有效的标识符都可以由正则表达式`\w+`匹配。
+
+在Google风格中特殊的前缀和后缀，如`name_`、`mName`、`s_name`、`kName`是不允许的。
 
 ### 标识符类型规则
 
+#### 包名
+包名全小写，连续的单词直接拼接，不使用下划线。例如`com.example.deepspace`，而不是`com.example.deepSpace`或`com.example.deep_space`。
+
+#### 类名
+类以[大骆峰](#骆驼峰式命名)式命名
+
+类名通常是名词或名词短语，如`Character`和`ImmutableList`。接口名可能是名词或名词短语，如`List`，也可能是形容词或形容词短语，如`Readable`。
+
+注解类型命名，没有具体的规则和成熟的约定。
+
+测试类名以被测类的类名，加上`Test`结尾组成。例如`HashTest`或`HashIntegrationTest`。
+
+#### 方法名
+方法以[小骆峰](#骆驼峰式命名)式命名
+
+方法名通常是动词或动词短语。例如`sendMessage`和`stop`。
+
+下划线可能为了逻辑上的分隔，而出现在Junit测试方法名中。一个典型的模式是`test<MethodUnderTest>_<state>`，例如`testPop_emptyStack`。对测试方法的命名不存在唯一正确的方式。
+
+#### 常量名
+常量使用`CONSTANT_CASE`（全大写，以下划线分隔）命名。但Java中的常量意味着什么？
+
+常量是static final修饰的字段，是不可变的且其方法是无副作用的。包括基本元素、字符串、不可变类型和不可变类型的不可变集合。一个实例的外部状态如果是可变的，就不属于常量。但仅仅不改变实例的外部状态，又是不够的。例如：
+```java
+// Constants
+static final int NUMBER = 5;
+static final ImmutableList<String> NAMES = ImmutableList.of("Ed", "Ann");
+static final ImmutableMap<String, Integer> AGES = ImmutableMap.of("Ed", 35, "Ann", 32);
+static final Joiner COMMA_JOINER = Joiner.on(','); // because Joiner is immutable
+static final SomeMutableType[] EMPTY_ARRAY = {};
+enum SomeEnum { ENUM_CONSTANT }
+
+// Not constants
+static String nonFinal = "non-final";
+final String nonStatic = "non-static";
+static final Set<String> mutableCollection = new HashSet<String>();
+static final ImmutableSet<SomeMutableType> mutableElements = ImmutableSet.of(mutable);
+static final ImmutableMap<String, SomeMutableType> mutableValues =
+    ImmutableMap.of("Ed", mutableInstance, "Ann", mutableInstance2);
+static final Logger logger = Logger.getLogger(MyClass.getName());
+static final String[] nonEmptyArray = {"these", "can", "change"};
+```
+常量名通常是名词或名词短语。
+
+#### 非常量字段名
+非常量字段
+
+#### 参数名
+
+#### 局部变量名
+
+#### 类型变量名
+
 ### 骆驼峰式命名
+
 ---
 
 ## 编程实战
