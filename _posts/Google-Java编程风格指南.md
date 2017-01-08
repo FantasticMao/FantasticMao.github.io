@@ -417,7 +417,7 @@ public String getNameIfPresent() { ... }
 包名全小写，连续的单词直接拼接，不使用下划线。例如`com.example.deepspace`，而不是`com.example.deepSpace`或`com.example.deep_space`。
 
 #### 类名
-类以[大骆峰](#骆驼峰式命名)式命名
+类以[大骆峰](#骆驼峰式命名)式命名。
 
 类名通常是名词或名词短语，如`Character`和`ImmutableList`。接口名可能是名词或名词短语，如`List`，也可能是形容词或形容词短语，如`Readable`。
 
@@ -426,7 +426,7 @@ public String getNameIfPresent() { ... }
 测试类名以被测类的类名，加上`Test`结尾组成。例如`HashTest`或`HashIntegrationTest`。
 
 #### 方法名
-方法以[小骆峰](#骆驼峰式命名)式命名
+方法以[小骆峰](#骆驼峰式命名)式命名。
 
 方法名通常是动词或动词短语。例如`sendMessage`和`stop`。
 
@@ -458,13 +458,24 @@ static final String[] nonEmptyArray = {"these", "can", "change"};
 常量名通常是名词或名词短语。
 
 #### 非常量字段名
-非常量字段
+非常量字段（静态或者其它）以[小骆峰](#骆驼峰式命名)式命名。
+
+非常量字段名通常是名词或名词短语。例如：`computedValues`或`index`。
 
 #### 参数名
+参数以[小骆峰](#骆驼峰式命名)式命名。
+
+应该避免在公共方法中使用单个字符的参数名。
 
 #### 局部变量名
+局部变量以[小骆峰](#骆驼峰式命名)式命名。
+
+局部变量即使是final不变的，也不被认为是常量，且不应该以常量风格命名。
 
 #### 类型变量名
+每种类型的变量都以以下两种风格命名：
+1. 单个大写字母，后跟可选的单个数字。（如`E`，`T`，`X`，`T2`）
+2. 以类形式的命名（5.2.2[类名](#类名)章节），后跟大写字母T。（例如：`RequestT`，`FooBarT`）
 
 ### 骆驼峰式命名
 
