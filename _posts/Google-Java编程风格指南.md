@@ -508,12 +508,47 @@ Prose form | Correct | Incorrect
 ## 编程实战
 
 ### @Override：尽量使用
+方法只要是合法的，就应被标记`@Override`注解。这包括重写父类方法的类方法，实现接口方法的类方法，和重新定义父接口方法的接口方法。
 
-### exception捕获：不能忽视
+**特殊情况**：当父方法为`@Deprecated`时，`@Override`可以省略
 
-### static成员：规范使用
+### 异常捕获：不能忽视
+除非另有说明，在异常捕获中不做任何处理很少是正确的。（典型的做法是打印日志，或作为`AssertionError`重新抛出异常）
+
+当在catch块中不做任何处理确实合适时，应在注释中说明原因。
+```java
+try {
+  int i = Integer.parseInt(response);
+  return handleNumericResponse(i);
+} catch (NumberFormatException ok) {
+  // it's not numeric; that's fine, just continue
+}
+return handleTextResponse(response);
+```
+
+**特殊情况**：在测试中，如果捕获的异常是以`expected`命名的，那么可以忽略注释。如下是一个非常常见的方法，为确保代码在测试中确实抛出了预期的​​异常，因此不需要注释。
+```java
+try {
+  emptyStack.pop();
+  fail();
+} catch (NoSuchElementException expected) {
+}
+```
+
+### 静态成员：规范使用
+应以类名引用类的静态成员时，而不是类的引用实例或者表达式。
+```java
+Foo aFoo = ...;
+Foo.aStaticMethod(); // good
+aFoo.aStaticMethod(); // bad
+somethingThatYieldsAFoo().aStaticMethod(); // very bad
+```
 
 ### finalize：禁用
+覆盖`Object.finalize()`是**非常罕见**的。
+
+> 小记：不要使用finalize()。如果真的有必要，请先仔细阅读和理解 [Effective Java](http://books.google.com/books?isbn=8131726592) 第七条 “Avoid Finalizers”，然后也不要使用finalize()。
+
 ---
 
 ## Javadoc
