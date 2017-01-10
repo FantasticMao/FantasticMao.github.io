@@ -508,14 +508,14 @@ Prose form | Correct | Incorrect
 ## 编程实战
 
 ### @Override：尽量使用
-方法只要是合法的，就应被标记`@Override`注解。这包括重写父类方法的类方法，实现接口方法的类方法，和重新定义父接口方法的接口方法。
+只要是合法的方法，就应被标记`@Override`注解。合法的方法包括重写父类方法的类方法，实现接口方法的类方法，和重定义父接口方法的接口方法。
 
-**特殊情况**：当父方法为`@Deprecated`时，`@Override`可以省略
+**特殊情况**：当父类方法为`@Deprecated`时，`@Override`可以省略。
 
-### 异常捕获：不能忽视
-除非另有说明，在异常捕获中不做任何处理很少是正确的。（典型的做法是打印日志，或作为`AssertionError`重新抛出异常）
+### 异常捕获：不能忽略
+排除下述例子，在异常捕获中不做任何处理的做法是极少正确的。（典型的做法是打印日志，或作为`AssertionError`异常重新抛出）
 
-当在catch块中不做任何处理确实合适时，应在注释中说明原因。
+当在catch块中确实不需要做任何处理时，应以注释说明理由。
 ```java
 try {
   int i = Integer.parseInt(response);
@@ -526,7 +526,7 @@ try {
 return handleTextResponse(response);
 ```
 
-**特殊情况**：在测试中，如果捕获的异常是以`expected`命名的，那么可以忽略注释。如下是一个非常常见的方法，为确保代码在测试中确实抛出了预期的​​异常，因此不需要注释。
+**特殊情况**：在测试代码中，如果捕获的异常是以`expected`命名的，那么可以忽略注释。如下是一个非常常见的方法，为确保代码在测试时抛出预期​​的异常，因此可以不需要注释。
 ```java
 try {
   emptyStack.pop();
@@ -536,7 +536,7 @@ try {
 ```
 
 ### 静态成员：规范使用
-应以类名引用类的静态成员时，而不是类的引用实例或者表达式。
+应以类名引用类的静态成员，而不是以类的引用实例或者表达式。
 ```java
 Foo aFoo = ...;
 Foo.aStaticMethod(); // good
@@ -545,9 +545,9 @@ somethingThatYieldsAFoo().aStaticMethod(); // very bad
 ```
 
 ### finalize：禁用
-覆盖`Object.finalize()`是**非常罕见**的。
+覆盖`Object.finalize()`是**非常罕见**的行为。
 
-> 小记：不要使用finalize()。如果真的有必要，请先仔细阅读和理解 [Effective Java](http://books.google.com/books?isbn=8131726592) 第七条 “Avoid Finalizers”，然后也不要使用finalize()。
+> 小记：不要使用finalize()。如果真的有必要，请先仔细阅读并深刻理解 [Effective Java](http://books.google.com/books?isbn=8131726592) 第七条 “Avoid Finalizers”，之后也不要使用finalize()。
 
 ---
 
@@ -555,7 +555,40 @@ somethingThatYieldsAFoo().aStaticMethod(); // very bad
 
 ### 格式
 
+#### 一般形式
+Javadoc的基本形式如下所示：
+```java
+/**
+ * Multiple lines of Javadoc text are written here,
+ * wrapped normally...
+ */
+public int method(String p1) { ... }
+```
+... 或者是单行形式的：
+```java
+/** An especially short bit of Javadoc. */
+```
+基本形式的Javadoc总是可以接受的。在没有@标记，且整个Javadoc语句（包括注释标记）都能容纳在一行中时，此时的Javadoc可以被单行形式替换。
+
+#### 段落
+空行（仅包含左侧对齐*号的行）出现在段落之间。若存在@标记，空行则应出现在@标记之前。除去第一个段落，每个段落的第一个单词之前都应有`<p>`标签，且`<p>`标签与段落的第一个单词之间没有任何空格。
+
+#### @标记
+标准的@标记按以下顺序出现`@param`、`@return`、`@throws`、`@deprecated`，且这四种类型不会出现在描述为空的Javadoc中。当无法在一行中容纳@标记时，则下一行需要再缩进至少4个空格。
+
 ### 摘要片段
+每个Javadoc块以一个简短的**摘要片段**开始。这个片段非常重要，它是在某些情况下唯一可以出现的文字，如在类和方法的索引中。
+
+摘要片段可以是名词短语或者动词短语，但却不是一个完整的句子。它不以 `A {@code Foo} is a...` 或者 `This method returns...` 开始，也不会形成如 `Save the record.` 这样的祈使句。不过，摘要片段应是区分大小写且带有标点符号的，就好似它是个完整的句子。
+
+> **小记**：一个常见的错误是把简短的Javadoc写成 `/** @return the customer ID */`。这是不正确的，应被修正为 `/** Returns the customer ID. */`。
 
 ### 尽量使用Javadoc
+
+#### 特殊情况：自解释的方法
+
+#### 特殊情况：重写方法
+
+#### 非必须的javadoc
+
 ---
