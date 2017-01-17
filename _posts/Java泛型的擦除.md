@@ -53,7 +53,7 @@ public class GenericStaticMethod {
     }
 }
 ```
-当类中同时存在类级别和方法级别的*参数类型*时，此时*参数类型*代表泛型方法的*具体类型*。调整上例代码：
+当类中同时存在类级别和方法级别的*参数类型*时，此时*参数类型*代表的是泛型方法的*具体类型*。调整上例代码：
 ```java
 public class GenericStaticMethod<T> {
     public static <T> void foo(T t) {
@@ -78,10 +78,10 @@ public interface Map<K,V> {
 ```
 
 ### 通配符、边界
-使用有界通配符可以指定*参数类型*转换的边界。`<? extends T>`表示一个属于T子类的未知类型，意味着?是T的上界，`<? super T>`表示一个属于T超类的未知类型（包括T），意味着?是T的下界。
+使用有界通配符可以指定*参数类型*转换的边界。`<? extends T>`表示一个属于T子类的未知类型，意味着T是?的上界，`<? super T>`表示一个属于T超类的未知类型（包括T），意味着T是?的下界。
 
 ## 擦除
-使用泛型机制，可以使*参数类型*灵活地应用于多种*具体类型*，并且编译器能在编译期就检查类型转换的正确性。但此处正是Java泛型实现的残缺之处。实际上，泛型代码在由编译器编译之后，存储于字节码中的*参数类型*并不是*具体类型*，而只是一个`Object`类型（不使用边界的情况下），如`List<Integer>`在编译之后实际存储的只是`List<Object>`，`new ArrayList<Integer>().getClass() == new ArrayList<String>().getClass()`的执行结果也会是true。
+使用泛型机制，可以使*参数类型*灵活地应用于多种*具体类型*，并且编译器能在编译期就检查类型转换的正确性。但实际上，泛型代码在由编译器编译之后，存储于字节码中的*参数类型*并不是*具体类型*，而只是一个`Object`类型（不使用边界的情况下），因此`List<Integer>`在编译之后实际存储的只是`List<Object>`，`new ArrayList<Integer>().getClass() == new ArrayList<String>().getClass()`的执行结果也会是true。
 
 正如官方文档中所说的那样：
 
@@ -91,7 +91,7 @@ public interface Map<K,V> {
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E6%93%A6%E9%99%A4/1.png)
 这也证实了在字节码文件中存储的*具体类型*确实只是`Object`类型。
 
-由于擦除的存在，在泛型代码内部，*参数类型*只能被作为`Object`类型使用（不使用边界的情况下），我们也无法获取任何有关*参数类型*的信息，就好似[Generic泛型类](#泛型类-接口)的代码是如下这样编写的：
+由于擦除，在不使用边界的情况下，泛型代码内部中的*参数类型*只能被作为`Object`类型使用，我们也无法获取任何有关*参数类型*的信息，就好似[Generic泛型类](#泛型类-接口)的代码是如下这样编写的：
 ```java
 public class Generic<T> {
     private Object t;
@@ -106,6 +106,6 @@ public class Generic<T> {
 }
 ```
 
-对于不使用边界的*参数类型*，将会被编译器擦除到`Object`，而使用边界的*参数类型*，则可以指定擦除的边界。将[Generic泛型类](#泛型类-接口)的*参数类型*调整为`<T extends Number>`，然后再次进行返汇编，查看结果如下：
+对于不使用边界的*参数类型*，将会被编译器擦除到`Object`，而使用边界的*参数类型*，则可以指定擦除的边界。将[Generic泛型类](#泛型类-接口)的*参数类型*调整为`<T extends Number>`，然后再次进行返汇编，结果如下：
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E6%93%A6%E9%99%A4/2.png)
-由此可见，*参数类型*确实只被擦除到`Number`类型，因此我们也可以在泛型代码中调用`Number`的属性或方法。
+可见*参数类型*确实仅是被擦除到`Number`类型，因此我们也可以在泛型代码中调用`Number`的属性或方法。
