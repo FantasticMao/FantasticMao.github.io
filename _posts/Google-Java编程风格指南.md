@@ -3,7 +3,7 @@ title: Google Java编程风格指南
 date: 2016-12-08 23:04:45
 categories: Java
 ---
-转载并翻译自 [https://google.github.io/styleguide/javaguide.html](https://google.github.io/styleguide/javaguide.html) 。个人英语水平有限，应以原文档为标准，以原文档为标准，以原文档为标准。<!-- more -->
+转载并翻译自 https://google.github.io/styleguide/javaguide.html 。个人英语水平有限，应以原文档为标准，以原文档为标准，以原文档为标准。<!-- more -->
 
 ## 简介
 本文档是Google Java编程规范的**完整**定义。一个Java源文件当且仅当遵守本规范时，才可被称为Google风格。
