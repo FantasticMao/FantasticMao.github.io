@@ -105,9 +105,10 @@ MyISAM存储引擎支持空间索引。和B-Tree索引不同，空间索引无�
 ### 索引和锁
 
 ## 总结
-
+<!--
 B+Tree数据结构
 InnoDB、MyISAM的B+Tree实现
 MySQL使用索引
 索引的选择性和索引前缀
 主键auto_increment
+-->

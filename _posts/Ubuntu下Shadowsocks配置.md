@@ -28,6 +28,6 @@ Shadowsocks（影梭）是一个使用socks5协议的开源代理工具，分为
 ![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/5.png)
 
 ### #附
-- 安装Chrome时，若由依赖关系问题导致安装失败，应当使用`sudo apt-get -f install`修复。
+* 安装Chrome时，若由依赖关系问题导致安装失败，应当使用`sudo apt-get -f install`修复。
 ![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/6.png)
-- 开启全局网络代理之后，退出时应**注意关闭**，否则将无法联网。
+* 开启全局网络代理之后，退出时应**注意关闭**，否则将无法联网。
