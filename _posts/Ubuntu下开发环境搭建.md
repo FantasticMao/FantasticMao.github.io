@@ -13,9 +13,13 @@ categories: 防坑指南
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1.png)
 
 ### sudo apt-get 安装系列
-执行`sudo apt-get install git && vim && shadowsocks && nodejs && npm && vlc && shutter`命令安装Git、Vim、Shadowsocks、NodeJS、NPM、VLC、Shutter。
-
-安装成功之后：1. 使用`git config --global $key $value`命令，设置Git的全局user.name和user.email；2. [配置shadowsocks](/2016/12/05/Ubuntu下Shadowsocks配置/)；3. 执行`sudo apt-get install nodejs-legacy `命令，确认nodejs-legacy已安装；4. 执行`npm config set registry https://registry.npm.taobao.org/`命令，修改NPM源。
+* Git：执行`sudo apt-get install git`。安装成功之后，使用`git config --global $key $value`命令，设置Git的全局user.name和user.email。
+* Vim：执行`sudo apt-get install vim`。
+* Shadowsocks：执行`sudo apt-get install shadowscoks`。安装成功之后，[配置shadowsocks](/2016/12/05/Ubuntu下Shadowsocks配置/)。
+* NodeJS：执行`sudo apt-get install nodejs && nodejs-legacy`。注意此处的`nodejs-legacy`。
+* NPM：执行`sudo apt-get install npm`。安装成功之后，执行`npm config set registry https://registry.npm.taobao.org/`命令，修改NPM源。
+* VLC：执行`sudo apt-get install vlc`。
+* Shutter：执行`sudo apt-get install shutter`。
 
 ### dpkg -i 安装系列
 下载Chrome、网易云音乐、搜狗输入法、WPS、Sublime的deb安装包，使用`sudo dpkg -i $packagename`命令安装。若因依赖关系问题导致安装失败，则使用`sudo apt-get -f install`修复。
