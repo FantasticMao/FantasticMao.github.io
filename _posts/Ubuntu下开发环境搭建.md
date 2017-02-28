@@ -4,30 +4,89 @@ date: 2017-02-27 20:14:35
 categories: 防坑指南
 ---
 
-一次个人PC的Ubuntu 16.04 LTS重装记录，包含开发环境的搭建、日常软件的安装、几个踩过的坑。<!-- more -->
+记一次个人PC的Ubuntu 16.04 LTS重装记录，包含开发环境的搭建、日常软件的安装、几个踩过的坑。<!-- more -->
 
 ### 前言
 最近在知乎上看到了[一篇回答](https://www.zhihu.com/question/19811112/answer/132006027)，决定重装（升级？）Ubuntu......
 
 不得不说，Ubuntu相比于CentOS，体验真的棒很多，尤其是在桌面应用上。
-![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1.png)
 
 ### sudo apt-get 安装系列
-* Git：执行`sudo apt-get install git`。安装成功之后，使用`git config --global $key $value`命令，设置Git的全局user.name和user.email。
-* Vim：执行`sudo apt-get install vim`。
-* Shadowsocks：执行`sudo apt-get install shadowscoks`。安装成功之后，[配置shadowsocks](/2016/12/05/Ubuntu下Shadowsocks配置/)。
-* NodeJS：执行`sudo apt-get install nodejs && nodejs-legacy`。注意此处的`nodejs-legacy`。
-* NPM：执行`sudo apt-get install npm`。安装成功之后，执行`npm config set registry https://registry.npm.taobao.org/`命令，修改NPM源。
-* VLC：执行`sudo apt-get install vlc`。
-* Shutter：执行`sudo apt-get install shutter`。
+*Git*：执行`sudo apt-get install git`。安装成功之后，使用`git config --global $key $value`命令，配置Git的全局user.name和user.email。
+
+*Vim*：执行`sudo apt-get install vim`。
+
+*Shadowsocks*：执行`sudo apt-get install shadowscoks`。安装成功之后，[配置shadowsocks](/2016/12/05/Ubuntu下Shadowsocks配置/)。
+
+*NodeJS*：执行`sudo apt-get install nodejs nodejs-legacy`。
+
+*NPM*：执行`sudo apt-get install npm`。安装成功之后，执行`npm config set registry https://registry.npm.taobao.org/`命令，修改NPM源。
+
+*VLC*：执行`sudo apt-get install vlc`。
+
+*Shutter*：执行`sudo apt-get install shutter`。
+
+*MySQL*：执行`sudo apt-get install mysql-server mysql-client`。安装成功之后，配置MySQL：
+1. 执行`mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;`语句修改MySQL远程访问权限。
+2. 执行`mysql> FLUSH PRIVILEGES;`语句刷新权限。
+3. 执行`mysql> SHOW VARIABLES LIKE 'character%';`语句查看MySQL字符集编码。
+4. 打开MySQL主配置文件`sudo vim /etc/mysql/my.conf`，如下图添加client和mysqld配置，修改默认字符集编码。
+5. 执行`service mysql restart`重启MySQL服务。
+![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1.png)
 
 ### dpkg -i 安装系列
 下载Chrome、网易云音乐、搜狗输入法、WPS、Sublime的deb安装包，使用`sudo dpkg -i $packagename`命令安装。若因依赖关系问题导致安装失败，则使用`sudo apt-get -f install`修复。
 
-安装成功之后：1. 开启ss，登录Chrome账号，同步浏览标签、密码等；2. 修改网易云音乐快捷键。
+*解决Chrome闪屏问题*：个人笔记本型号Dell-Inspiron-7460，使用Chrome 56在线看视频时，标签栏上下的位置会频繁闪屏。参考自[链接](https://beisongnansong.wordpress.com/2016/08/12/%E8%A7%A3%E5%86%B3ubuntu%EF%BC%88chrome%EF%BC%89%E7%9A%84%E9%97%AA%E5%B1%8F%E9%97%AE%E9%A2%98/)解决了此问题，具体措施：
+1. 新增配置文件`sudo vim /usr/share/X11/xorg.conf.d/20-intel.conf`，贴入下图内容保存。
+2. 进入chrome://flags/页面，停用「加速的2D画布 」，启用「零副本光栅化处理程序 」。
+3. 重新登录用户。
+![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/2.png)
 
-### 压缩包  安装系列
-下载JDK、TOMCAT、IDEA、Redis、Nginx的tar.gz压缩包，使用`tar xzf $packagename`解压缩。
+### 配置  安装系列
+下载JDK、Tomcat、IDEA的tar.gz压缩包，使用`tar xzf $packagename`解压缩，并移动解压缩文件下至`/usr/local/`目录下。
+
+*JDK*：
+1. 打开环境变量配置文件`sudo vim /etc/profile`，如下图添加Java环境变量。
+2. 重新登录用户。
+![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/3.png)
+
+*Tomcat*：
+1. 打开环境变量配置文件`sudo vim /etc/profile`，如下图一添加Tomcat环境变量。
+2. 打开Tomcat配置文件`sudo vim /usr/local/tomcat8/conf/server.conf`，如下图二修改Tomcat的URI默认编码。
+3. 重新登录用户。
+![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/4.png)
+![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/5.png)
+
+*IDEA*：
+1. 执行`/usr/local/idea/bin/idea.sh`，以**普通用户权限**启动IDEA，而非是管理员权限。
+2. 执行`sudo cp /usr/local/idea/plugins/maven/lib/maven3/conf/settings.xml ~/.m2/`，将Maven配置文件拷贝一份至Maven本地仓库中。在配置文件中，如下添加阿里的Maven镜像和修改默认JDK版本。
+3. 修改IDEA各设置......太多了，就略过了。
+```xml
+<mirrors>
+    <mirror>
+        <id>alimaven</id>
+        <name>aliyun maven</name>
+        <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+        <mirrorOf>central</mirrorOf>
+    </mirror>
+</mirrors>
+......
+<profiles>
+    <profile>
+        <id>jdk-1.8</id>
+        <activation>
+            <jdk>1.8</jdk>
+            <activeByDefault>true</activeByDefault>
+        </activation>
+        <properties>
+            <maven.compiler.source>1.8</maven.compiler.source>
+            <maven.compiler.target>1.8</maven.compiler.target>
+            <maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>
+        </properties>
+    </profile>
+</profiles>
+```
 
 ### 编译  安装系列
 执行`sudo apt-get install gcc`，确认gcc已安装。
