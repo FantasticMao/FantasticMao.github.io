@@ -20,7 +20,7 @@ categories: 防坑指南
 
 *NodeJS*：执行`sudo apt-get install nodejs nodejs-legacy`。
 
-*NPM*：执行`sudo apt-get install npm`。安装成功之后，执行`npm config set registry https://registry.npm.taobao.org/`命令，修改NPM源。
+*NPM*：执行`sudo apt-get install npm`。安装成功之后，执行`npm config set registry https://registry.npm.taobao.org/`，修改NPM源。
 
 *VLC*：执行`sudo apt-get install vlc`。
 
@@ -59,9 +59,9 @@ categories: 防坑指南
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/5.png)
 
 *IDEA*：
-1. 执行`/usr/local/idea/bin/idea.sh`，以**普通用户权限**启动IDEA，而非是管理员权限。
+1. 执行`/usr/local/idea/bin/idea.sh`，以**普通用户权限**启动IDEA，而非是管理员用户权限。
 2. 执行`sudo cp /usr/local/idea/plugins/maven/lib/maven3/conf/settings.xml ~/.m2/`，将Maven配置文件拷贝一份至Maven本地仓库中。在配置文件中，如下添加阿里的Maven镜像和修改默认JDK版本。
-3. 修改IDEA各设置......太多了，就略过了。
+3. 修改IDEA各项设置......太多就略过了。
 ```xml
 <mirrors>
     <mirror>
@@ -90,6 +90,10 @@ categories: 防坑指南
 
 ### 编译  安装系列
 执行`sudo apt-get install gcc`，确认gcc已安装。
+
+*Nginx*：
+
+*Redis*：
 
 ### 附
 
