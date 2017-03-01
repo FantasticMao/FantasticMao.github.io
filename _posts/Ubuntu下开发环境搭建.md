@@ -44,7 +44,7 @@ categories: 防坑指南
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/2.png)
 
 ### 配置  安装系列
-下载JDK、Tomcat、IDEA的tar.gz压缩包，使用`tar xzf $packagename`解压缩，并移动解压缩文件下至`/usr/local/`目录下。
+下载JDK、Tomcat、IDEA的tar.gz压缩包，使用`tar -xzf $packagename`解压缩，并移动解压缩文件夹下至`/usr/local/`目录下。
 
 *JDK*：
 1. 打开环境变量配置文件`sudo vim /etc/profile`，如下图添加Java环境变量。
@@ -89,67 +89,76 @@ categories: 防坑指南
 ```
 
 ### 编译  安装系列
-执行`sudo apt-get install gcc`，确认gcc已安装。
-
 *Nginx*：
+1. 执行`sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev`，预先安装Nginx依赖包。
+2. 进入[Nginx官网](http://nginx.org/)，个人选择1.10.3稳定版本，执行`wget http://nginx.org/download/nginx-1.10.3.tar.gz`下载并解压缩。
+3. 执行`cd nginx-1.10.3/`，进入Nginx目录。
+4. 执行`./configure`，开始执行脚本。
+5. 执行`make`，开始编译Nginx。
+6. 执行`sudo make install`，开始安装Nginx。
+7. 安装成功之后，Nginx主配置文件位于`/usr/local/nginx/conf/nginx.conf`。
 
 *Redis*：
+1. 进入[Redis官网](http://redis.io)，个人选择3.2.8稳定版，执行`wget http://download.redis.io/releases/redis-3.2.8.tar.gz`下载并解压缩。
+2. 执行`cd redis-3.2.8/`，进入Redis目录。
+3. 执行`make`，开始编译Redis。
+4. 安装成功之后，redis-server和redis-cli位于`../redis-3.2.8/src`。
 
 ### 附
 
-* Debian的`apt-get`用法
-	* `sudo apt-get update` 从所有配置源中更新软件包的信息
-	* `sudo apt-get upgrade` 从配置源中升级所有已安装的软件包
-	* `sudo apt-get install $packagename` 安装一个或多个软件包
-	* `sudo apt-get -f install` 修复软件包之间的依赖关系
-	* `sudo apt-get autoremove $packagename` 移除自动安装的软件包及其依赖
+*Debian的`apt-get`用法*：
+* `sudo apt-get update` 从所有配置源中更新软件包的信息。
+* `sudo apt-get upgrade` 从配置源中升级所有已安装的软件包。
+* `sudo apt-get install $packagename` 安装一个或多个软件包。
+* `sudo apt-get -f install` 修复软件包之间的依赖关系。
+* `sudo apt-get autoremove $packagename` 移除自动安装的软件包及其依赖。
 
-	下文节选自`man apt`描述部分：
-	```
-	DESCRIPTION
-	       apt provides a high-level commandline interface for the package
-	       management system. 
+下文节选自`man apt`描述部分：
+```
+DESCRIPTION
+       apt provides a high-level commandline interface for the package
+       management system. 
 
-	       update (apt-get(8))
-		   update is used to download package information from all configured
-		   sources.
+       update (apt-get(8))
+	   update is used to download package information from all configured
+	   sources.
 
-	       upgrade (apt-get(8))
-		   upgrade is used to install available upgrades of all packages
-		   currently installed on the system from the sources configured via
-		   sources.list(5).
+       upgrade (apt-get(8))
+	   upgrade is used to install available upgrades of all packages
+	   currently installed on the system from the sources configured via
+	   sources.list(5).
 
-	       full-upgrade (apt-get(8))
-		   full-upgrade performs the function of upgrade but will remove
-		   currently installed packages if this is needed to upgrade the
-		   system as a whole.
+       full-upgrade (apt-get(8))
+	   full-upgrade performs the function of upgrade but will remove
+	   currently installed packages if this is needed to upgrade the
+	   system as a whole.
 
-	       install, remove, purge (apt-get(8))
-		   Performs the requested action on one or more packages specified via
-		   regex(7), glob(7) or exact match. 
+       install, remove, purge (apt-get(8))
+	   Performs the requested action on one or more packages specified via
+	   regex(7), glob(7) or exact match. 
 
-	       autoremove (apt-get(8))
-		   autoremove is used to remove packages that were automatically
-		   installed to satisfy dependencies for other packages and are now no
-		   longer needed as dependencies changed or the package(s) needing
-		   them were removed in the meantime.
+       autoremove (apt-get(8))
+	   autoremove is used to remove packages that were automatically
+	   installed to satisfy dependencies for other packages and are now no
+	   longer needed as dependencies changed or the package(s) needing
+	   them were removed in the meantime.
 
-	       search (apt-cache(8))
-		   search can be used to search for the given regex(7) term(s) in the
-		   list of available packages and display matches.
+       search (apt-cache(8))
+	   search can be used to search for the given regex(7) term(s) in the
+	   list of available packages and display matches.
 
-	       show (apt-cache(8))
-		   Show information about the given package(s) including its
-		   dependencies, installation and download size, sources the package
-		   is available from, the description of the packages content and much
-		   more. 
+       show (apt-cache(8))
+	   Show information about the given package(s) including its
+	   dependencies, installation and download size, sources the package
+	   is available from, the description of the packages content and much
+	   more. 
 
-	       list (work-in-progress)
-		   list is somewhat similar to dpkg-query --list in that it can
-		   display a list of packages satisfying certain criteria. 
+       list (work-in-progress)
+	   list is somewhat similar to dpkg-query --list in that it can
+	   display a list of packages satisfying certain criteria. 
 
-	       edit-sources (work-in-progress)
-		   edit-sources lets you edit your sources.list(5) files in your
-		   preferred texteditor while also providing basic sanity checks.
+       edit-sources (work-in-progress)
+	   edit-sources lets you edit your sources.list(5) files in your
+	   preferred texteditor while also providing basic sanity checks.
 
-	```
+```
