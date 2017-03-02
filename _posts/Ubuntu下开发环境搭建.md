@@ -11,6 +11,8 @@ categories: 防坑指南
 
 不得不说，Ubuntu相比于CentOS，体验真的棒很多，尤其是在桌面应用上。
 
+---
+
 ### sudo apt-get 安装系列
 *Git*：执行`sudo apt-get install git`。安装成功之后，使用`git config --global $key $value`命令，配置Git的全局user.name和user.email。
 
@@ -34,6 +36,8 @@ categories: 防坑指南
 5. 执行`service mysql restart`重启MySQL服务。
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1.png)
 
+---
+
 ### dpkg -i 安装系列
 下载Chrome、网易云音乐、搜狗输入法、WPS、Sublime的deb安装包，使用`sudo dpkg -i $packagename`命令安装。若因依赖关系问题导致安装失败，则使用`sudo apt-get -f install`修复。
 
@@ -42,6 +46,8 @@ categories: 防坑指南
 2. 进入chrome://flags/页面，停用「加速的2D画布 」，启用「零副本光栅化处理程序 」。
 3. 重新登录用户。
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/2.png)
+
+---
 
 ### 配置  安装系列
 下载JDK、Tomcat、IDEA的tar.gz压缩包，使用`tar -xzf $packagename`解压缩，并移动解压缩文件夹下至`/usr/local/`目录下。
@@ -88,6 +94,8 @@ categories: 防坑指南
 </profiles>
 ```
 
+---
+
 ### 编译  安装系列
 *Nginx*：
 1. 执行`sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev`，预先安装Nginx依赖包。
@@ -103,6 +111,8 @@ categories: 防坑指南
 2. 执行`cd redis-3.2.8/`，进入Redis目录。
 3. 执行`make`，开始编译Redis。
 4. 安装成功之后，redis-server和redis-cli位于`../redis-3.2.8/src`。
+
+---
 
 ### 附
 
