@@ -28,7 +28,7 @@ categories: 防坑指南
 
 *Shutter*：执行`sudo apt-get install shutter`。
 
-*MySQL*：执行`sudo apt-get install mysql-server mysql-client`。安装成功之后，配置MySQL：
+*MySQL*：执行`sudo apt-get install mysql-server mysql-client`。安装成功之后，配置MySQL。
 1. 执行`mysql> GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;`语句修改MySQL远程访问权限。
 2. 执行`mysql> FLUSH PRIVILEGES;`语句刷新权限。
 3. 执行`mysql> SHOW VARIABLES LIKE 'character%';`语句查看MySQL字符集编码。
@@ -97,7 +97,7 @@ categories: 防坑指南
 ---
 
 ### 编译  安装系列
-*Nginx*：
+Nginx：可执行`sudo apt-get install nginx`安装Nginx，不过为在Response Headers中隐藏Ubuntu信息，还是选择编译安装吧。
 1. 执行`sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev`，预先安装Nginx依赖包。
 2. 进入[Nginx官网](http://nginx.org/)，个人选择1.10.3稳定版本，执行`wget http://nginx.org/download/nginx-1.10.3.tar.gz`下载并解压缩。
 3. 执行`cd nginx-1.10.3/`，进入Nginx目录。
