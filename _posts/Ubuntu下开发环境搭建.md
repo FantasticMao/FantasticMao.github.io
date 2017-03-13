@@ -14,7 +14,7 @@ categories: 防坑指南
 ---
 
 ### sudo apt-get 安装系列
-*Git*：执行`sudo apt-get install git`。安装成功之后，使用`git config --global $key $value`命令，配置Git的全局user.name和user.email。
+*Git*：执行`sudo apt-get install git`。安装成功之后，使用`git config --global $key $value`命令，配置Git的全局user.name和user.email以及core.editor。
 
 *Vim*：执行`sudo apt-get install vim`。
 
