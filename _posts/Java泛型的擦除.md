@@ -6,7 +6,7 @@ categories: Java
 <blockquote class="blockquote-center">因为只有知道了某个技术不能做到什么，你才能更好地做到所能做的。</blockquote>
 
 本篇记录 Java 的一个残缺实现，确切地说是 Java SE5 为向后兼容而采取的折中实现——泛型，记录内容包括基本语法、通配符 & 边界、泛型擦除。<!-- more -->参考文献：
-* 著作书籍：《Java编程思想》15章。
+* 著作书籍：《Java 编程思想》15章。
 * 官方文档：[http://docs.oracle.com/javase/tutorial/extra/generics/index.html](http://docs.oracle.com/javase/tutorial/extra/generics/index.html)。
 * StackOverflow：[http://stackoverflow.com/questions/4343202/difference-between-super-t-and-extends-t-in-java](http://stackoverflow.com/questions/4343202/difference-between-super-t-and-extends-t-in-java)。
 
