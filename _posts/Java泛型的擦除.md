@@ -5,10 +5,7 @@ categories: Java
 ---
 <blockquote class="blockquote-center">因为只有知道了某个技术不能做到什么，你才能更好地做到所能做的。</blockquote>
 
-本篇记录 Java 的一个残缺实现，确切地说是 Java SE5 为向后兼容而采取的折中实现——泛型，记录内容包括基本语法、通配符 & 边界、泛型擦除。<!-- more -->参考文献：
-* 著作书籍：《Java 编程思想》15章。
-* 官方文档：[http://docs.oracle.com/javase/tutorial/extra/generics/index.html](http://docs.oracle.com/javase/tutorial/extra/generics/index.html)。
-* StackOverflow：[http://stackoverflow.com/questions/4343202/difference-between-super-t-and-extends-t-in-java](http://stackoverflow.com/questions/4343202/difference-between-super-t-and-extends-t-in-java)。
+本篇记录 Java 的一个残缺实现，确切地说是 Java SE5 为向后兼容而采取的折中实现——泛型，记录内容包括基本语法、通配符 & 边界、泛型擦除。<!-- more -->摘自《Java 编程思想》15章。
 
 ## 基本语法
 泛型顾名思义 *泛化的类型*，实现了 *参数化类型* 的概念，使代码可以应用于多种类型。
@@ -37,7 +34,7 @@ public class Generic<T> {
 ```java
 public class GenericStaticMethod<T> {
     public static void foo(T t) {
-        // ...
+        // error
     }
 }
 ```
@@ -46,7 +43,7 @@ public class GenericStaticMethod<T> {
 ```java
 public class GenericStaticMethod {
     public static <T> void foo(T t) {
-        // ...
+        // OK
     }
 }
 ```
@@ -111,7 +108,7 @@ public class Generic<T> {
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E6%93%A6%E9%99%A4/2.png)
 
 ### 擦除的代价
-泛型作为 Java SE5 才出现的特性，不仅必须向后兼容，即能使 Java SE5 之前的代码依旧语法正确，还必须支持迁移兼容性，即能使泛化的应用代码和非泛化 JDK 类库相互兼容。Java 设计者们最终选择采用擦除来实现泛型。擦除可允许泛化代码和非泛化代码共存，能在不破坏现有类库的情况下，使得非泛化的代码迁移到泛化的代码。
+泛型作为 Java SE5 才出现的特性，不仅必须向后兼容，还必须支持迁移兼容性。Java 设计者们最终选择采用擦除来实现泛型。擦除允许泛化代码和非泛化代码共存，能在不破坏现有类库的情况下，使得非泛化的代码迁移到泛化的代码。
 
 同时，选择擦除的代价也是显著的。因为擦除的存在，泛型代码在运行时所有关于 *具体类型* 的信息都丢失了，也因此不能顺利地对 *参数类型* 执行一些操作，如下例：
 ```java
