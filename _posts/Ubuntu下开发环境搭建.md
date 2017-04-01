@@ -39,7 +39,7 @@ categories: 防坑指南
 ---
 
 ### dpkg -i 安装系列
-下载 Chrome、网易云音乐、搜狗输入法、WPS、Sublime 的 deb 安装包，使用 `sudo dpkg -i $packagename` 命令安装。若因依赖关系问题导致安装失败，则使用 `sudo apt-get -f install` 修复。
+下载 Chrome、网易云音乐、搜狗输入法、WPS、VS Code 的 deb 安装包，使用 `sudo dpkg -i $packagename` 命令安装。若因依赖关系问题导致安装失败，则使用 `sudo apt-get -f install` 修复。
 
 *解决Chrome闪屏问题*：个人笔记本型号 Dell-Inspiron-7460，使用 Chrome 56 在线看视频时，标签栏上下的位置会频繁闪屏。参考自 [链接](https://beisongnansong.wordpress.com/2016/08/12/%E8%A7%A3%E5%86%B3ubuntu%EF%BC%88chrome%EF%BC%89%E7%9A%84%E9%97%AA%E5%B1%8F%E9%97%AE%E9%A2%98/) 解决了此问题，具体措施：
 1. 新增配置文件 `sudo vim /usr/share/X11/xorg.conf.d/20-intel.conf`，贴入下图内容保存。
