@@ -1,5 +1,5 @@
 ---
-title: Ubuntu下Shadowsocks配置
+title: Ubuntu 下 Shadowsocks 配置
 date: 2016-12-05 23:15:14
 categories: 防坑指南
 ---

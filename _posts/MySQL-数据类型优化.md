@@ -1,5 +1,5 @@
 ---
-title: MySQL数据类型优化
+title: MySQL 数据类型优化
 date: 2017-01-25 12:20:03
 categories: MySQL
 ---

@@ -1,5 +1,5 @@
 ---
-title: MySQL索引高性能策略
+title: MySQL 索引高性能策略
 date: 2017-02-03 16:24:07
 categories: MySQL
 ---

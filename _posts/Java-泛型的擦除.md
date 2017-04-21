@@ -1,5 +1,5 @@
 ---
-title: Java泛型的擦除
+title: Java 泛型的擦除
 date: 2017-01-02 20:12:26
 categories: Java
 ---
