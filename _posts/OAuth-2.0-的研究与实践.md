@@ -51,7 +51,7 @@ OAuth 2.0 协议中定义了以下四个角色：
 
 ## 术语解释
 OAuth 2.0 协议中包含了以下关键术语：
-* Protected Resource：受保护资源，是 Resource Owner 存储在 Resource Server 上的数据。OAuth 2.0 协议允许第三方应用通过访问令牌，在一定范围和有效期内受限制地访问用户存储在 Resource Server 上的用户私密数据。
+* Protected Resource：受保护资源，是用户存储在 Resource Server 上的数据。OAuth 2.0 协议允许第三方应用通过访问令牌，在一定范围和有效期内受限制地访问用户存储在 Resource Server 上的用户私密数据。
 * Authorization Grant：授权许可，是一个代表 Resource Owner 授权的凭证，由 Client 在获取访问令牌时使用。OAuth 2.0 协议规范中定义了四种授权类型：授权码、隐式授权、用户密码凭据和客户端凭据。
 * Access Token：访问令牌，是用于获取受保护资源的凭据，是一个代表了颁发给 Client 的授权信息的字符串。访问令牌对客户端来说通常是加密且非透明的。访问令牌由 Resource Owner 授予，指定了请求访问的范围和有效期。Resource Server 和 Authorization Server 应共同限制访问令牌的访问行为。
 * Refresh Token：刷新令牌，是用于获取访问令牌的凭据，由 Authorization Server 颁发给 Client。刷新令牌是在当访问令牌失效或过期之后，由 Client 使用获取新的访问令牌时使用。刷新令牌也可以获取额外的相同或更窄访问范围的访问令牌时使用。Authorization Server 是可选地选择是否颁发刷新令牌给 Client。与访问令牌不同，刷新令牌只与 Authorization Server 交互，并且永远不会被发送给 Resource Server。
@@ -124,16 +124,23 @@ OAuth 2.0 协议中四个角色的交互流程如图 3.4.1 所示，基本流程
 ## 关键步骤
 
 ### 客户端注册
+在启动 OAuth 2.0 协议之前，客户端开发者需要在授权服务器上注册客户端信息。在客户端注册过程中，授权服务器应获取客户端类型、客户端回调 URI 和其它必要的客户端信息如应用名称、站点、描述、商标等数据。
 
-### 客户端认证
+基于客户端的安全性质，OAuth 2.0 协议定义了两种客户端类型：机密类型和公有类型，并为 web applicaiton、user-agent-based application、native application 三种配置的客户端设计了不同形式的授权许可。
 
-### 授权
+在客户端注册成功之后，授权服务器应授予其一个全局唯一的客户端公钥（标识符）和一个客户端密钥。客户端标识符是不敏感的，可以暴露在请求 URI 中，因此授权服务器不能仅以客户端标识符来认证客户端。
+
+### 认证身份
+授权服务器应支持客户端使用 client_id（公钥） 和 client_secret（密钥） 两个参数，进行 Http Basic 或Http Post 请求进行认证客户端身份。
+
+### 获取授权
 
 ## 注意事项
 注意事项：
 * Resource Server 和 Authorization Server 应共同限制访问令牌中指定的访问范围和有效期。
 * Authorization Server 颁发刷新令牌给 Client 是可选的。
 * 刷新令牌只与 Authorization Server 交互，永远不会被发送给 Resource Server。
+* 授权服务器必须为持有密钥的客户端支持 HTTP Basic 的认证方案。
 
 * 客户端从资源所有者获得授权许可(步骤1和2所示)的更好方法是使用授权服务器作为中介。
 * 访问令牌所限制客户端的访问时间和访问范围，由资源服务器和认证服务器共同限制。
