@@ -60,7 +60,7 @@ OAuth 2.0 协议中包含了以下关键术语：
 * Redirection Endpoint：重定向端点，由 Authorization Server 在与 Resorce Owner 交互完成之后，重定向用户代理时使用。
 * Token Endpoint：令牌端点，是由 Client 使用，通过展示其授权许可或者刷新令牌从而获取访问令牌。令牌终端可以由所有类型的授权许可使用，除了隐式授权类型。
 * Access Token：访问令牌，是用于获取受保护资源的凭据，是一个代表了颁发给 Client 的授权信息的字符串。访问令牌对客户端来说通常是加密且非透明的。访问令牌由 Resource Owner 授予，指定了请求访问的范围和有效期。Resource Server 和 Authorization Server 应共同限制访问令牌的访问行为。
-* Refresh Token：刷新令牌，是用于获取访问令牌的凭据，由 Authorization Server 颁发给 Client。刷新令牌是在当访问令牌失效或过期之后，由 Client 使用获取新的访问令牌时使用。刷新令牌也可以获取额外的相同或更窄访问范围的访问令牌时使用。Authorization Server 是可选地选择是否颁发刷新令牌给 Client。与访问令牌不同，刷新令牌只与 Authorization Server 交互，并且永远不会被发送给 Resource Server。
+* Refresh Token：刷新令牌，是用于获取访问令牌的凭据，由 Authorization Server 颁发给 Client。刷新令牌是在当访问令牌失效或过期之后，由 Client 使用获取新的访问令牌时使用。刷新令牌也可以获取额外的相同或更窄访问范围的访问令牌时使用。
 
 ## 主要流程
 
@@ -305,12 +305,12 @@ Pragma: no-cache
 * Resource Server 和 Authorization Server 应共同限制访问令牌中指定的访问范围和有效期。
 * Authorization Server 颁发刷新令牌给 Client 是可选的。
 * Authorization Server 必须支持 HTTP 基本认证（Base64编码 username:password 字符串），且 Authorization Server 必须对 Client 认证做次数限制。
+* Authorization Server 必须为持有密钥的 Client 支持 HTTP Basic 的认证方案。
 * Client 请求访问令牌过程中，Authorization Server 必须验证其授权许可，以及请求中的回调 URI 和注册时填写的回调 URI 是否匹配。
+* Client 获取访问令牌的请求必须使用 HTTP POST。
 * 访问令牌可以表示一个取回授权信息的标识符，或者可以自包含相关授权信息（token字符串携带一些数据和签名）。
 * 刷新令牌只与 Authorization Server 交互，永远不会被发送给 Resource Server。
-* Authorization Server 必须为持有密钥的 Client 支持 HTTP Basic 的认证方案。
 * 在协议流程中的请求必须使用 TLS。
-* Client 获取访问令牌的请求必须使用 HTTP POST。
 
 ---
 
