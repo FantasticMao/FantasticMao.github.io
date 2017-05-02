@@ -57,7 +57,7 @@ OAuth 2.0 协议中包含了以下关键术语：
 * Protected Resource：受保护资源，是用户存储在 Resource Server 上的数据。OAuth 2.0 协议允许第三方应用通过访问令牌，在一定范围和有效期内受限制地访问用户存储在 Resource Server 上的用户私密数据。
 * Authorization Grant：授权许可，是一个代表 Resource Owner 授权的凭证，由 Client 在获取访问令牌时使用。OAuth 2.0 协议规范中定义了四种授权类型：授权码、隐式授权、用户密码凭据和客户端凭据。
 * Authorization Endpoint：授权端点，由 Resource Owner 来获取授权许可。Authorization Server 必须首先验证Resource Owner 的身份。
-* Redirection Endpoint：重定向端点，由 Authorization Server 在与 Resorce Owner 交互完成之后，重定向用户代理时使用。
+* Redirection Endpoint：重定向端点，由 Authorization Server 在与 Resource Owner 交互完成之后，重定向用户代理时使用。
 * Token Endpoint：令牌端点，是由 Client 使用，通过展示其授权许可或者刷新令牌从而获取访问令牌。令牌终端可以由所有类型的授权许可使用，除了隐式授权类型。
 * Access Token：访问令牌，是用于获取受保护资源的凭据，是一个代表了颁发给 Client 的授权信息的字符串。访问令牌对客户端来说通常是加密且非透明的。访问令牌由 Resource Owner 授予，指定了请求访问的范围和有效期。Resource Server 和 Authorization Server 应共同限制访问令牌的访问行为。
 * Refresh Token：刷新令牌，是用于获取访问令牌的凭据，由 Authorization Server 颁发给 Client。刷新令牌是在当访问令牌失效或过期之后，由 Client 使用获取新的访问令牌时使用。刷新令牌也可以获取额外的相同或更窄访问范围的访问令牌时使用。
@@ -90,7 +90,7 @@ OAuth 2.0 协议中四个角色的交互流程如图 3.4.1 所示，基本流程
 2. (B) Client 接收到一个代表 Resource Owner 授权的授权许可，通常以协议规范中定义的四种许可类型之一表示。授权许可的类型由 Client 请求授权和 Authorization Server 所支持的类型决定。
 3. (C) Client 向 Authorization Server 认证身份，并通过展示授权许可请求访问令牌。
 4. (D) Authorization Server 认证 Client 身份并验证其授权许可，若认证成功则颁发访问令牌。
-5. (E) CLient 通过展示访问令牌向 Resource Server请求受保护资源。
+5. (E) Client 通过展示访问令牌向 Resource Server请求受保护资源。
 6. (F) Resource Server 验证请求中访问令牌，若验证成功则响应 Client 请求。
 
 ### 刷新令牌流程
@@ -120,9 +120,9 @@ OAuth 2.0 协议中四个角色的交互流程如图 3.4.1 所示，基本流程
 含有刷新令牌的协议流程如图 3.4.2 所示，流程包括如下步骤：
 1. (A) Client 向 Authorization Server 请求认证，并使用授权许可获取访问令牌。
 2. (B) Authorization Server 认证 Client 身份并验证其 Authorization Grant，若认证成功则颁发访问令牌和刷新令牌。
-3. (C) CLient 通过展示访问令牌向 Resource Server请求受保护资源。
+3. (C) Client 通过展示访问令牌向 Resource Server请求受保护资源。
 4. (D) Resource Server 验证请求中访问令牌，若验证成功则响应 Client 请求。
-5. (E) 重复（C）和（D）步骤直到访问令牌失效。若 CLient 得知访问令牌已经失效则跳转到（G），否则就再次请求访问受保护资源。
+5. (E) 重复（C）和（D）步骤直到访问令牌失效。若 Client 得知访问令牌已经失效则跳转到（G），否则就再次请求访问受保护资源。
 6. (F) 访问令牌失效之后，Resource Owner 返回一个无效令牌的错误描述。
 7. (G) Client 通过展示刷新令牌，向 Authorization Server 请求一个新的访问令牌。客户端认证需要基于客户端的类型和授权服务器的认证策略。
 8. (H) Authorization Server 认证 Client 身份并验证其刷新令牌，若认证成功则颁发一个新的访问令牌和一个可选的刷新令牌。
@@ -178,7 +178,7 @@ two parts as they pass through the user-agent.
 1. (A) Client 通过将 Resource Owner 的用户代理重定向到授权端点来启动流程。Client 使用包括 client identifier,requested scope,local state,redirection URI 等参数发送给 Authorization Server，Authorization Server 将在授权/拒绝访问权限之后，发回用户代理给 Client。
 2. (B) Authorization Server 认证 Resource Owner 并与其建立连接，不论认证的结果是授权或拒绝。
 3. (C) 假设 Resource Owner 已经授权允许访问，则 Authorization Server 使用 Client 之前提供（在请求参数中或注册时填写的）的重定向 URI ，将用户代理重定向到 Client。重定向 URI 中包含了授权码和由 Client 提供的 local state。
-4. (D) Client 使用上一步接收的授权码，向 Authorization Server 的令牌端点请求访问令牌。请求过程中，CLient 将被 Authorization Server 认证。
+4. (D) Client 使用上一步接收的授权码，向 Authorization Server 的令牌端点请求访问令牌。请求过程中，Client 将被 Authorization Server 认证。
 5. (E) Authorization Server 认证 Client，验证其授权码，并确认其重定向 URI 与第三步中的 URI 匹配。若验证有效，则 Authorization Server 响应访问令牌给 Client，可以附加上刷新令牌。
 
 其中，客户端在成功获取授权码之后，使用「application/x-www-form-urlencoded」编码形式，携带 grant_type、code、redirect_uri、client_id 四个参数，向授权服务器请求访问令牌，例如：
@@ -259,7 +259,7 @@ parts as they pass through the user-agent.
 | Client  |                                  |     Server    |
 |         |<--(C)---- Access Token ---------<|               |
 |         |    (w/ Optional Refresh Token)   |               |
-+---------+                                  +---------------
++---------+                                  +---------------+
                         图 3.5.3.3
 ```
 基于用户密码凭据形式的授权许可流程如图 3.5.3.3 所示，流程包括如下步骤：
@@ -284,7 +284,7 @@ parts as they pass through the user-agent.
 2. (B) Authorization Server 认证 Client 身份，若认证成功，则颁发访问令牌。
 
 ### 颁发令牌
-若 Client 请求访问令牌通过验证和认证，则 Authorization Server 颁发访问令牌和可选的刷新令牌。成功返回访问令牌的响应如下所示：
+若 Client 请求访问令牌通过验证和认证，则 Authorization Server 颁发访问令牌和可选的刷新令牌。成功返回访问令牌的响应格式如下所示：
 ```
 HTTP/1.1 200 OK
 Content-Type: application/json;charset=UTF-8
@@ -302,31 +302,39 @@ Pragma: no-cache
 
 ## 注意事项
 注意事项：
+* 协议流程中的请求必须使用 TLS (HTTPS)。
+* 协议流程中的用户代理必须支持 HTTP 重定向。
 * Resource Server 和 Authorization Server 应共同限制访问令牌中指定的访问范围和有效期。
 * Authorization Server 颁发刷新令牌给 Client 是可选的。
-* Authorization Server 必须支持 HTTP 基本认证（Base64编码 username:password 字符串），且 Authorization Server 必须对 Client 认证做次数限制。
-* Authorization Server 必须为持有密钥的 Client 支持 HTTP Basic 的认证方案。
+* Authorization Server 必须支持 HTTP Basic 认证，且 Authorization Server 必须对 Client 认证做次数限制。
 * Client 请求访问令牌过程中，Authorization Server 必须验证其授权许可，以及请求中的回调 URI 和注册时填写的回调 URI 是否匹配。
 * Client 获取访问令牌的请求必须使用 HTTP POST。
 * 访问令牌可以表示一个取回授权信息的标识符，或者可以自包含相关授权信息（token字符串携带一些数据和签名）。
 * 刷新令牌只与 Authorization Server 交互，永远不会被发送给 Resource Server。
-* 在协议流程中的请求必须使用 TLS。
 
 ---
 
 # OAuth 2.0 应用实现
 
 ## 基本思路
-a. 对比主流应用对 OAuth 2.0 协议的支持情况
-b. 
+RFC-6749 只是定义了 OAuth 2.0 的协议规范，但不同实现者的实现细节却是大同小异的。下表简单列举几个主流网站提供的 OAuth 2.0 实现方式：
+
+提供商 | 支持的授权许可 | 是否支持刷新令牌 | 客户端认证方式
+--- | --- | --- | ---
+Facebook | 授权码、隐式授权、客户端凭据 | 是 | GET
+Google | 授权码、隐式授权 | 是 | POST
+Twitter | 客户端凭据 | 否 | Basic
+Amazon | 授权码、隐式授权 | 是 | Basic、POST
+新浪 | 授权码 | 否 | Basic、GET
+豆瓣 | 授权码、隐式授权 | 是 | POST
+
+可以得出：这些厂商的 OAuth 2.0 服务大多数支持授权码形式的授权许可和刷性令牌的操作，却都不支持用户密码凭证形式的授权许可，而且其客户端的认证方式大多限于 Basic 和 POST 方式。
+
+基于以上结论，本文将参照 OAuth 2.0 协议规范，设计并实现一个以用户信息为核心数据的开放授权应用。应用按照 OAuth 2.0 协议流程，通过授权码形式的授权许可和刷新令牌，向客户端提供访问受保护资源的能力。
 
 ## 实现方案
 
-### 结构体系
-
-#### 服务端结构体系
-
-#### 客户端结构体系
+## 结构体系
 
 ## 实现细节
 伪代码/流程图
