@@ -1,7 +1,8 @@
 ---
 title: Java 泛型的擦除
 date: 2017-01-02 20:12:26
-categories: Java
+categories: 开发语言
+tags: Java
 ---
 <blockquote class="blockquote-center">因为只有知道了某个技术不能做到什么，你才能更好地做到所能做的。</blockquote>
 

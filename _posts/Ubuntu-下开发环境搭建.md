@@ -2,6 +2,9 @@
 title: Ubuntu 下开发环境搭建
 date: 2017-02-27 20:14:35
 categories: 防坑指南
+tags: 
+- Linux
+- Ubuntu
 ---
 
 记一次个人 PC 的 Ubuntu 16.04 LTS 重装记录，包含开发环境的搭建、日常软件的安装、几个踩过的坑。<!-- more -->
