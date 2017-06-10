@@ -8,6 +8,8 @@ tags: MySQL
 
 B-Tree 索引、聚簇索引的实现可参考：[http://blog.codinglabs.org/articles/theory-of-mysql-index.html](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)<!-- more -->
 
+---
+
 ## 索引基础
 索引（在 MySQL 中也叫做键 key）是存储引擎用于快速找到记录的一种数据结构。索引对于良好的性能非常关键。尤其是当表中的数据量越来越大时，索引对性能的影响愈发重要。「最优」的索引有时比「好的」索引性能要好两个数量级。
 

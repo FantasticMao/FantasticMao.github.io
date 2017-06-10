@@ -43,6 +43,8 @@ $('div').each(function () { // 对于每一个 <div> 元素
 });
 ```
 
+---
+
 # getter 和 setter
 jQuery 对象上最简单、最常见的操作是获取（get）或设置（set）HTML 属性、CSS 样式、元素内容和位置高宽的值。jQuery 中的 getter 和 setter：
 * **jQuery 使用同一个方法即当 getter 用又当 setter 用，而不是定义对方法。**如果传入一个新值给该方法，则它设置此值；如果没有指定值，则它返回当前值。
@@ -156,6 +158,8 @@ $('div.nodata').removeData('x'); // 删除一些数据
 var x = $('#mydiv').data(x); // 获取一些数据
 ```
 
+---
+
 # 修改文档结构
 HTML 文档表示为一棵节点树，而不是一个字符的线性序列，因此插入、删除、替换操作不会像操作字符串和数组一样简单。
 
@@ -178,30 +182,79 @@ jQuery 定义了 3 种包装函数。`warp()` 包装每一个选中元素，`wra
 
 `empty()` 方法会删除每个选中元素的所有字节点，但不会修改元素自身。`remove()` 方法会从文档中移除选中元素，如果传入一个参数，该参数会被当成选择器，jQeury 对象中只有匹配该选择器的元素才会被移除。`remove()` 方法会移除所有事件处理程序以及可能绑定到被移除元素上的其它数据。`detach()` 和 `remove()` 方法类似，但不会移除事件处理程序和数据。
 
+---
+
 # 事件处理
 jQuery 定义了一个统一事件 API，可兼容 IE（IE9 以下），并在所有浏览器中工作。jQuery API 具有简单的形式，比标准或 IE 的事件 API 更容易使用。jQuery API 还具有更复杂、功能更齐全的形式，比标准 API 更强大。
 
 ## 事件处理程序的简单注册
-待续
+jQuery 定义了简单的事件注册方法，可用于常用和普适的每一个浏览器事件。比如，给单击事件注册一个事件处理程序，只要调用 `click()` 方法：
+```javascript
+$('p').click(function () {
+    $(this).css('background-color', 'gray');
+});
+```
+
+调用 jQuery 的事件注册方法可以给所有选中元素注册处理程序。下面是 jQuery 定义的简单事件处理程序注册的方法：
+```javascript
+blur()      focus()     mousedown()     mouseover()
+click()     focusion()  mouseup()       resize()
+dbclick()   focusout()  mouseenter()    scroll()
+change()    keydown()   mouseleave()    load()
+select()    keypress()  mousemove()     unload()
+submit()    keyup()     mouseout()      error()
+```
+
+focus 和 blur 事件不支持冒泡，但 focusin 和 focusout 事件支持。相反地，mouseover 和 mouseout 事件支持冒泡，但这经常不方便，因为很难知道鼠标是从自己感兴趣的元素中移开了，还只是从该元素的子孙元素中移开了。mouseenter 和 mouseleave 是非冒泡事件，可以解决刚才的问题。
+
+resize 和 unload 事件类型只在 Window 对象中触发，如果想要给这两个事件类型注册处理程序，应该在 `$(window)` 上调用 `resize()` 和 `unload()` 方法。`scroll()` 方法经常也用与 `$(window)` 对象上，但它可以用在有滚动条的任何元素上，比如当 CSS 的 overflow 属性设置为 "scroll" 或 "auto" 时。`load()` 方法可在 `$(window)` 上调用，用来给窗口注册加载事件处理程序，但经常更好的选择是，直接将初始化函数传给 `$()`。当然，还可以在 iframe 和图片上使用 `load()` 方法。`error()` 方法可用在 `<img>` 元素上，用来注册当图片加载失败时调用的处理程序。
+
+除了这些简单的事件注册方法外，还有两个特殊形式的方法，有时很有用。
 
 ## jQuery 事件处理程序
-jQuery 调用每一个事件处理程序时，都传入了一个或多个参数，并且对处理程序的返回值进行了处理。需要知道的最重要的一件事情是，每个事件处理程序都传入了一个 [jQuery 事件对象](#jQuery-事件对象) 作为第一个参数。该对象的字段提供了与该事件相关的详细信息（比如鼠标指针的坐标）。jQuery 模拟标准 Event 对象，即便在不支持的标准事件对象的浏览器中（像 IE8 及其以下），jQuery 事件对象在所有浏览器上拥有一组相同的字段。
+上面例子中的事件处理程序函数被当作是不带参数以及不返回值的，但 jQuery 调用每一个事件处理程序时，实际上都传入了一个或多个参数，并且对处理程序的返回值进行了处理。**需要知道的最重要的一件事情是，每个事件处理程序都传入了一个 [jQuery 事件对象](#jQuery-事件对象) 作为第一个参数。**该对象的字段提供了与该事件相关的详细信息，比如鼠标指针的坐标。jQuery 模拟标准 Event 对象，即便在不支持的标准事件对象的浏览器中（像 IE8 及其以下），jQuery 事件对象在所有浏览器上拥有一组相同的字段。
 
 jQuery 事件处理程序函数的返回值始终是有意义的。如果处理程序返回 false，与该事件相关联的默认行为，以及该事件接下来的冒泡都会被取消。也就是说，返回 false 等同于调用 Event 对象的 `preventDefault()` 和 `stopPropagation()` 方法。同样，当事件处理程序返回一个值（非 undefined 值）时，jQuery 会将该值存储在 Event 对象的 result 属性中，该属性可以被后续调用的事件处理程序访问。
 
 ## jQuery 事件对象
-待续
+jQuery 通过定义自己的 Event 对象来隐藏浏览器之间的实现差异。当一个 jQuery 事件处理程序被调用时，总会传入一个 jQuery 事件对象作为其第一个参数。jQuery 会将以下所有字段从原声 Event 对象中复制到 jQuery 事件对象上，尽管对于特定事件类型来说，有些字段值为 undefined。
+```javascript
+altKey      ctrlKey         newValue        screenX
+attrChange  currentTarget   offsetX         screenY
+attrName    detail          offsetY         shiftKey
+bubbles     eventPhase      originalTarget  srcElement
+button      formElement     pageX           target
+cancelable  keyCode         pageY           toElement
+charCode    layerX          prevValue       view
+clientX     layerY          relatedNode     whellDelta
+clientY     metaKey         relatedTarget   which
+```
 
-## 事件处理程序的高级注册
-待续
-
-## 注销事件处理程序
+除了这些属性，jQuery 事件对象还定义了以下方法：
+```javascript
+preventDefault()            isDefaultPrevented()
+stopPropagation()           isPropagationStopped()
+stopImmediatePropagation()  isImmediatePropagationStopped()
+```
 
 ## 触发事件
+当用户使用鼠标、键盘或触发其它事件类型时，注册的事件处理程序会自动调用。然而，如果能手动触发事件，有时会很有用。
+
+手动触发事件最简单的方式是不带参数调用事件注册的简单方法，比如 `click()` 或 `mouseover()`。**与很多 jQuery 方法可以同时用做 getter 和 setter 一样，这些事件方法在带有一个参数时会注册事件处理程序，不带参数调用时则会触发事件处理程序。**例如：
+```javascript
+$('#my_form').submit(); // 就和用户单击提交按钮一样
+```
+
+上面的 `submit()` 方法自己合成了一个 Event 对象，并触发了给 submit 事件注册的所有事件处理程序。如果这些事件处理程序没有返回 false 或调用 Event 对象的 `preventDefault()`，实际上将提交该表单。注意，通过这种方式手动调用时，冒泡事件依旧会冒泡。
+
+需要特别注意，jQuery 的事件触发方法会触发所有使用 jQuery 事件注册方法注册的处理程序，也会触发通过 onsubmit 等 HTML 属性或 Element 属性定义的处理程序。但是，不能手动触发使用 `addEventListen()` 或 `attachEvent()` 注册的事件处理程序。
+
+同时需要注意，jQuery 的事件触发机制是同步的（不涉及事件队列）。
+
+## 事件处理程序的高级注册 & 实时事件
 待续
 
-## 实时事件
-待续
+---
 
 # 动画效果
 jQuery 定义了 `fadeIn()` 和 `fadeOut()` 等简单的方法实现常见视觉效果。除了简单动画方法，jQuery 还定义了一个 `animate()` 方法，用来实现更复杂的自定义动画。
@@ -240,8 +293,12 @@ $('img').animate({
 2. 动画选项对象
 该选项对象用来指定动画如何执行。duration 属性指定动画持续的毫秒时间，其值可以是 fast、slow 或任何 jQuery.fx.speeds 中定义的名称。complete 属性指定动画完成时的回调函数。setp 属性指定在动画每一步或每一帧调用的回调函数。在回调函数中，this 指向正在连续变化的元素，第一个参数则是正在变化的属性值。queue 属性指定动画是否需要队列化，即是否需要等到所有尚未发生的动画都完成后再执行该动画。默认情况下，所有动画都是队列化的。easing 属性指定缓动函数名，jQuery 默认使用的是命为 swing 的正弦函数。
 
+---
+
 # Ajax
 待续
+
+---
 
 # 选择器
 待续
