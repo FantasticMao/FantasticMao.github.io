@@ -100,7 +100,7 @@ tags:
 ---
 
 ### 编译  安装系列
-Nginx：可执行 `sudo apt-get install nginx` 安装 Nginx，不过为在 Response Headers 中隐藏 Ubuntu 信息，还是选择编译安装吧。
+Nginx：可执行 `sudo apt-get install nginx` 安装 Nginx，但个人偏好编译安装（为了好找配置文件）。
 1. 执行 `sudo apt-get install libpcre3 libpcre3-dev zlib1g-dev`，预先安装 Nginx 依赖包。
 2. 进入 [Nginx官网](http://nginx.org/)，个人选择 1.10.3 稳定版本，执行 `wget http://nginx.org/download/nginx-1.10.3.tar.gz` 下载并解压缩。
 3. 执行 `cd nginx-1.10.3/`，进入 Nginx 目录。
@@ -119,7 +119,7 @@ Nginx：可执行 `sudo apt-get install nginx` 安装 Nginx，不过为在 Respo
 
 ### #附
 
-*Debian的 `apt-get` 用法*：
+*Debian 的 `apt-get` 用法*：
 * `sudo apt-get update` 从所有配置源中更新软件包的信息。
 * `sudo apt-get upgrade` 从配置源中升级所有已安装的软件包。
 * `sudo apt-get install $packagename` 安装一个或多个软件包。
