@@ -338,7 +338,7 @@ jQuery.getScript('js/jquery.my.plugin.js', function () {
 });
 ```
 
-传递给 `jQuery.getScript()` 的回调函数，仅在请求成功完成时才会被调用。·
+传递给 `jQuery.getScript()` 的回调函数，仅在请求成功完成时才会被调用。
 
 ### jQuery.getJOSN()
 
