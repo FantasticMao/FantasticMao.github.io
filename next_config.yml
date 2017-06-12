@@ -301,7 +301,7 @@ mathjax:
 
 # Disqus
 disqus:
-  enable: true
+  enable: false
   shortname: fantasticmao
   count: true
 
@@ -309,7 +309,7 @@ disqus:
 #hypercomments_id:
 
 # Gentie productKey
-#gentie_productKey:
+gentie_productKey: 843cdc2c9d8345c2a7ee2c49cc88bc6a
 
 # changyan
 changyan:
