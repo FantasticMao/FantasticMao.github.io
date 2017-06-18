@@ -318,7 +318,15 @@ setInterval(function () {
 $('#temp').load('wheather_report.html #temperature');
 ```
 
-除了 URL 参数，`load()` 方法还接受两个可选参数。第一个可选参数表示的数据，可以追加到 URL 后面，或者与请求一起发送。另一个可选参数是回调函数。如果没有指定任何数据，回调函数可以作为第二个参数传入。否则，它必须是第三个参数。在 jQuery 对象的每一个元素上都会调用回调函数，并且每次调用都会传入三个参数：被加载 URL 的完整文本内容、状态码字符串、以及用来加载该 URL 的 XMLHttpRequest 对象。
+除了 URL 参数，`load()` 方法还接受两个可选参数。第一个可选参数表示的数据，可以追加到 URL 后面，或者与请求一起发送。另一个可选参数是回调函数。如果没有指定任何数据，回调函数可以作为第二个参数传入。否则，它必须是第三个参数。在 jQuery 对象的每一个元素上都会调用回调函数，并且每次调用都会传入三个参数：被加载 URL 的完整文本内容、状态码字符串、以及用来加载该 URL 的 XMLHttpRequest 对象。其中，状态参数是 jQuery 的状态码，不是 HTTP 的状态码，其值是类似 success、error 和 timeout 的字符串。
+
+jQuery 状态码 | 描述
+--- | ---
+success | 表示请求成功完成。
+notmodified | 该状态码表示请求已经正常完成，但服务器返回的响应内容是 HTTP 304 Not Modified，表示请求的 URL 内容和上次请求的相同。
+error | 表示请求没有成功完成，原因是某些 HTTP 错误。
+timout | 如果 Ajax 请求没有在选定的超时区间内完成，会调用错误回调，并传入该状态码。
+parsererror | 该状态码表示 HTTP 请求已经成功完成，但 jQuery 无法按照期望的方式解析。
 
 ## Ajax 工具函数
 jQuery 的其它 Ajax 高级工具不是方法，而是函数，可以通过 `jQuery` 或 `$` 直接调用，而不是在 jQuery 对象上调用。
@@ -340,13 +348,123 @@ jQuery.getScript('js/jquery.my.plugin.js', function () {
 
 传递给 `jQuery.getScript()` 的回调函数，仅在请求成功完成时才会被调用。
 
-### jQuery.getJOSN()
+### jQuery.getJSON()
+`jQuery.getJSON()` 和 `jQuery.getScript()` 类似：它会获取文本，然后特殊处理一下，再调用指定的回调函数。`jQuery.getJSON()` 获取到文本之后，不会将其当作脚本执行，而会将其解析为 JSON。`jQuery.getJSON()` 只有在传入了回调函数时才有用。当成功加载 URL，以及将内容成功解析为 JSON 后，解析的结果会作为第一个参数传入回调函数中。
+```javascript
+// 假设 data.json 包含文本：{"x":1, "y":2}
+jQuery.getJSON('data.json', function (data) {
+    // data 参数是对象 {x:1, y:2}
+});
+```
+
+与 `jQuery.getScript()` 不同，`jQuery.getJSON()` 接受一个可选的数据对象参数，就和传入 `load()` 方法中的一样。
 
 ### jQuery.get() 和 jQuery.post()
+`jQuery.get()` 和 `jQuery.post()` 获取指定 URL 的内容，如果有数据的话，还可以传入指定数据，最后则将结果传递给指定的回调函数。`jQuery.get()` 使用 HTTP GET 请求来实现，`jQuery.post()` 使用 HTTP POST 请求实现。与 `jQuery.getJSON()` 一样，这两个方法也接受相同的三个参数：必须的回调函数，可选的数据字符串或对象，以及一个技术上可选但实际上总会使用的回调函数。调用的回调函数会被传入三个参数：第一个参数是返回的数据，第二个是 success 字符串，第三个则是 XMLHttpRequest 对象。
+
+除了上面描述的三个参数，这两个方法还可以接受可选的第 4 个参数，该参数指定被请求数据的类型。`load()` 方法使用 html 类型，`jQuery.getScript()` 使用 script 类型，`jQuery.getJSON()` 则使用 json 类型。与上面这些专用函数相比，`jQuery.get()` 和 `jQuery.post()` 更灵活。该参数的有效值，在下面描述。
+
+dataType | 描述
+--- | ---
+text | 将服务器的响应作为纯文本返回，不做任何处理。
+html | 该类型和 text 类型一样：响应是纯文本。
+xml | 请求的 URL 被认为指向 XML 格式的数据。
+script | 请求的 URL 被认为指向 JavaScript 文件
+json | 请求的 URL 被认为指向 JSON 格式的数据文件
+jsonp | 请求的 URL 被认为指向服务器脚本，该脚本支持 JSONP 协议，可以将 JSON 格式的数据作为参数传递给客户端指定的函数。
 
 ## jQuery.ajax() 函数
+jQuery 的所有 Ajax 工具最后都会调用 `jQuery.ajax()` —— 这是整个类库中最复杂的函数。`jQuery.ajax()` 仅接受一个参数：一个选项对象，该对象的属性指定 Ajax 请求如何执行的很多细节。例如，`jQuery.getScript(url, callback)` 与下面 `jQuery.ajax()` 的调用等价：
+```javascript
+jQuery.ajax({
+    type: 'GET',        // HTTP 请求方法
+    url: url,           // 要获取数据的 URL
+    data: null,         // 不给 URL 添加任何数据
+    dataType: 'script', // 一旦获取到数据，立刻当作脚本执行
+    success: callback   // 完成时调用该函数
+});
+```
+
+可以通过 `jQuery.ajaxSetup()` 传入一个选项对象来设置任意选项的默认值：
+```javascript
+jQuery.ajaxSetup({
+    timeout: 2000,  // 在两秒后取消所有 Ajax 请求
+    cache: false    // 通过给 URL 添加时间戳来禁用浏览器缓存
+});
+```
+
+运行以上代码后，指定的 timeout 和 cache 选项会在所有未指定这两个选项值的 Ajax 请求中使用，包括 `jQuery.get()` 和 `load()` 方法等高级工具。
+
+### 通用选项
+`jQuery.ajax()` 中最常用的选项如下：
+- type 
+    指定 HTTP 的请求方法。默认是 GET，另一个常用值是 POST。可以指定其它 HTTP 的请求方法，比如 DELETE 或 PUSH，但不是所有浏览器都支持它们。
+- url
+    要获取的 URL。
+- data
+    添加到 URL 中（GET 请求）或在请求体中（POST 请求）发送的数据。
+- dataType
+    指定响应数据的预期类型，以及 jQuery 处理该数据的方式。
+- contentType
+    指定请求的 HTTP Content-Type 头。默认值是 application/x-www-form-urlencoded，这是 HTML 表单和绝大部分服务器脚本使用的正常值。
+- timeout
+    超时事件，单位是毫秒。
+- cache
+    对于 GET 请求，如果该选项设置为 false，jQuery 会添加一个 _= 参数到 URL 中，或者替换已经存在的同名参数。该参数的值是当前时间（毫秒格式），这可以禁用基于浏览器的缓存。
+- ifModified
+    当选项值设置为 true 时，jQuery 会为请求的每一个 URL 记录 Last-Modified 和 If-None-Match 响应头的值，并会在接下来的请求中为相同的 URL 设置这些头部信息。这可以使得，如果上次请求后 URL 的内容没有改变，则服务器会发送回 HTTP 304 Not Modified 响应。
+- global
+    该选项指定 jQuery 是否应该触发上面描述的 Ajax 请求过程中的事件。默认值是 true，设置该选项为 false 会禁用 Ajax 相关的所有事件。
+
+### 回调
+下面的选项指定在 Ajax 请求的不同阶段调用的函数。
+- context
+    该选项指定回调函数在调用时的上下文对象 —— 就是 this。该选项没有默认值，如果不设置，this 会指向选项对象。
+- beforeSend
+    该选项指定 Ajax 请求发送到服务器之前激活的回调函数。第一个参数是 XMLHttpRequest 对象，第二个参数是该请求的选项对象。如果该回调函数返回 false，Ajax 请求会取消。注意跨域的 script 和 jsonp 请求没有使用 XMLHttpRequest 对象，因此不会触发 beforeSend 回调。
+- success
+    该选项指定 Ajax 请求成功完成时调用的回调函数。第一个参数是服务器发送的数据，第二个参数是 jQuery 状态码，第三个参数是用来发送该请求的 XMLHttpRequest 对象。
+- error
+    该选项指定 Ajax 请求不成功时调用的回调函数。该回调函数的第一个参数是该请求 XMLHttpRequest 对象，第二个参数是 jQuery 状态码。
+- complete
+    该选项指定 Ajax 请求完成时激活的回调函数。每一个 Ajax 请求或者成功时调用 success 回调，或者失败时调用 error 回调。在调用 success 或 error 后，jQuery 会调用 complete 回调。第一个参数是 XMLHttpRequest 对象，第二个参数是 jQuery 状态码。
+
+### 不常用的选项和钩子
+下述的 Ajax 选项不经常使用。
+- async
+    脚本化的 HTTP 请求本身就是异步的。然而，XMLHttpRequest 对象提供了一个选项，可用来阻塞当前进程，直到接收到响应。如果想开启这一阻塞行为，可以设置该选项为 false。
+- dataFilter
+    该选项指定一个函数，用来过滤或预处理服务器返回的数据。第一个参数是从服务器返回的原始数据，第二个参数是 dataType 选项的值。
+- jsonp
+    应由服务端解决跨域问题，略。
+- jsonpCallback
+    应由服务端解决跨域问题，略。
+- processData
+    当设置 data 选项为对象时，jQuery 通常会将该对象转换成字符串，该字符串遵守标准的 HTML application/x-www-form-urlencoded 格式。如果想省略掉该步骤，可以设置该选项为 false。
+- scriptCharset
+    对于跨域的 script 和 jsonp 请求，会使用 `<script>` 元素，该选项用来指定 `<script>` 元素的 charset 属性值。
+- tranditional
+    jQuery 1.4 改变了数据对象序列化为 application/x-wwww-form-urlencoded 字符串的方式。设置该选项为 true，可以让 jQuery 回复到原来的方式。
+- username, password
+    如果请求需要密码验证，可以使用这两个选项来指定用户名和密码。
+- xhr
+    该选项指定一个工厂函数，用来获取 XMLHttpRequest 对象。
 
 ## Ajax 事件
+jQuery 的 Ajax 函数还会在 Ajax 请求的每一个相同阶段触发自定义事件。下面的表格展示了这些回调函数和响应的事件。
+
+回调 | 事件类型 | 处理程序注册方法
+--- | --- | ---
+beforeSend | ajaxSend | ajaxSend()
+success | ajaxSuccess | ajaxSuccess()
+error | ajaxError | ajaxError()
+complete | ajaxComplete | ajaxComplete()
+ | ajaxStart | ajaxStart()
+ | ajaxStop | ajaxStop()
+
+可以使用 `bind()` 方法和上表第二列中的事件类型字符串来注册这些自定义 Ajax 事件，也可以使用第三列中的事件注册方法来注册。
+
+由于 Ajax 事件是自定义事件，是由 jQuery 而不是浏览器产生的，因此传递给事件处理程序的 Event 对象不是很有用。这些事件的处理程序激活时在 event 参数后都带有两个额外的参数。第一个额外参数是 XMLHttprequest 对象，第二个额外参数是 选项对象。
 
 ---
 
