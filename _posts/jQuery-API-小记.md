@@ -45,7 +45,7 @@ $('div').each(function () { // 对于每一个 <div> 元素
 
 ---
 
-# getter 和 setter
+# jQeury 的 getter 和 setter
 jQuery 对象上最简单、最常见的操作是获取（get）或设置（set）HTML 属性、CSS 样式、元素内容和位置高宽的值。jQuery 中的 getter 和 setter：
 * **jQuery 使用同一个方法即当 getter 用又当 setter 用，而不是定义对方法。**如果传入一个新值给该方法，则它设置此值；如果没有指定值，则它返回当前值。
 * 用作 setter 时，这些方法会给 jQuery 对象中的每一个元素设置值，然后返回该 jQuery 对象以方便链式调用。
@@ -184,7 +184,7 @@ jQuery 定义了 3 种包装函数。`warp()` 包装每一个选中元素，`wra
 
 ---
 
-# 事件处理
+# 使用 jQuery 处理事件
 jQuery 定义了一个统一事件 API，可兼容 IE（IE9 以下），并在所有浏览器中工作。jQuery API 具有简单的形式，比标准或 IE 的事件 API 更容易使用。jQuery API 还具有更复杂、功能更齐全的形式，比标准 API 更强大。
 
 ## 事件处理程序的简单注册
@@ -298,7 +298,7 @@ $('img').animate({
 
 ---
 
-# Ajax
+# jQuery 中的 Ajax
 在 Web 应用编程技术里，Ajax 很流行，它使用 HTTP 脚本来按需加载数据，而不需要刷新整个页面。jQuery 定义了一个高级工具方法和四个高级工具函数。这些高级工具都基于同一个强大的底层函数：`jQuery.ajax()`。
 
 ## load() 方法
@@ -323,7 +323,7 @@ $('#temp').load('wheather_report.html #temperature');
 jQuery 状态码 | 描述
 --- | ---
 success | 表示请求成功完成。
-notmodified | 该状态码表示请求已经正常完成，但服务器返回的响应内容是 HTTP 304 Not Modified，表示请求的 URL 内容和上次请求的相同。
+notmodified | 该状态码表示请求已经正常完成，但服务器返回的响应内容是 HTTP 304 Not-Modified，表示请求的 URL 内容和上次请求的相同。
 error | 表示请求没有成功完成，原因是某些 HTTP 错误。
 timout | 如果 Ajax 请求没有在选定的超时区间内完成，会调用错误回调，并传入该状态码。
 parsererror | 该状态码表示 HTTP 请求已经成功完成，但 jQuery 无法按照期望的方式解析。
@@ -362,12 +362,12 @@ jQuery.getJSON('data.json', function (data) {
 ### jQuery.get() 和 jQuery.post()
 `jQuery.get()` 和 `jQuery.post()` 获取指定 URL 的内容，如果有数据的话，还可以传入指定数据，最后则将结果传递给指定的回调函数。`jQuery.get()` 使用 HTTP GET 请求来实现，`jQuery.post()` 使用 HTTP POST 请求实现。与 `jQuery.getJSON()` 一样，这两个方法也接受相同的三个参数：必须的回调函数，可选的数据字符串或对象，以及一个技术上可选但实际上总会使用的回调函数。调用的回调函数会被传入三个参数：第一个参数是返回的数据，第二个是 success 字符串，第三个则是 XMLHttpRequest 对象。
 
-除了上面描述的三个参数，这两个方法还可以接受可选的第 4 个参数，该参数指定被请求数据的类型。`load()` 方法使用 html 类型，`jQuery.getScript()` 使用 script 类型，`jQuery.getJSON()` 则使用 json 类型。与上面这些专用函数相比，`jQuery.get()` 和 `jQuery.post()` 更灵活。该参数的有效值，在下面描述。
+除了上面描述的三个参数，这两个方法还可以接受可选的第 4 个参数，该参数指定被请求数据的类型。`load()` 方法使用 html 类型，`jQuery.getScript()` 使用 script 类型，`jQuery.getJSON()` 则使用 json 类型。与上面这些专用函数相比，`jQuery.get()` 和 `jQuery.post()` 更灵活。该参数的有效值，在下面描述：
 
 dataType | 描述
 --- | ---
 text | 将服务器的响应作为纯文本返回，不做任何处理。
-html | 该类型和 text 类型一样：响应是纯文本。
+html | 该类型和 text 类型一样，响应是纯文本。
 xml | 请求的 URL 被认为指向 XML 格式的数据。
 script | 请求的 URL 被认为指向 JavaScript 文件
 json | 请求的 URL 被认为指向 JSON 格式的数据文件
@@ -400,7 +400,7 @@ jQuery.ajaxSetup({
 - type 
     指定 HTTP 的请求方法。默认是 GET，另一个常用值是 POST。可以指定其它 HTTP 的请求方法，比如 DELETE 或 PUSH，但不是所有浏览器都支持它们。
 - url
-    要获取的 URL。
+    要获取的 URL。对于 GET 请求，data 选项会添加到该 URL 后。
 - data
     添加到 URL 中（GET 请求）或在请求体中（POST 请求）发送的数据。
 - dataType
@@ -412,7 +412,7 @@ jQuery.ajaxSetup({
 - cache
     对于 GET 请求，如果该选项设置为 false，jQuery 会添加一个 _= 参数到 URL 中，或者替换已经存在的同名参数。该参数的值是当前时间（毫秒格式），这可以禁用基于浏览器的缓存。
 - ifModified
-    当选项值设置为 true 时，jQuery 会为请求的每一个 URL 记录 Last-Modified 和 If-None-Match 响应头的值，并会在接下来的请求中为相同的 URL 设置这些头部信息。这可以使得，如果上次请求后 URL 的内容没有改变，则服务器会发送回 HTTP 304 Not Modified 响应。
+    当选项值设置为 true 时，jQuery 会为请求的每一个 URL 记录 Last-Modified 和 If-None-Match 响应头的值，并会在接下来的请求中为相同的 URL 设置这些头部信息。这可以使得，如果上次请求后 URL 的内容没有改变，则服务器会发送回 HTTP 304 Not-Modified 响应。
 - global
     该选项指定 jQuery 是否应该触发上面描述的 Ajax 请求过程中的事件。默认值是 true，设置该选项为 false 会禁用 Ajax 相关的所有事件。
 
@@ -444,7 +444,7 @@ jQuery.ajaxSetup({
 - scriptCharset
     对于跨域的 script 和 jsonp 请求，会使用 `<script>` 元素，该选项用来指定 `<script>` 元素的 charset 属性值。
 - tranditional
-    jQuery 1.4 改变了数据对象序列化为 application/x-wwww-form-urlencoded 字符串的方式。设置该选项为 true，可以让 jQuery 回复到原来的方式。
+    jQuery 1.4 改变了数据对象序列化为 application/x-wwww-form-urlencoded 字符串的方式。设置该选项为 true，可以让 jQuery 恢复到原来的方式。
 - username, password
     如果请求需要密码验证，可以使用这两个选项来指定用户名和密码。
 - xhr
@@ -464,9 +464,96 @@ complete | ajaxComplete | ajaxComplete()
 
 可以使用 `bind()` 方法和上表第二列中的事件类型字符串来注册这些自定义 Ajax 事件，也可以使用第三列中的事件注册方法来注册。
 
-由于 Ajax 事件是自定义事件，是由 jQuery 而不是浏览器产生的，因此传递给事件处理程序的 Event 对象不是很有用。这些事件的处理程序激活时在 event 参数后都带有两个额外的参数。第一个额外参数是 XMLHttprequest 对象，第二个额外参数是 选项对象。
+由于 Ajax 事件是自定义事件，是由 jQuery 而不是浏览器产生的，因此传递给事件处理程序的 Event 对象不是很有用。这些事件的处理程序激活时在 event 参数后都带有两个额外的参数。第一个额外参数是 XMLHttpRequest 对象，第二个额外参数是 选项对象。
 
 ---
 
-# 选择器
+# jQuery 选择器和选取方法
+
+## jQuery 选择器
+在 CSS 选择器标准草案定义的选择器语法中，jQuery 支持相当完整的一套子集，同时还添加了一些非标准但很有用的伪类。
+
+选择器语法有三层结构。`#test` 选取 id 属性为 test 的元素，`blockquote` 选取文档中的所有 blockquote 元素，而 `div.note` 则选取所有 class 属性为 note 的 div 元素。简单选择器可以组成「组合选择器」，比如 `div.note>p` 和 `blockquote i`。
+
+### 简单选择器
+过滤器 | 含义
+--- | ---
+#id | 匹配 id 属性为 *id* 的元素
+.class | 匹配 class 属性
+[attr] | 匹配拥有 attr 属性（和值无关）的所有元素
+[attr=val] | 匹配拥有 attr 属性，且值为 val 的所有元素
+[attr!=val] | 匹配没有 attr 属性，或 attr 属性值不为 val 的所有元素
+[attr^=val] | 匹配 attr 属性值以 val 开头的元素
+[attr$=val] | 匹配 attr 属性值以 val 结尾的元素
+[attr*=val] | 匹配 attr 属性值含有 val 的元素
+[attr~=val] | 当其 attr 属性解释为一个由空格分隔的单词列表时，匹配其中包含单词 val 的元素
+[attr&#124;=val] | 匹配 attr 属性值以 val 开头且其后没有其它字符，或其它字符是以连字符开头的元素
+:animated | 匹配正在动画中的元素，该动画是由 jQuery 产生的
+:button | 匹配 `<button type="button">` 和 `<input type="button">` 元素
+:checkbox | 匹配 `<input type="checkbox">` 元素，当显示带有 input 标签前缀 "input:checkbox" 时，该过滤器效率更高
+:checked | 匹配选中的 input 元素
+:contains(text) | 匹配含有指定 text 文本的元素
+:disabled | 匹配禁用的元素
+:empty | 匹配没有子节点，没有文本内容的元素
+:enabled | 匹配没有禁用的元素
+:eq(n) | 匹配基于文档顺序，序号从 0 开始的选中列表中的第 n 个元素
+:even | 匹配列表中偶数序号的元素
+:file | 匹配 `<input type="file">` 元素
+:first | 匹配列表中的第一个元素，和 `eq(0)` 相同
+:first-child | 匹配的元素是其父节点的第一个子元素
+:gt(n) | 匹配基于文档顺序，序号从 0 开始的选中列表中序号大于 n 的元素
+:has(sel) | 匹配的元素拥有匹配内嵌选择器 sel 的子孙元素
+:header | 匹配所有头元素：`<h1>`、`<h2>`、`<h3>`、`<h4>`、`<h5>`、`<h6>`
+:hidden | 匹配所有在频幕上不可见的元素
+:imge | 匹配 `<input type="image">` 元素
+:input | 匹配用户输入元素：`<input>`、`<textarea>`、`<select>`、`<button>`
+:last | 匹配选中列表中的最后一个元素
+:last-child | 匹配的元素是其父节点的最后一个子元素
+:lt(n) | 匹配基于文档顺序，序号从 0 开始的选中列表中序号小于 n 的元素
+:nth(n) | 与 `:eq(n)` 相同
+:nth-child(n) | 匹配的父元素是其父节点的第 n 个子元素
+:odd | 匹配列表中的奇数·
+:only-child | 匹配那些是其父节点唯一子节点的元素
+:parent | 匹配是父节点的元素，与 `:empty` 相反
+:password | 匹配 `<input type="password">` 元素
+:radio | 匹配 `<input type="radio">` 元素
+:reset | 匹配 `<input type="reset">` 和 `<button type="reset">` 元素
+:selected | 匹配选中的 `<option>` 元素
+:submit | 匹配 `<input type="submit">` 和 `<button type="submit">` 元素
+:text | 匹配 `<input type="text">` 元素
+:visible | 匹配所有当前可见的元素
+
+通常来说，指定标签类型前缀，可以让过滤器运行得更高效。ID 过滤器是个例外，不添加标签前缀时，它会更高效。
+
+### 组合选择器
+使用特殊操作符或「组合符」可以将简单选择器组合起来，表达文档树中元素之间的关系。
+
+组合方式 | 含义
+--- | ---
+A B | 从匹配选择器 A 的元素的 **子孙元素** 中，选取匹配选择器 B 的文档元素
+A > B | 从匹配选择器 A 的元素的 **子元素** 中，选取匹配选择器 B 的文档元素
+A + B | 从匹配选择器 A 的元素的 **下一个兄弟元素** 中，选取匹配选择器 B 的文档元素
+A ~ B | 从匹配选择器 A 的元素后面的 **兄弟元素** 中，选取匹配选择器 B 的文档元素
+
+下面是组合选择器的一些例子：
+```javascript
+"blockquote i"          // 匹配 <blockquote> 里的 <i> 元素
+"ol > li"               // <li> 元素是 <ol> 的直接子元素
+"#output + *"           // id="output" 元素后面的兄弟元素
+"div.note > h1 + p"     // 紧跟 <h1> 的 <p> 元素，在 <div class="note"> 里面
+```
+
+### 选择器组
+传递给 `$()` 函数，或在样式表中使用的选择器就是选择器组，这是一个逗号分隔的列表，由一个或多个简单选择器或组合选择器构成。
+
+下面是选择器组的一些例子：
+```javascript
+"h1, h2, h3"            // 匹配 <h1>、<h2> 和 <h3> 元素
+"#p1 ,#p2, #p3"         // 匹配 id 为 p1、p2 或 p3 的元素
+"div.note, p.note"      // 匹配 class="note" 的 <div> 和 <p> 元素
+"body>p, div.note>p"    // <body> 和 <div class="note"> 的 <p> 子元素
+```
+
+## 选取方法
+
 待续
