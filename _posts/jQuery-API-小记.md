@@ -478,10 +478,10 @@ complete | ajaxComplete | ajaxComplete()
 ### 简单选择器
 过滤器 | 含义
 --- | ---
-#id | 匹配 id 属性为 *id* 的元素
-.class | 匹配 class 属性
+**#id** | 匹配 id 属性为 *id* 的元素
+**.class** | 匹配 class 属性
 [attr] | 匹配拥有 attr 属性（和值无关）的所有元素
-[attr=val] | 匹配拥有 attr 属性，且值为 val 的所有元素
+**[attr=val]** | 匹配拥有 attr 属性，且值为 val 的所有元素
 [attr!=val] | 匹配没有 attr 属性，或 attr 属性值不为 val 的所有元素
 [attr^=val] | 匹配 attr 属性值以 val 开头的元素
 [attr$=val] | 匹配 attr 属性值以 val 结尾的元素
@@ -493,35 +493,35 @@ complete | ajaxComplete | ajaxComplete()
 :checkbox | 匹配 `<input type="checkbox">` 元素，当显示带有 input 标签前缀 "input:checkbox" 时，该过滤器效率更高
 :checked | 匹配选中的 input 元素
 :contains(text) | 匹配含有指定 text 文本的元素
-:disabled | 匹配禁用的元素
-:empty | 匹配没有子节点，没有文本内容的元素
-:enabled | 匹配没有禁用的元素
-:eq(n) | 匹配基于文档顺序，序号从 0 开始的选中列表中的第 n 个元素
+**:disabled** | 匹配禁用的元素
+**:empty** | 匹配没有子节点，没有文本内容的元素
+**:enabled** | 匹配没有禁用的元素
+**:eq(n)** | 匹配基于文档顺序，序号从 0 开始的选中列表中的第 n 个元素
 :even | 匹配列表中偶数序号的元素
 :file | 匹配 `<input type="file">` 元素
-:first | 匹配列表中的第一个元素，和 `eq(0)` 相同
+**:first** | 匹配列表中的第一个元素，和 `eq(0)` 相同
 :first-child | 匹配的元素是其父节点的第一个子元素
-:gt(n) | 匹配基于文档顺序，序号从 0 开始的选中列表中序号大于 n 的元素
+**:gt(n)** | 匹配基于文档顺序，序号从 0 开始的选中列表中序号大于 n 的元素
 :has(sel) | 匹配的元素拥有匹配内嵌选择器 sel 的子孙元素
 :header | 匹配所有头元素：`<h1>`、`<h2>`、`<h3>`、`<h4>`、`<h5>`、`<h6>`
-:hidden | 匹配所有在频幕上不可见的元素
+**:hidden** | 匹配所有在频幕上不可见的元素
 :imge | 匹配 `<input type="image">` 元素
 :input | 匹配用户输入元素：`<input>`、`<textarea>`、`<select>`、`<button>`
-:last | 匹配选中列表中的最后一个元素
+**:last** | 匹配选中列表中的最后一个元素
 :last-child | 匹配的元素是其父节点的最后一个子元素
-:lt(n) | 匹配基于文档顺序，序号从 0 开始的选中列表中序号小于 n 的元素
+**:lt(n)** | 匹配基于文档顺序，序号从 0 开始的选中列表中序号小于 n 的元素
 :nth(n) | 与 `:eq(n)` 相同
 :nth-child(n) | 匹配的父元素是其父节点的第 n 个子元素
 :odd | 匹配列表中的奇数·
 :only-child | 匹配那些是其父节点唯一子节点的元素
-:parent | 匹配是父节点的元素，与 `:empty` 相反
+**:parent** | 匹配是父节点的元素，与 `:empty` 相反
 :password | 匹配 `<input type="password">` 元素
 :radio | 匹配 `<input type="radio">` 元素
 :reset | 匹配 `<input type="reset">` 和 `<button type="reset">` 元素
 :selected | 匹配选中的 `<option>` 元素
 :submit | 匹配 `<input type="submit">` 和 `<button type="submit">` 元素
 :text | 匹配 `<input type="text">` 元素
-:visible | 匹配所有当前可见的元素
+**:visible** | 匹配所有当前可见的元素
 
 通常来说，指定标签类型前缀，可以让过滤器运行得更高效。ID 过滤器是个例外，不添加标签前缀时，它会更高效。
 
@@ -530,7 +530,7 @@ complete | ajaxComplete | ajaxComplete()
 
 组合方式 | 含义
 --- | ---
-A B | 从匹配选择器 A 的元素的 **子孙元素** 中，选取匹配选择器 B 的文档元素
+A &nbsp;&nbsp; B | 从匹配选择器 A 的元素的 **子孙元素** 中，选取匹配选择器 B 的文档元素
 A > B | 从匹配选择器 A 的元素的 **子元素** 中，选取匹配选择器 B 的文档元素
 A + B | 从匹配选择器 A 的元素的 **下一个兄弟元素** 中，选取匹配选择器 B 的文档元素
 A ~ B | 从匹配选择器 A 的元素后面的 **兄弟元素** 中，选取匹配选择器 B 的文档元素
@@ -555,5 +555,62 @@ A ~ B | 从匹配选择器 A 的元素后面的 **兄弟元素** 中，选取匹
 ```
 
 ## 选取方法
+jQuery 还定义了一些选取方法，这些选取方法中的多数提供的功能与选择器语法的功能是一样的。
 
+提取选中选中元素最简单的方式是按位置提取。`first()` 返回的 jQuery 对象仅包含选中元素中的第一个，`last()` 返回的 jQuery 对象则只包含最后一个元素，`eq()` 返回的 jQuery 对象只包含指定序号的单个元素。这些方法返回的 jQuery 对象只含有一个元素。
+```javascript
+var paras = $('p');
+paras.first();  // 仅选取第一个 <p> 元素
+paras.last();   // 仅选取最后一个 <p> 元素
+paras.eq(1);    // 选取第二个 <p> 元素
+paras.eq(-2);   // 选取倒数第二个 <p> 元素
+paras[1];       // 第二个 <p> 元素自身
+```
+
+通过位置提取元素更通用的方法是 `slice()`。jQuery 的 `slice()` 方法与 `Array.slice()` 方法类似：接受开始和结束序号，返回的 jQuery 对象包含从开始（包含）到结束（不包含）序号的元素。
+```javascript
+$('p').slice(2, 5); // 选取第 3、4、5 个 <p> 元素
+$('div').slice(-3); // 选取最后 3 个 <div> 元素
+```
+
+### 将选中元素集用作上下文
+jQuery 定义了一些选取方法，可将当前选中元素作为上下文来使用。这些方法会使用该选中元素作为上下文或起始点，来得到新的选中元素，然后返回一个新的 jQuery 对象，包含所有新的选中元素的并集。
+
+`find()` 方法会在每一个当前选中元素的子孙元素中，寻找与指定选择器字符串匹配的元素，然后返回一个新的 jQuery 对象来代表所匹配的子孙元素集。`find()` 和 `filter()` 不同，`filter()` 不会选中新元素，只是简单地将当前选中的元素集进行缩减。
+```javascript
+$('div').find('p');  // 在 <div> 中查找 <p> 元素，与 $('div p') 相同
+```
+
+`children()` 方法返回每一个选中元素的直接子元素，可以用可选的选择器参数进行过滤。
+```javascript
+// 寻找 id 为 header 和 footer 元素的子节点元素中的所有 <span> 元素
+// 与 $('#header>span, #footer>span') 相同
+$('#header, #fotter').childern('span');
+```
+
+`contents()` 方法与 `children()` 方法类似，不同的是它会返回每一个元素的所有子节点，包括文本及节点。
+
+`next()` 和 `prev()` 方法返回每一个选中元素的下一个和上一个兄弟元素，如果传入了选择器字符串，会只选中匹配该选择器的兄弟元素。
+```javascript
+$('h1').next('p');  // 与 $('h1+p') 相同
+$('h1').prev();     // <h1> 元素前面的兄弟元素
+```
+
+`nextAll()` 和 `prevAll()` 方法返回每一个选中元素前面或后面的所有兄弟元素。`siblings()` 则返回每一个选中元素的所有兄弟元素。如果给这些方法传入选择器，则只会返回匹配的兄弟元素。
+```javascript
+$('#footer').nextAll('p');  // 紧跟 #footer 元素的所有 <p> 元素
+$('#footer').prevAll();     // #footer 元素前面的所有兄弟元素
+```
+
+`parent()` 方法返回每一个选中元素的父节点。
+```javascript
+$('li').parent();   // 列表元素的父节点，比如 <ul> 和 <ol> 元素
+```
+
+`parents()` 方法返回每一个选中元素的祖先节点，`parent()` 和 `parents()` 都接受一个可选的选择器字符串参数。
+```javascript
+$('a[href]').parents('p');  // 含有链接的 <p> 元素
+```
+
+### 恢复到之前的选中元素
 待续
