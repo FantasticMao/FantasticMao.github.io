@@ -571,6 +571,38 @@ $('p').slice(2, 5); // 选取第 3、4、5 个 <p> 元素
 $('div').slice(-3); // 选取最后 3 个 <div> 元素
 ```
 
+`filter()` 是通用的选区过滤方法，有 3 种调用方式：
+- 传递选择器字符串，`filter()` 会返回匹配该选择器字符串的新 jQuery 对象。
+- 传递另一个 jQuery 对象，`filter()` 会返回一个包含这两个对象交集的新 jQuery 对象。
+- 传递判断函数，`filter()` 会为每一个元素调用该判断函数，并返回包含所有函数执行结果为 true 的元素的新 jQuery 对象。
+
+```javascript
+$('div').filter('.note');           // 与 $('div.note') 一样
+$('div').filter($('.note'));        // 与 $('div.note') 一样
+$('div').filter(function (idx) {    // 与 $('div:even') 一样
+    return idx%2 == 0;
+});
+```
+
+`not()` 与 `filter()` 一样，除了含义与 `filter()` 相反。
+```javascript
+$('div').not('#header, #footer');   // 除了两个特殊元素之外的所有 <div> 元素
+```
+
+`has()` 如果传入选择器会返回一个新的 jQuery 对象，仅包含子孙元素中匹配该选择器的元素。
+```javascript
+$('p').has('a[href]');  // 包含链接的段落
+```
+
+`add()` 会扩充选区，而不是对其进行过滤或提取。
+```javascript
+$('div, p');                                    // 使用选择器组
+$('div').add('p')                               // 给 add() 传入选择器
+$('div').add($('p'))                            // 给 add() 传入 jQuery 对象
+var paras = document.getElementByTagName('p');  // 类数组对象
+$('div').add(paras);                            // 给 add() 传入元素数组
+```
+
 ### 将选中元素集用作上下文
 jQuery 还定义了一些选取方法，可将当前选中元素作为上下文来使用。这些方法会使用该选中元素作为上下文或起始点，来得到新的选中元素，然后返回一个包含新选中元素并集的 jQuery 对象。
 
@@ -610,5 +642,12 @@ $('li').parent();   // 列表元素的父节点，比如 <ul> 和 <ol> 元素
 $('a[href]').parents('p');  // 含有链接的 <p> 元素
 ```
 
-### 恢复到之前的选中元素
-待续
+### 恢复到之前的选中元素集
+为了实现方法的链式调用，很多 jQuery 对象的方法最后都会返回调用对象。虽然可以链式调用下去，但必须清楚地意识到，在链式调用后面所操作的元素集，可能已经不是该链式调用开始时的元素集了。
+
+---
+
+# 总结
+前端风云突变，jQuery 屹立不倒。即使是现在，在面对诸如 Vue.js、Angular.js 等 MVVM 框架的兴起，jQuery 库依然很流行。
+
+作为一名后端人员，熟练掌握 jQuery + template 是很有必要的。
