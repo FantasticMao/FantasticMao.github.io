@@ -25,7 +25,7 @@ jQuery(function () { // 文档加载完毕时调用
 });
 ```
 
-传递 CSS 选择器字符串给 `$()`，它返回的 jQuery 对象表示匹配该选择器的元素集。**jQuery 对象是类数组，它们拥有 length 属性和介于 0 - length - 1 之间的数值属性。这意味着可以使用标准的数组标识方括号来访问 jQuery 对象的内容。**如果不想把数组标识用在 jQuery 对象上，可以使用 `size()` 来替代 `length` 属性，用 `get()` 来替代方括号索引。可以使用 `toArray()` 将 jQuery 对象转化为真实数组。
+传递 CSS 选择器字符串给 `$()`，它返回的 jQuery 对象表示匹配该选择器的元素集。**jQuery 对象是类数组，它们拥有 length 属性和介于 0 - length - 1 之间的数值属性。这意味着可以使用标准的数组标识方括号来访问 jQuery 对象的内容。**如果不想把数组标识用在 jQuery 对象上，可以使用 `size()` 来替代 length 属性，用 `get()` 来替代方括号索引。可以使用 `toArray()` 将 jQuery 对象转化为真实数组。
 
 除了 length 属性，jQuery 对象还有其它三个属性：selector 属性是创建 jQuery 对象时的选择器字符串。context 属性是上下文对象，是传递给 `$()` 的第二个参数，如果没有的话，默认是 Document 对象。jquery 属性值是 jQuery 版本号。
 
@@ -205,7 +205,7 @@ select()    keypress()  mousemove()     unload()
 submit()    keyup()     mouseout()      error()
 ```
 
-focus 和 blur 事件不支持冒泡，但 focusin 和 focusout 事件支持。相反地，mouseover 和 mouseout 事件支持冒泡，但这经常不方便，因为很难知道鼠标是从自己感兴趣的元素中移开了，还只是从该元素的子孙元素中移开了。mouseenter 和 mouseleave 是非冒泡事件，可以解决刚才的问题。
+focus 和 blur 事件不支持冒泡，但 focusin 和 focusout 事件支持。相反地，mouseover 和 mouseout 事件支持冒泡，但 mouseenter 和 mouseleave 事件不支持。
 
 resize 和 unload 事件类型只在 Window 对象中触发，如果想要给这两个事件类型注册处理程序，应该在 `$(window)` 上调用 `resize()` 和 `unload()`。`scroll()` 经常也用与 `$(window)` 对象上，但它可以用在有滚动条的任何元素上，比如当 CSS 的 overflow 属性设置为 scroll 或 auto 时。`load()` 可在 `$(window)` 上调用，用来给窗口注册加载事件处理程序，但经常更好的选择是，直接将初始化函数传给 `$()`。当然，还可以在 iframe 和图片上使用 `load()` 。`error()` 可用在 `<img>` 元素上，用来注册当图片加载失败时调用的处理程序。
 
@@ -215,7 +215,7 @@ resize 和 unload 事件类型只在 Window 对象中触发，如果想要给这
 - `toggle()` 将事件处理程序绑定到单击事件。可以指定两个或多个处理程序函数，当单击事件发生时，jQuery 每次会调用一个处理程序函数。例如，如果调用 `toggle(f, g, h)`，第一次单击事件触发时，会调用函数 `f()`，第二次会调用 `g()`，第三次会调用 `h()`，然后第四次会再调用 `f()`。
 
 ## jQuery 事件处理程序
-上面例子中的事件处理程序函数被当作是不带参数以及不返回值的，但 jQuery 调用每一个事件处理程序时，实际上都传入了一个或多个参数，并且对处理程序的返回值进行了处理。**需要知道的最重要的一件事情是，每个事件处理程序都传入了一个 [jQuery 事件对象](#jQuery-事件对象) 作为第一个参数。**该对象的字段提供了与该事件相关的详细信息，比如鼠标指针的坐标。jQuery 模拟标准 Event 对象，即便在不支持的标准事件对象的浏览器中（像 IE8 及其以下），jQuery 事件对象在所有浏览器上拥有一组相同的字段。
+上面例子中的事件处理程序函数被当作是不带参数以及不返回值的，但 jQuery 调用每一个事件处理程序，实际上都传入了一个或多个参数，并且对处理程序的返回值进行了处理。**需要知道的最重要的一件事情是，每个事件处理程序都传入了一个 [jQuery 事件对象](#jQuery-事件对象) 作为第一个参数。**该对象的字段提供了与该事件相关的详细信息，比如鼠标指针的坐标。jQuery 模拟标准 Event 对象，即便在不支持的标准事件对象的浏览器中（像 IE8 及其以下），jQuery 事件对象在所有浏览器上都拥有一组相同的字段。
 
 jQuery 事件处理程序函数的返回值始终是有意义的。如果处理程序返回 false，则与该事件相关联的默认行为，以及该事件接下来的冒泡都会被取消。也就是说，返回 false 等同于调用 Event 对象的 `preventDefault()` 和 `stopPropagation()`。同样，当事件处理程序返回一个值（非 undefined 值）时，jQuery 会将该值存储在 Event 对象的 result 属性中，该属性可以被后续调用的事件处理程序访问。
 
@@ -460,7 +460,7 @@ complete | ajaxComplete | ajaxComplete()
  | ajaxStart | ajaxStart()
  | ajaxStop | ajaxStop()
 
-可以使用 `bind()` 和上表第二列中的事件类型字符串来注册这些自定义 Ajax 事件，也可以使用第三列中的事件注册方法来注册。
+可以使用 `bind()` 或上表第二列中的事件类型字符串来注册这些自定义 Ajax 事件，也可以使用第三列中的事件注册方法来注册。
 
 由于 Ajax 事件是自定义事件，是由 jQuery 而不是浏览器产生的，因此传递给事件处理程序的 Event 对象不是很有用。这些事件的处理程序激活时在 event 参数后都带有两个额外的参数。第一个额外参数是 XMLHttpRequest 对象，第二个额外参数是 选项对象。
 
