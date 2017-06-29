@@ -25,11 +25,11 @@ jQuery(function () { // 文档加载完毕时调用
 });
 ```
 
-传递 CSS 选择器字符串给 `$()`，它返回的 jQuery 对象表示匹配该选择器的元素集。**jQuery 对象是类数组，它们拥有 `length` 属性和介于 0 - length - 1 之间的数值属性。这意味着可以使用标准的数组标识方括号来访问 jQuery 对象的内容。**如果不想把数组标识用在 jQuery 对象上，可以使用 `size()` 来替代 `length` 属性，用 `get()` 来替代方括号索引。可以使用 `toArray()` 将 jQuery 对象转化为真实数组。
+传递 CSS 选择器字符串给 `$()`，它返回的 jQuery 对象表示匹配该选择器的元素集。**jQuery 对象是类数组，它们拥有 length 属性和介于 0 - length - 1 之间的数值属性。这意味着可以使用标准的数组标识方括号来访问 jQuery 对象的内容。**如果不想把数组标识用在 jQuery 对象上，可以使用 `size()` 来替代 `length` 属性，用 `get()` 来替代方括号索引。可以使用 `toArray()` 将 jQuery 对象转化为真实数组。
 
-除了 `length` 属性，jQuery 对象还有其它三个属性：`selector` 属性是创建 jQuery 对象时的选择器字符串。`context` 属性是上下文对象，是传递给 `$()` 的第二个参数，如果没有的话，默认是 Document 对象。`jquery` 属性值是 jQuery 版本号。
+除了 length 属性，jQuery 对象还有其它三个属性：selector 属性是创建 jQuery 对象时的选择器字符串。context 属性是上下文对象，是传递给 `$()` 的第二个参数，如果没有的话，默认是 Document 对象。jquery 属性值是 jQuery 版本号。
 
-可以使用 `each(`) 方法来代替 for 循环遍历 jQuery 对象中的所有元素。`each()` 还会将索引值和该元素作为第一个和第二个参数传递给回调函数。**与 `forEach()` 不同，`each()` 中，如果回调函数在任一个元素上返回 false，遍历将在该元素后中止。**jQuery 方法通常隐式遍历匹配的元素，并操作它们。
+可以使用 `each()` 方法来代替 for 循环遍历 jQuery 对象中的所有元素。`each()` 还会将索引值和该元素作为第一个和第二个参数传递给回调函数。**与 `forEach()` 不同，`each()` 中，如果回调函数在任一个元素上返回 false，遍历将在该元素后中止。**jQuery 方法通常隐式遍历匹配的元素，并操作它们。
 
 jQuery 的 `map()` 和 `Array.prototype.map()` 相近。它将接收回调函数作为参数，并为 jQuery 对象中的每一个元素都调用回调函数，同时将回调函数的返回值收集起来，并封装成一个新的 jQuery 对象返回。`map()` 调用回调函数的方式和 `each()` 相同：元素的索引值作为第一个参数，元素本身作为 this 和第二个参数。
 
@@ -95,7 +95,7 @@ $('section').addClass(function (n) { // 传递一个函数用以匹配
 // 删除 CSS 类
 $('p').removeClass('hilite'); // 从所有 <p> 元素中删除一个类
 $('p').removeClass('hilite first'); // 允许一次删除多个类
-$('section ').removeClass(function (n) { // 从元素中删除自定义类
+$('section').removeClass(function (n) { // 从元素中删除自定义类
     return 'section' + n;
 });
 $('div').removeClass(); // 删除所有 <div> 中的所有类
