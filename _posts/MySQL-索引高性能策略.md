@@ -120,6 +120,7 @@ SELECT ... WHERE TO_DAYS(CURRENT_DATE) - TO_DAYS(date_col) <= 10;
 
 ## 前缀索引和索引选择性
 
+
 ## 多列索引
 
 ## 选择合适的索引列顺序

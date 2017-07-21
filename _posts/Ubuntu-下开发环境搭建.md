@@ -21,7 +21,7 @@ tags:
 
 *Vim*：执行 `sudo apt-get install vim`。
 
-*Shadowsocks*：执行 `sudo apt-get install shadowscoks`。安装成功之后，[配置 shadowsocks](/2016/12/05/Ubuntu-下-Shadowsocks-配置/)。
+*Shadowsocks*：执行 `sudo apt-get install shadowscoks`。安装成功之后，[配置 Shadowsocks](/2016/12/05/Ubuntu-下-Shadowsocks-配置/)。
 
 *NodeJS*：执行 `sudo apt-get install nodejs nodejs-legacy`。
 
