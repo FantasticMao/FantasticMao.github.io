@@ -648,6 +648,4 @@ $('a[href]').parents('p');  // 含有链接的 <p> 元素
 ---
 
 # 总结
-前端风云突变，jQuery 屹立不倒。即使是现在，在面对诸如 Vue.js、Angular.js 等 MVVM 框架的兴起，jQuery 库依然很流行。
-
-作为一名后端人员，熟练掌握 jQuery + template 是很有必要的。
+即使是现在，面对诸如 Vue.js、Angular.js 等 MVVM 框架的兴起，jQuery 库依然很流行。可见掌握 jQuery 的使用对于一名 Web 开发人员的重要性。
