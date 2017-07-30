@@ -154,7 +154,7 @@ SELECT * FROM payment WHERE staff_id = 2 AND customer_id = 584;
 ```sql
 SELECT SUM(staff_id = 2), SUM(costomer_id = 584) FROM payment\G
 ************************* 1. row *************************
-SUM(staff_id = 2): 7992
+     SUM(staff_id = 2): 7992
 SUM(customer_id = 584): 30;
 ```
 
@@ -173,9 +173,9 @@ COUNT(DISTINCT customer_id) / COUNT(*) AS customer_id_selectivity,
 COUNT(*)
 FROM payment\G
 ************************* 1. row *************************
-staff_id_selectivity: 0.0001
+   staff_id_selectivity: 0.0001
 customer_id_selectivity: 0.0373
-COUNT(*): 16049
+               COUNT(*): 16049
 ```
 
 终究，我们还是应该选择将 customer_id 作为索引列的第一位。:)
@@ -190,11 +190,51 @@ COUNT(*): 16049
 ## 使用索引扫描来做排序
 MySQL 有两种方式可以生成有序的结果：通过排序操作、通过索引顺序扫描。当 EXPLAIN 的 type 列值为「index」时，则说明了 MySQL 使用了索引扫描来做排序。
 
+MySQL 可以使用同一个索引即满足查询，又满足排序，但当只有索引列的顺序和 `ORDER BY` 子句完全一致，并且所有列的排序方向都一致时，MySQL 才能够使用索引来对结果进行排序。
+
+`ORDER BY` 子句和查询语句的限制是一样的：需要满足索引的最左前缀要求。但当 `ORDER BY` 子句中前导列的值为常量时，即 WHERE 或 JOIN 子句中指定了索引列的前几项值为常量，那么就可以弥补上述限制条件的不足。下面举一个列子：
+```sql
+CREATE TABLE rental (
+  ...
+  PRIMARY KEY rental_id,
+  UNIQUE KEY rental_date (rental_date, inventory_id, customer_id),
+  KEY idx_fk_inventory_id (staff_id),
+  KEY idx_fk_customer_id (staff_id),
+  KEY idx_fk_staff_id (staff_id)
+  ...
+)
+```
+
+示例数据表 rental 在列 rental_date, inventory_id, customer_id 上有名为 rental_date 的索引。MySQL 可以使用 rental_date 索引为下面的查询做排序：
+```sql
+SELECT rental_id, staff_id
+FROM rental
+WHERE rental_date = '2005-05-25'
+ORDER BY inventory_id, customer_id\G
+************************* 1. row *************************
+         type: ref
+possible_keys: rental_date
+          key: rental_date
+         rows: 1
+        Extra: Using where
+```
+
+由于索引 `rental_date (rental_date, inventory_id, customer_id)` 的第一列 `rental_date` 在 WHERE 子句中被指定为常量 `2005-05-25`，所以即使 `ORDER BY` 子句不满足索引的最左前缀要求，MySQL 也可以使用其来做排序操作。
+
 ## 压缩（前缀压缩）索引
+MyISAM 使用前缀压缩来减少索引的大小，从而让更多的索引可以放入内存，提高查询的性能。但压缩块使用了更少的空间，可能会导致某些操作变得更慢。因为每个值的压缩前缀都依赖于前面的值，所以 MyIASM 查找时无法在索引块上使用二分查找，而只能从头开始扫描（就像链表）。
 
 ## 冗余和重复索引
+MySQL 允许在相同列上创建多个索引，但这会导致服务器需要单独维护多个重复的索引，并且优化器在优化查询的时候也需要逐个进行处理。
+
+重复索引是指在相同的列上按照相同的顺序创建相同类型的索引，冗余索引和重复索引则有一些不同，举个例子：如果创建了索引 (A, B)，再创建索引 (A) 就是冗余索引，但如果再创建索引 (B, A) 或索引 (B) 则不是冗余索引。
+
+大多数情况下都不需要冗余索引，应该尽量扩展已有的索引而不是创建新索引。但也有时候出于性能方面的考虑，需要创建冗余索引。因为扩展已有的索引会导致其变得很大，从而影响其它使用该索引的查询性能。
+
+有多个索引的缺点是索引的成本很高。测试表明，当表中的数据越多，向持有索引的表中插入数据就会越慢。**一般来说，新增索引将会导致 INSERT、UPDATE、DELETE 等操作的速度变慢，特别是当新增索引后达到了服务器内存瓶颈的时候。**
 
 ## 未使用的索引
+有两个工具可以帮助定位未使用的索引。最简单有效的办法是在 Percona Server 或者 MariaDB 中先打开 userstates 服务器变量（默认是关闭的），然后让服务器正常运行一段时间，再通过查询 INFORMATION_SCHEMA.INDEX_STATISTICS 就能查到每个索引的使用频率。另外，还可以使用 Percona Toolkit 中的 pt-index-usage，该工具可以读取查询日志，并对日志中的每条查询进行 EXPLAIN 操作，然后打印出关于索引和查询的报告。
 
 ## 索引和锁
 
