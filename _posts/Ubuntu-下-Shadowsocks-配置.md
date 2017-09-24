@@ -10,7 +10,7 @@ tags:
 Ubuntu 操作系统下的 Shadowsocks 配置，翻越防火长城，科学上网。<!-- more -->
 
 # 简介 Shadowsocks
-Shadowsocks 中文名影梭，是一个使用 socks5 协议的开源代理工具，分为服务端和客户端，访问墙外网络稳定且迅速。原作者 [clowwindy](https://github.com/clowwindy) 因在 2015 年 8 月受到某政府要求无奈停止维护并删除了项目代码，事件 [传送门](https://web.archive.org/web/20150822042959/https://github.com/shadowsocks/shadowsocks-iOS/issues/124#issuecomment-133630294)。现在 Shadowsocks 由 Github 上的 [Shadowsocks 组织](https://github.com/shadowsocks) 维护，向无私且伟大的开源奉献者们致敬。
+Shadowsocks 中文名影梭，是一个使用 socks5 协议的开源代理工具，访问墙外网络稳定且迅速。原作者 [clowwindy](https://github.com/clowwindy) 因在 2015 年 8 月受到某政府要求无奈停止维护并删除了项目代码，事件 [传送门](https://web.archive.org/web/20150822042959/https://github.com/shadowsocks/shadowsocks-iOS/issues/124#issuecomment-133630294)。现在 Shadowsocks 由 Github 上的 [Shadowsocks 组织](https://github.com/shadowsocks) 维护，向无私且伟大的开源奉献者们致敬。
 
 # 获取 Shadowsocks 配置
 获取 Shadowsocks 配置的渠道有很多，可以自己搭建海外 Shadowsocks 服务器，也可以依靠搜索引擎获取。个人是在某一站点（站长要求保密）购买 Shadowsocks 配置，服务稳定，速度很快。

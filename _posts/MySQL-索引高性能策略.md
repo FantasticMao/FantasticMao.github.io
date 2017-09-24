@@ -238,14 +238,9 @@ MySQL 允许在相同列上创建多个索引，但这会导致服务器需要�
 有两个工具可以帮助定位未使用的索引。最简单有效的办法是在 Percona Server 或者 MariaDB 中，先打开 userstates 服务器变量（默认是关闭的），然后让服务器正常运行一段时间，再通过查询 INFORMATION_SCHEMA.INDEX_STATISTICS 就能查到每个索引的使用频率。另外，还可以使用 Percona Toolkit 中的 pt-index-usage，该工具可以读取查询日志，并对日志中的每条查询进行 EXPLAIN 操作，然后打印出关于索引和查询的报告。
 
 ## 索引和锁
+待续
 
 ---
 
 # 总结
-<!--
-B+Tree数据结构
-InnoDB、MyISAM的B+Tree实现
-MySQL使用索引
-索引的选择性和索引前缀
-主键auto_increment
--->
+待续
