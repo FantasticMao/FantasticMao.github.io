@@ -39,12 +39,12 @@ HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对�
 
 使用 HTTP 协议，每当有新的请求发送时，就会有对应的新的响应产生。协议本身并不保存之前的一切请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
 
-可是随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 [Cookie](https://zh.wikipedia.org/wiki/Cookie) 技术。
+可是随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 [Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术。
 
 Cookie 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 Set-Cookie 的首部字段信息，通知客户端保存 Cookie 值。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务器上的记录，最后得到请求之前的状态信息。
 
 ## HTTP 持久连接
-在 HTTP 协议的初始版本中，每进行一次 HTTP 通信就要建立和断开一次 TCP 连接。这样频繁地建立和断开无谓的 TCP 连接，会增加网络通信的开销。于是，HTTP 1.1 版本提出了 [HTTP 持久连接](https://zh.wikipedia.org/wiki/HTTP持久连接)（HTTP persistent connection，也称作 HTTP keep-alive 或 HTTP connection reuse），它可以解决上述 TCP 连接的问题。HTTP 持久连接是使用同一个 TCP 连接来发送和接收多个 HTTP 请求／响应，而不是为每一个新的请求／响应打开新的 TCP 连接。
+在 HTTP 协议的初始版本中，每进行一次 HTTP 通信就要建立和断开一次 TCP 连接。这样频繁地建立和断开无谓的 TCP 连接，会增加网络通信的开销。于是，HTTP 1.1 版本提出了 [HTTP 持久连接](https://en.wikipedia.org/wiki/HTTP_persistent_connection)（HTTP persistent connection，也称作 HTTP keep-alive 或 HTTP connection reuse），它可以解决上述 TCP 连接的问题。HTTP 持久连接是使用同一个 TCP 连接来发送和接收多个 HTTP 请求／响应，而不是为每一个新的请求／响应打开新的 TCP 连接。
 
 在 HTTP 1.0 版本中，没有官方的 keep-alive 操作。为了实现持久连接，通常的操作是在现有版本的协议上添加一个标记。比如，如果浏览器支持的话，它会在请求头中添加 `Connection: Keep-Alive`，然后当服务端接收到请求，作出响应的时候，它也会在响应头中添加 `Connection: Keep-Alive`。这样做，HTTP 请求就不会中断 TCP 连接，而是保持连接。当客户端发送另一个 HTTP 请求时，它会使用同一个 TCP 连接。这种情况会一直持续到客户端或服务端的任意一方，在明确提出断开连接之后终止。
 
@@ -57,14 +57,16 @@ Wireshark 抓包示意图：
 ![images]()
 
 ## HTTP 管线化
-HTTP 持久连接使多个请求以管线化的方式发送成为可能。[HTTP 管线化](https://zh.wikipedia.org/wiki/HTTP管线化)（HTTP pipelining）可以在单个 TCP 连接上并行发送多个 HTTP 请求，且不需要在发送过程中等待服务端的响应。
+HTTP 持久连接使多个请求以管线化的方式发送成为可能。[HTTP 管线化](https://en.wikipedia.org/wiki/HTTP_pipelining)（HTTP pipelining）可以在单个 TCP 连接上并行发送多个 HTTP 请求，且不需要在发送过程中等待服务端的响应。管线化机制可以提升动态加载 HTML 页面的速度，特别是在高延迟的网络环境下，如连接卫星的网络环境。但对于正常宽带连接的网络环境，提升效果却不是很明显。因为对于客户端并行发送的网路请求，服务端还是需要以相同的顺序响应，这就有可能造成了 HOL blocking（Head-of-line blocking，队头阻塞）。
 
-HTTP 管线化机制必须通过 HTTP 持久连接才能实现，并且只有 GET 和 HEAD 请求才可以进行管线化，非幂等性的方法请求不会被管线化。
+非幂等性的请求，如 POST 请求，不应该被管线化。GET 和 HEAD 请求在任何情况下都可以被管线化。其它幂等性的请求，如 PUT 和 DELETE 请求，取决于当前请求是否依赖其它请求，来决定其是否可以被管线化。
+
+HTTP 管线化需要客户端和服务端的同时支持。虽然使用 HTTP 1.1 协议可以确认服务端是支持管线化机制的，但这并不意味着服务端必须返回管线化的响应。如果客户端选择了非管线化的请求，服务端则会正常返回非管线化的响应。
 
 使用非管线化和管线化的对比图（图片来源自维基百科）：
 ![images](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/640px-HTTP_pipelining2.svg.png)
 
-PS：HTTP 持久连接和 HTTP 管线化会使客户端难以确认服务端返回的响应的先后顺序。为了解决这个问题，HTTP 1.1 版本中引入了分块传输编码。它定义了一个 `last-chunk` 比特位，可以用来设置每一个响应的结束标识，客户端也因此可以得知下一个响应的开始。
+PS：HTTP 持久连接和 HTTP 管线化会使客户端难以确认服务端返回的响应的先后顺序。为了解决这个问题，HTTP 1.1 版本中引入了分块传输编码。它定义了一个 `last-chunk` 比特位，可以用来设置每一个响应的结束标识，客户端也因此可以得知下一个响应的开始。并且在未来 HTTP 2 和 SPDY 协议中的引入的异步请求，也可以解决上述问题。
 
 ## HTTP 压缩
 HTTP 在传输数据时可以按照数据原貌直接传输，也可以在传输过程中通过编码提升传输速率。[HTTP 压缩](https://zh.wikipedia.org/wiki/HTTP压缩) 可以在传输实体时编码内容，从而使应用能有效地处理大量的访问请求。
