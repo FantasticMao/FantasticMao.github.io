@@ -34,14 +34,19 @@ URL：Uniform Resource Locator，统一资源定位符
 - TRACE 追踪路径
 - CONNECT 要求用 SSL/TLS 协议连接代理
 
+## HTTP 状态码
+
+## HTTP MIME
+
+## HTTP 内容协商
+https://zh.wikipedia.org/wiki/内容协商
+
 ## HTTP 无状态性和 Cookie
-HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯中对于发送的任何请求或响应都不会做持久化处理。
+HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯中对于发送的任何请求或响应都不会做持久化处理。使用 HTTP 协议，每当有新的请求发送时，就会有对应的新的响应产生。协议本身并不保存之前的一切请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
 
-使用 HTTP 协议，每当有新的请求发送时，就会有对应的新的响应产生。协议本身并不保存之前的一切请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
+随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 [Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术。
 
-可是随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 [Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术。
-
-Cookie 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 Set-Cookie 的首部字段信息，通知客户端保存 Cookie 值。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务器上的记录，最后得到请求之前的状态信息。
+Cookie 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务器上的记录，最后得到请求之前的状态信息。
 
 ## HTTP 持久连接
 在 HTTP 协议的初始版本中，每进行一次 HTTP 通信就要建立和断开一次 TCP 连接。这样频繁地建立和断开无谓的 TCP 连接，会增加网络通信的开销。于是，HTTP 1.1 版本提出了 [HTTP 持久连接](https://en.wikipedia.org/wiki/HTTP_persistent_connection)（HTTP persistent connection，也称作 HTTP keep-alive 或 HTTP connection reuse），它可以解决上述 TCP 连接的问题。HTTP 持久连接是使用同一个 TCP 连接来发送和接收多个 HTTP 请求／响应，而不是为每一个新的请求／响应打开新的 TCP 连接。
@@ -66,15 +71,34 @@ HTTP 管线化需要客户端和服务端的同时支持。虽然使用 HTTP 1.1
 使用非管线化和管线化的对比图（图片来源自维基百科）：
 ![images](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/640px-HTTP_pipelining2.svg.png)
 
-PS：HTTP 持久连接和 HTTP 管线化会使客户端难以确认服务端返回的响应的先后顺序。为了解决这个问题，HTTP 1.1 版本中引入了分块传输编码。它定义了一个 `last-chunk` 比特位，可以用来设置每一个响应的结束标识，客户端也因此可以得知下一个响应的开始。并且在未来 HTTP 2 和 SPDY 协议中的引入的异步请求，也可以解决上述问题。
+PS：在理想情况下，HTTP 响应报文是作为整包且有序地发送给客户端的，并且服务端会在响应报文中使用 `Content-Length` 首部字段标志响应实体的长度，因此客户端可以依据 `Content-Length` 值来计算当前响应实体的结束和下一个响应实体的开始。而使用 HTTP 持久连接和 HTTP 管线化，则会使客户端难以确认服务端返回的响应的先后顺序，以至于 `Content-Length` 无法被正常使用。为了解决这个问题，HTTP 1.1 版本引入了 [分块传输编码](#HTTP-分块传输编码)。它定义了一个 `last-chunk` 比特位，可以用来设置每一个响应的结束标识，客户端也由此可以得知每一个响应实体的结束状态了。
 
 ## HTTP 压缩
-HTTP 在传输数据时可以按照数据原貌直接传输，也可以在传输过程中通过编码提升传输速率。[HTTP 压缩](https://zh.wikipedia.org/wiki/HTTP压缩) 可以在传输实体时编码内容，从而使应用能有效地处理大量的访问请求。
+[HTTP 压缩](https://en.wikipedia.org/wiki/HTTP_compression)（HTTP compression） 是一种在客户端和服务端之间使用压缩内容传输的数据传输机制，它可以充分利用带宽，提升网络传输速率。
+
+客户端在发送请求时，通过在请求头中添加 `Accept-Encoding` 字段，告知服务端其所支持的压缩方式。服务端在响应请求时，通过在响应头中添加 `Content-Encoding` 或 `Transfer-Encoding` 字段，告知客户端其所使用的压缩方式。常见的压缩方式，举例如下：
+- gzip：基于 GNU zip 的压缩方式；
+- deflate：基于 deflate 算法的压缩方式；
+- compress：基于 UNIX compress 的压缩方式（不推荐大多数应用使用）；
+- identity：默认值，不压缩内容；
+- and so on ......
+
+## HTTP 分块传输编码
+[HTTP 分块传输编码](https://en.wikipedia.org/wiki/Chunked_transfer_encoding)（Chunked transfer encoding）是一种允许服务端将响应的数据分块传输给客户端的数据传输机制。在分块传输编码中，数据流被分成一系列不重叠的「数据块」，以字节为单位被发送，且彼此独立地被客户端接收。
+
+在一次 HTTP 响应的报文中，通过使用 `Transfer-Encoding:chunked` 指示当前响应是分块传输编码的，并以传输一个 0 字节的「数据块」为结束标识。
 
 Wireshark 抓包示意图：
 ![images]()
 
-## HTTP 内容协商
-https://zh.wikipedia.org/wiki/内容协商
+## HTTP 缓存
 
-HTTPS
+## HTTP 缺陷
+HTTP 协议的主要不足之处，举例如下：
+- 通信使用明文，内容可能会被窃听；
+- 不验证通信方的身份，因此有可能遭遇伪装；
+- 无法证明报文的完整性，所以有可能遭遇篡改。
+
+## HTTPS
+
+## HTTP 2.0
