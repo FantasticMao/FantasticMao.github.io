@@ -3,50 +3,42 @@ title: HTTP 必知必会
 date: 2017-12-15 22:36:26
 categories: 编程
 tags:
+- 网络基础
 - HTTP
 ---
 摘自《图解 HTTP》，并参考自维基百科。<!-- more -->
 
-## HTTP 协议用于客户端和服务端之间的通信
 HTTP 协议和 TCP/IP 协议族内的其它众多协议相同，用于客户端和服务端之间的通信。请求访问文本或图像资源的一端被称为客户端，而提供资源响应的一端被称为服务端。在两台计算机之间使用 HTTP 协议通信时，在一条通信线路上必定有一端是客户端，另一端是服务端。
 
 HTTP 协议规定，请求从客户端先发出，最后服务端响应该请求并返回。换句话说，肯定是先从客户端开始建立通信的，服务端在没有接收到请求之前不会发送响应。
 
-## URI 和 URL
-https://zh.wikipedia.org/wiki/统一资源定位符
+# 协议概述
 
-https://zh.wikipedia.org/wiki/统一资源标志符
-
-URI：Uniform Resource Identifier，统一资源标识符
-
-URL：Uniform Resource Locator，统一资源定位符
+## 发展历史
 
 ## HTTP 报文
-略
 
-## HTTP 方法
-- GET 获取资源
-- POST 传输实体主体
-- PUT 传输文件
-- DELETE 删除文件
-- HEAD 获得报文首部
-- OPTIONS 询问支持的方法
-- TRACE 追踪路径
-- CONNECT 要求用 SSL/TLS 协议连接代理
+### 报文结构
 
-## HTTP 状态码
+### 首部字段
 
-## HTTP MIME
+### 请求方法
+
+### 响应状态码
+
+### MIME Type
+
+# 实现机制
+
+## 无状态性和 Cookie
+HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯中对于发送的任何请求或响应都不会做持久化处理。使用 HTTP 协议，每当有新的请求发送时，就会有对应的新的响应产生。协议本身并不保存之前的一切请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
+
+随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 Cookie 技术。
+
+[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务器上的记录，最后得到请求之前的状态信息。
 
 ## HTTP 内容协商
 https://zh.wikipedia.org/wiki/内容协商
-
-## HTTP 无状态性和 Cookie
-HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯中对于发送的任何请求或响应都不会做持久化处理。使用 HTTP 协议，每当有新的请求发送时，就会有对应的新的响应产生。协议本身并不保存之前的一切请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
-
-随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 [Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术。
-
-Cookie 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务器上的记录，最后得到请求之前的状态信息。
 
 ## HTTP 持久连接
 在 HTTP 协议的初始版本中，每进行一次 HTTP 通信就要建立和断开一次 TCP 连接。这样频繁地建立和断开无谓的 TCP 连接，会增加网络通信的开销。于是，HTTP 1.1 版本提出了 [HTTP 持久连接](https://en.wikipedia.org/wiki/HTTP_persistent_connection)（HTTP persistent connection，也称作 HTTP keep-alive 或 HTTP connection reuse），它可以解决上述 TCP 连接的问题。HTTP 持久连接是使用同一个 TCP 连接来发送和接收多个 HTTP 请求／响应，而不是为每一个新的请求／响应打开新的 TCP 连接。
@@ -93,12 +85,33 @@ Wireshark 抓包示意图：
 
 ## HTTP 缓存
 
-## HTTP 缺陷
+### 缓存控制
+`Cache-Control` 是一个在 HTTP 1.1 版本中定义的通用的首部字段，用于制定 HTTP 缓存策略，取代了之前版本中用来定义缓存策略的首部字段，如 `Pragma`、`Expires`，所有的现代浏览器都支持 `Cache-Control`。
+
+### 缓存校验
+
+[浅谈浏览器http的缓存机制](http://www.cnblogs.com/vajoy/p/5341664.html)
+
+[What's the difference between Cache-Control: max-age=0 and no-cache?](https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache/1383359#1383359)
+
+# 安全问题
 HTTP 协议的主要不足之处，举例如下：
 - 通信使用明文，内容可能会被窃听；
 - 不验证通信方的身份，因此有可能遭遇伪装；
 - 无法证明报文的完整性，所以有可能遭遇篡改。
 
+## 被窃听
+
+## 被伪装
+
+## 被篡改
+
+# 其它要点
+
 ## HTTPS
 
-## HTTP 2.0
+## HTTP2
+
+## REST
+
+## WebSocket
