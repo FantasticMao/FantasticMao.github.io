@@ -1,8 +1,9 @@
 ---
 title: MySQL 数据类型优化
 date: 2017-01-25 12:20:03
-categories: 编程
-tags: MySQL
+categories: 数据库
+tags: 
+- MySQL
 ---
 摘自《高性能 MySQL》第 4 章 Schema 与数据类型优化。<!-- more -->
 

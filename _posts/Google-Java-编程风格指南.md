@@ -3,10 +3,9 @@ title: Google Java 编程风格指南
 date: 2016-12-08 23:04:45
 updated: 2017-10-01 21:20:00
 comments: false
-categories: 编程
+categories: 编程语言
 tags: 
 - Java
-- Google
 ---
 转载并翻译自 [https://google.github.io/styleguide/javaguide.html](https://google.github.io/styleguide/javaguide.html)。个人英语水平有限，应以原文档为标准。<!-- more -->
 

@@ -1,7 +1,7 @@
 ---
 title: Ubuntu 下开发环境搭建
 date: 2017-02-27 20:14:35
-categories: 编程
+categories: 操作系统
 tags: 
 - Linux
 - Ubuntu

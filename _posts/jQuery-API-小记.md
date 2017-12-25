@@ -1,7 +1,7 @@
 ---
 title: jQuery API 小记
 date: 2017-04-21 15:44:01
-categories: 编程
+categories: 编程语言
 tags:
 - JavaScript
 - jQuery

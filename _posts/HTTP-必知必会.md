@@ -1,9 +1,8 @@
 ---
 title: HTTP 必知必会
 date: 2017-12-15 22:36:26
-categories: 编程
+categories: 网络基础
 tags:
-- 网络基础
 - HTTP
 ---
 摘自《图解 HTTP》，并参考自维基百科。<!-- more -->
