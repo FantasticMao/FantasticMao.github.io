@@ -27,6 +27,8 @@ HTTP 协议规定，请求从客户端先发出，最后服务端响应该请求
 
 ### MIME Type
 
+---
+
 # 实现机制
 
 ## 无状态性和 Cookie
@@ -93,6 +95,8 @@ Wireshark 抓包示意图：
 
 [What's the difference between Cache-Control: max-age=0 and no-cache?](https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache/1383359#1383359)
 
+---
+
 # 安全问题
 HTTP 协议的主要不足之处，举例如下：
 - 通信使用明文，内容可能会被窃听；
@@ -104,6 +108,8 @@ HTTP 协议的主要不足之处，举例如下：
 ## 被伪装
 
 ## 被篡改
+
+---
 
 # 其它要点
 

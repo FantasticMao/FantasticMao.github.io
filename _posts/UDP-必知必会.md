@@ -20,6 +20,8 @@ UDP 只在 IP 的数据服务之上增加了很少的一点功能，其主要特
 5. UDP 支持一对一、一对多、多对一和多对多的网络通信；
 6. UDP 首部只占 8 个字节，相比于占 20 字节的 TCP 开销很小。
 
+---
+
 # 报文结构
 报文格式：
 ![iamges](http://ogvr8n3tg.bkt.clouddn.com/UDP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/1.png)
