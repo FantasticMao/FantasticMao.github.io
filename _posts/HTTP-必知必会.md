@@ -7,6 +7,8 @@ tags:
 ---
 摘自《图解 HTTP》，并参考自维基百科。<!-- more -->
 
+![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/1.png)
+
 HTTP 协议和 TCP/IP 协议族内的其它众多协议相同，用于客户端和服务端之间的通信。请求访问文本或图像资源的一端被称为客户端，而提供资源响应的一端被称为服务端。在两台计算机之间使用 HTTP 协议通信时，在一条通信线路上必定有一端是客户端，另一端是服务端。
 
 HTTP 协议规定，请求从客户端先发出，最后服务端响应该请求并返回。换句话说，肯定是先从客户端开始建立通信的，服务端在没有接收到请求之前不会发送响应。
@@ -39,7 +41,16 @@ HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对�
 [Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务器上的记录，最后得到请求之前的状态信息。
 
 ## HTTP 内容协商
-https://zh.wikipedia.org/wiki/内容协商
+一个 [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) 可能对应多种不同表现形式的资源，例如不同的语言、不同的媒体类型等等。[HTTP 内容协商](https://en.wikipedia.org/wiki/Content_negotiation)（HTTP content negotiation）可以对同一个 URI 提供多个不同版本的资源，以便客户端能指定和获取最适合它们版本的资源。HTTP 协议提供了以下几种不同的内容协商机制：server-driven、agent-driven、transparent、其它混合的组合。
+
+server-driven 服务端驱动（或称主动）内容协商是根据在服务端上执行的算法来选择资源的最合适的表现形式。这通常是基于客户端所提供的可接受标准来执行的。具体来说，当客户端向服务端发送请求时，在请求头的 `Accept` 字段中列出可接受的媒体类型和相关的质量因素，而服务端则按照客户端所提供的这些参数，选择其最合适的资源版本返回响应。
+
+Wireshark 抓包示意图：
+![images]()
+
+agent-driven 用户代理驱动（或称被动）内容协商是根据在客户端上执行的算法来选择资源的最合适的表现形式。这通常是基于服务端所提供的资源的表现形式列表和元数据，以此来执行的。
+
+其它内容协商机制：略。
 
 ## HTTP 持久连接
 在 HTTP 协议的初始版本中，每进行一次 HTTP 通信就要建立和断开一次 TCP 连接。这样频繁地建立和断开无谓的 TCP 连接，会增加网络通信的开销。于是，HTTP 1.1 版本提出了 [HTTP 持久连接](https://en.wikipedia.org/wiki/HTTP_persistent_connection)（HTTP persistent connection，也称作 HTTP keep-alive 或 HTTP connection reuse），它可以解决上述 TCP 连接的问题。HTTP 持久连接是使用同一个 TCP 连接来发送和接收多个 HTTP 请求／响应，而不是为每一个新的请求／响应打开新的 TCP 连接。
