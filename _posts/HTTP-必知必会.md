@@ -24,6 +24,7 @@ HTTP 协议规定，请求从客户端先发出，最后服务端响应该请求
 ### 首部字段
 
 ### 请求方法
+更全面地了解 Request Methods，推荐阅读：[RFC 7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content#page-21](https://tools.ietf.org/html/rfc7231#page-21)
 
 ### 响应状态码
 
@@ -87,6 +88,9 @@ PS：在理想情况下，HTTP 响应报文是作为整包且有序地发送给�
 - identity：默认值，不压缩内容；
 - and so on ......
 
+Wireshark 抓包示意图：
+![images]()
+
 ## HTTP 分块传输编码
 [HTTP 分块传输编码](https://en.wikipedia.org/wiki/Chunked_transfer_encoding)（Chunked transfer encoding）是一种允许服务端将响应的数据分块传输给客户端的数据传输机制。在分块传输编码中，数据流被分成一系列不重叠的「数据块」，以字节为单位被发送，且彼此独立地被客户端接收。
 
@@ -96,15 +100,15 @@ Wireshark 抓包示意图：
 ![images]()
 
 ## HTTP 缓存
+[HTTP 缓存](https://en.wikipedia.org/wiki/Web_cache)（HTTP cache）是一种为了减少请求的带宽延迟，从而对页面进行临时存储的技术。通过缓存技术，可以使 HTTP 请求在满足特定条件的情况下，从缓存中直接获取响应数据，提升页面加载速度和减少对服务端的压力。HTTP 协议定义了三种控制缓存的基本机制：freshness、validation、invalidation。
 
-### 缓存控制
-`Cache-Control` 是一个在 HTTP 1.1 版本中定义的通用的首部字段，用于制定 HTTP 缓存策略，取代了之前版本中用来定义缓存策略的首部字段，如 `Pragma`、`Expires`，所有的现代浏览器都支持 `Cache-Control`。
+Freshness 机制允许一个 Response 在不需要源服务器重新校验的情况下，可以被直接用作于响应数据，并且 Response 的新鲜程度可以由客户端和服务端同时控制。例如，`Expires` 响应头指定缓存的失效日期，`Cache-Control: max-age` 指令告知缓存的有效时间（单位为秒）。
 
-### 缓存校验
+Validation 机制可以用于校验一个被缓存的 Response 在过时之后，是否依旧有效。例如，如果响应头中包含 `Last-Modified` 字段，那么则可以使用一个包含 `If-Modified-Since` 请求头字段的条件请求，来查看缓存是否已经被更新。除此之外还有 ETag（entity tag）机制，它同时支持强校验和弱校验。
 
-[浅谈浏览器http的缓存机制](http://www.cnblogs.com/vajoy/p/5341664.html)
+Invalidation 机制通常是针对使用缓存技术的副作用。例如，一个关联着缓存数据的 URL，若被以 PUT/POST/DELETE 方法请求了，那么其缓存数据就会失效。
 
-[What's the difference between Cache-Control: max-age=0 and no-cache?](https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache/1383359#1383359)
+更全面地了解 HTTP 缓存机制，推荐阅读：[RFC 7234 - Hypertext Transfer Protocol (HTTP/1.1): Caching](https://tools.ietf.org/html/rfc7234)。<!-- [浅谈浏览器http的缓存机制](http://www.cnblogs.com/vajoy/p/5341664.html) --> <!-- [What's the difference between Cache-Control: max-age=0 and no-cache?](https://stackoverflow.com/questions/1046966/whats-the-difference-between-cache-control-max-age-0-and-no-cache/1383359#1383359) -->
 
 ---
 
