@@ -14,14 +14,38 @@ HTTP 协议和 TCP/IP 协议族内的其它众多协议相同，用于客户端�
 HTTP 协议规定，请求从客户端先发出，最后服务端响应该请求并返回。换句话说，肯定是先从客户端开始建立通信的，服务端在没有接收到请求之前不会发送响应。
 
 # 协议概述
+HTTP 协议的标准是由 [IETF](https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force)（Internet Engineering Task Force，互联网工程任务组）和 [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium)（World Wide Web Consortium，万维网协会）协商制定的，由其最终发布了一系列 RFC（Request for Comments，征求意见稿）定义。
 
 ## 发展历史
+1989 年，[Tim Berners-Lee](https://en.wikipedia.org/wiki/Tim_Berners-Lee) 和他的团队在 [CERN](https://en.wikipedia.org/wiki/CERN)（European Organization for Nuclear Research，欧洲核子研究中心）发明了 HTTP 和 HTML，以及相关 web 服务器与 web 浏览器的技术。同年，他首次提出了 World Wide Web 项目，也就是现在众所周知的万维网。
+
+1991 年，HTTP 协议的第一个版本 HTTP 0.9 发布。这个版本仅有一个 `GET` 方法，客户端向服务端请求网页，服务端响应且仅能响应 HTML 页面给客户端。
+
+1995 年，[Dave Raggett](https://en.wikipedia.org/wiki/Dave_Raggett) 领导了 HTTP 工作组，他希望通过扩展操作、扩展协商、提供更丰富的元信息等手段来扩展 HTTP 协议，并且希望通过添加额外的方法和头部字段来与更加高效的安全协议绑定。
+
+1996 年，[RFC-1945](https://tools.ietf.org/html/rfc1945) 正式发布，并且认可了 HTTP 1.0。
+
+1995 年 12 月，工作组本计划发布 HTTP 的新标准，但并未发布。1996 年初，HTTP 1.1 的预标准就被主流浏览器迅速支持。截止 1996 年 3 月，HTTP 1.1 的预标准已经被 Arena、Netscape 2.0、Netscape Navigator Gold 2.01、Mosaic 2.7、Lynx 2.5、Internet Explorer 2.0 所支持。用户使用新浏览器访问网页的速度非常快。在 1996 年 3 月，当时的一家网络公司报告称，因特网上超过 40% 的浏览器已经兼容 HTTP 1.1，并且截止同年 6 月，超过 65% 的浏览器已经兼容 HTTP 1.1。
+
+1997 年 1 月，HTTP 1.1 正式发布为 [RFC-2068](https://tools.ietf.org/html/rfc2068)。
+
+1999 年 6 月，HTTP 1.1 的改进和更新版发布为 [RFC-2616](https://tools.ietf.org/html/rfc2616)。
+
+2007 年，HTTPbis 工作组成立，旨在修正和简化 HTTP 1.1 规范。2014 年 6 月，HTTP 工作组发布了一个更新的六份规范：
+- [RFC-7230](https://tools.ietf.org/html/rfc7230) Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing
+- [RFC-7231](https://tools.ietf.org/html/rfc7231) Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
+- [RFC-7232](https://tools.ietf.org/html/rfc7232) Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests
+- [RFC-7233](https://tools.ietf.org/html/rfc7233) Hypertext Transfer Protocol (HTTP/1.1): Range Requests
+- [RFC-7234](https://tools.ietf.org/html/rfc7234) Hypertext Transfer Protocol (HTTP/1.1): Caching
+- [RFC-7235](https://tools.ietf.org/html/rfc7235) Hypertext Transfer Protocol (HTTP/1.1): Authentication
+
+2015 年 5 月，HTTP 2 正式发布为 [RFC-7540](https://tools.ietf.org/html/rfc7540)。
 
 ## HTTP 报文
 
 ### 报文结构
 
-### 首部字段
+### 头部字段
 
 ### 请求方法
 更全面地了解 Request Methods，推荐阅读：[RFC 7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content#page-21](https://tools.ietf.org/html/rfc7231#page-21)
