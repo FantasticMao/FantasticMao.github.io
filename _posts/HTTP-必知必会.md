@@ -42,35 +42,53 @@ HTTP 协议的标准是由 [IETF](https://en.wikipedia.org/wiki/Internet_Enginee
 2015 年 5 月，HTTP/2 正式发布为 [RFC-7540](https://tools.ietf.org/html/rfc7540)。<!-- https://tools.ietf.org/html/rfc7230#page-78 -->
 
 ## 术语解释
-> The terms "client" and "server" refer only to the roles that these programs perform for a particular connection. The same program might act as a client on some connections and a server on others.
-> 
+> HTTP is a stateless request/response protocol that operates by exchanging messages across a reliable transport- or session-layer "connection".
+
+HTTP 是一个无状态的请求（Request）／响应（Response）的协议，通过在传输层或会话层的可靠连接之间交换信息来工作的。
+
 > An HTTP "client" is a program that establishes a connection to a server for the purpose of sending one or more HTTP requests.  An HTTP "server" is a program that accepts connections in order to service HTTP requests by sending HTTP responses.
+
+HTTP 客户端是为了发送一个或多个 Request，而与服务端建立连接的程序。HTTP 服务端是为了以 Response 返回给客户端所发送的 Request，而接收连接的程序。
+
+> The terms "client" and "server" refer only to the roles that these programs perform for a particular connection. The same program might act as a client on some connections and a server on others.
 
 client and server：术语「客户端」和「服务端」仅指程序在特定连接上执行的角色。同一个程序可能在一个连接上作为客户端，而在另一个连接上作为服务端。
 
 > The term "user agent" refers to any of the various client programs that initiate a request, including (but not limited to) browsers, spiders (web-based robots), command-line tools, custom applications, and mobile apps.
 
-user agent：术语「用户代理」指任意可以发起请求的客户端程序，包括（但不限于）浏览器、网络爬虫、命令行工具、定制应用程序、移动应用。
+user agent：术语「用户代理」指任意可以发起请求的客户端程序，包括（但不限于）浏览器、网络爬虫、命令行工具、定制应用、移动应用（App）。
 
 > The term "origin server" refers to the program that can originate authoritative responses for a given target resource.
 
-origin server：术语「源服务器」指可以为给定的目标资源作出权威性的原始响应的程序。
+origin server：术语「源服务器」指可以为给定的目标资源作出权威性的源响应的程序。
 
 > The terms "sender" and "recipient" refer to any implementation that sends or receives a given message, respectively.
 
-sender and recipient：术语「寄件人」和「收件人」
+sender and recipient：术语「寄件人」和「收件人」分别指可以发送或接收给定信息的任意实现。
 
-> A "proxy" is a message-forwarding agent that is selected by the client, usually via local configuration rules, to receive requests for some type(s) of absolute URI and attempt to satisfy those requests via translation through the HTTP interface.  Some translations are minimal, such as for proxy requests for "http" URIs, whereas other requests might require translation to and from entirely different application-level protocols.  Proxies are often used to group an organization's HTTP requests through a common intermediary for the sake of security, annotation services, or shared caching. Some proxies are designed to apply transformations to selected messages or payloads while they are being forwarded, as described in Section 5.7.2.
+> The terms "upstream" and "downstream" are used to describe directional requirements in relation to the message flow: all messages flow from upstream to downstream.
 
-proxy：术语「代理」
+upstream and downstream：术语「上游」和「下游」是用于描述关于信息流动的方向说明：所有的信息都从上游流向下游。
 
-> A "gateway" (a.k.a. "reverse proxy") is an intermediary that acts as an origin server for the outbound connection but translates received requests and forwards them inbound to another server or servers. Gateways are often used to encapsulate legacy or untrusted information services, to improve server performance through "accelerator" caching, and to enable partitioning or load balancing of HTTP services across multiple machines.
+> The terms "inbound" and "inbound" are used to describe directional requirements in relation to the request route: "inbound" means toward the origin server and "outbound" means toward the user agent.
 
-gateway：术语「网关」
+inbound and inbound：术语「入站」和「出站」是用于描述关于请求路由的方向说明：入站是指（请求）朝向源服务器，出站是指（请求）朝向用户代理。
 
-tunnel：术语「隧道」
+> A "proxy" is a message-forwarding agent that is selected by the client, usually via local configuration rules, to receive requests for some type(s) of absolute URI and attempt to satisfy those requests via translation through the HTTP interface.
 
-cache：术语「缓存」
+proxy：「代理」是客户端通过本地配置的规则，所选择的信息转发代理，用于接收一些绝对 URI 类型的请求，并且尝试通转译 HTTP 接口来满足这些请求。
+
+> A "gateway" (a.k.a. "reverse proxy") is an intermediary that acts as an origin server for the outbound connection but translates received requests and forwards them inbound to another server or servers.
+
+gateway：「网关」（又称「反向代理」）是一个作为源服务器出站连接的中介，但也会转译接收到的请求，将它们转发入站到一台或多台服务器。
+
+> A "tunnel" acts as a blind relay between two connections without changing the messages.
+
+tunnel：「隧道」是一个作为两个连接之间的盲中转（blind relay），并且不改变信息内容。
+
+> A "cache" is a local store of previous response messages and the subsystem that controls its message storage, retrieval, and deletion. A cache stores cacheable responses in order to reduce the response time and network bandwidth consumption on future, equivalent requests.
+
+cache：「缓存」是一份之前响应信息的本地存储，和其控制信息存储、检索、删除的子系统。缓存可以存储能被缓存的响应，为了减少后续等效请求的响应时间和带宽消耗。
 
 ## 报文结构
 见 [RFC-7230#page-6](https://tools.ietf.org/html/rfc7230#page-6)。
@@ -90,7 +108,7 @@ cache：术语「缓存」
 # 实现机制
 
 ## 无状态性和 Cookie
-HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯中对于发送的任何请求或响应都不会做持久化处理，协议本身并不保存之前的一切请求或响应报文的信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
+HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯中对于发送的任何请求或响应都不会做持久化处理，协议本身并不保存之前的一切请求或响应信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
 
 随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 Cookie 技术。
 
@@ -155,9 +173,9 @@ Wireshark 抓包示意图：
 ![images]()
 
 ## HTTP 缓存
-[HTTP 缓存](https://en.wikipedia.org/wiki/Web_cache)（HTTP cache）是一种为了减少请求的带宽延迟，从而对页面进行临时存储的技术。通过缓存技术，可以使 HTTP 请求在满足特定条件的情况下，从缓存中直接获取响应数据，提升页面加载速度和减少对服务端的压力。HTTP 协议定义了三种控制缓存的基本机制：freshness、validation、invalidation。
+[HTTP 缓存](https://en.wikipedia.org/wiki/Web_cache)（HTTP cache）是一种为了减少请求的带宽延迟，从而对页面进行临时存储的技术。通过缓存技术，可以使 HTTP 请求在满足特定条件的情况下，从缓存中直接获取响应信息，提升页面加载速度和减少对服务端的压力。HTTP 协议定义了三种控制缓存的基本机制：freshness、validation、invalidation。
 
-Freshness 机制允许一个 Response 在不需要源服务器重新校验的情况下，可以被直接用作于响应数据，并且 Response 的新鲜程度可以由客户端和服务端同时控制。例如，`Expires` 响应头指定缓存的失效日期，`Cache-Control: max-age` 指令告知缓存的有效时间（单位为秒）。
+Freshness 机制允许一个 Response 在不需要源服务器重新校验的情况下，可以被直接用作于响应信息，并且 Response 的新鲜程度可以由客户端和服务端同时控制。例如，`Expires` 响应头指定缓存的失效日期，`Cache-Control: max-age` 指令告知缓存的有效时间（单位为秒）。
 
 Validation 机制可以用于校验一个被缓存的 Response 在过时之后，是否依旧有效。例如，如果响应头中包含 `Last-Modified` 字段，那么则可以使用一个包含 `If-Modified-Since` 请求头字段的 [条件请求](https://developer.mozilla.org/en-US/docs/Web/HTTP/Conditional_requests)（conditional request），来查看缓存是否已经被更新。除此之外还有 [ETag](https://en.wikipedia.org/wiki/HTTP_ETag)（entity tag）机制，它同时支持强校验和弱校验。
 
@@ -183,7 +201,7 @@ HTTP 协议的主要不足之处，举例如下：
 
 ---
 
-# 其它要点
+# 其它
 
 ## HTTPS
 
