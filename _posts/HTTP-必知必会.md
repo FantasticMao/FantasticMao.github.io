@@ -5,16 +5,12 @@ categories: 网络基础
 tags:
 - HTTP
 ---
-摘自《图解 HTTP》，并参考自维基百科。<!-- more -->
+摘自《图解 HTTP》，并参考自维基百科。
 
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/1.png)
-
-HTTP 协议和 TCP/IP 协议族内的其它众多协议相同，用于客户端和服务端之间的通信。请求访问文本或图像资源的一端被称为客户端，而提供资源响应的一端被称为服务端。在两台计算机之间使用 HTTP 协议通信时，在一条通信线路上必定有一端是客户端，另一端是服务端。
-
-HTTP 协议规定，请求从客户端先发出，最后服务端响应该请求并返回。换句话说，肯定是先从客户端开始建立通信的，服务端在没有接收到请求之前不会发送响应。
+![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/1.png)<!-- more -->
 
 # 协议概述
-HTTP 协议的标准是由 [IETF](https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force)（Internet Engineering Task Force，互联网工程任务组）和 [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium)（World Wide Web Consortium，万维网协会）协商制定的，由其最终发布了一系列 RFC（Request for Comments，征求意见稿）定义。
+<!-- HTTP 协议的标准是由 [IETF](https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force)（Internet Engineering Task Force，互联网工程任务组）和 [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium)（World Wide Web Consortium，万维网协会）协商制定的，由其最终发布了一系列 RFC（Request for Comments，征求意见稿）定义。 -->
 
 ## 发展历史
 1989 年，[Tim Berners-Lee](https://en.wikipedia.org/wiki/Tim_Berners-Lee) 和他的团队在 [CERN](https://en.wikipedia.org/wiki/CERN)（European Organization for Nuclear Research，欧洲核子研究中心）发明了 HTTP 和 HTML，以及相关 web 服务器与 web 浏览器的技术。同年，他首次提出了 World Wide Web 项目，也就是现在众所周知的万维网。
@@ -90,18 +86,14 @@ tunnel：「隧道」是一个作为两个连接之间的盲中转（blind relay
 
 cache：「缓存」是一份之前响应信息的本地存储，和其控制信息存储、检索、删除的子系统。缓存可以存储能被缓存的响应，为了减少后续等效请求的响应时间和带宽消耗。
 
-## 报文结构
-见 [RFC-7230#page-6](https://tools.ietf.org/html/rfc7230#page-6)。
+## 报文简析
 ![iamges](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/2.png)
 
-### 头部字段
-
-### 请求方法
-更全面地了解 Request Methods，推荐阅读：[RFC-7231#page-21](https://tools.ietf.org/html/rfc7231#page-21)
-
-### 响应状态码
-
-### MIME Type
+推荐阅读：
+- [RFC-7231#page-21](https://tools.ietf.org/html/rfc7231#page-21) Request Methods
+- [RFC-7231#page-33](https://tools.ietf.org/html/rfc7231#page-33) Request Header Fields
+- [RFC-7231#page-47](https://tools.ietf.org/html/rfc7231#page-47) Response Status Codes
+- [RFC-7231#page-64](https://tools.ietf.org/html/rfc7231#page-64) Response Header Fields
 
 ---
 
@@ -112,7 +104,7 @@ HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对�
 
 随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 Cookie 技术。
 
-[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务器发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务器上的记录，最后得到请求之前的状态信息。
+[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务端发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务端上的记录，最后得到请求之前的状态信息。
 
 ## HTTP 内容协商
 一个 [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) 可能对应多种不同表现形式的资源，例如不同的语言、不同的媒体类型等等。[HTTP 内容协商](https://en.wikipedia.org/wiki/Content_negotiation)（HTTP content negotiation）可以对同一个 URI 提供多个不同版本的资源，以便客户端能指定和获取最适合它们版本的资源。HTTP 协议提供了以下几种不同的内容协商机制：server-driven、agent-driven、transparent、其它混合的组合。
@@ -188,10 +180,6 @@ Invalidation 机制通常是针对使用缓存技术的副作用。例如，一�
 ---
 
 # 安全问题
-HTTP 协议的主要不足之处，举例如下：
-- 通信使用明文，内容可能会被窃听；
-- 不验证通信方的身份，因此有可能遭遇伪装；
-- 无法证明报文的完整性，所以有可能遭遇篡改。
 
 ## 被窃听
 
