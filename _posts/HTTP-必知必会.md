@@ -5,9 +5,9 @@ categories: 网络基础
 tags:
 - HTTP
 ---
-摘自《图解 HTTP》，并参考自维基百科。
+![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/1.png)
 
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/1.png)<!-- more -->
+摘自《图解 HTTP》，并参考自维基百科。<!-- more -->
 
 # 协议概述
 <!-- HTTP 协议的标准是由 [IETF](https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force)（Internet Engineering Task Force，互联网工程任务组）和 [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium)（World Wide Web Consortium，万维网协会）协商制定的，由其最终发布了一系列 RFC（Request for Comments，征求意见稿）定义。 -->
@@ -21,13 +21,14 @@ tags:
 
 1996 年，[RFC-1945](https://tools.ietf.org/html/rfc1945) 正式发布，并且认可了 HTTP/1.0。
 
-1995 年 12 月，工作组本计划发布 HTTP 的新标准，但并未发布。1996 年初，HTTP/1.1 的预标准就被主流浏览器迅速支持。截止 1996 年 3 月，HTTP/1.1 的预标准已经被 Arena、Netscape 2.0、Netscape Navigator Gold 2.01、Mosaic 2.7、Lynx 2.5、Internet Explorer 2.0 所支持。用户使用新浏览器访问网页的速度非常快。在 1996 年 3 月，当时的一家网络公司报告称，因特网上超过 40% 的浏览器已经兼容 HTTP/1.1，并且截止同年 6 月，超过 65% 的浏览器已经兼容 HTTP/1.1。
+1995 年 12 月，HTTP 工作组本计划发布协议的新标准，但并未发布。而在 1996 年初，HTTP/1.1 的预标准就已经被各大主流的浏览器迅速支持。截止 1996 年 3 月，HTTP/1.1 的预标准已经被 Arena、Netscape 2.0、Netscape Navigator Gold 2.01、Mosaic 2.7、Lynx 2.5、Internet Explorer 2.0 所支持，并且用户使用新浏览器访问网页的速度非常快。在 1996 年 3 月，当时的一家网络公司报告称，因特网上超过 40% 的浏览器已经兼容 HTTP/1.1，并且截止同年 6 月，超过 65% 的浏览器已经兼容 HTTP/1.1。
 
 1997 年 1 月，HTTP/1.1 正式发布为 [RFC-2068](https://tools.ietf.org/html/rfc2068)。
 
 1999 年 6 月，HTTP/1.1 的改进和更新版发布为 [RFC-2616](https://tools.ietf.org/html/rfc2616)。
+// TODO 改进和更新的内容
 
-2007 年，HTTPbis 工作组成立，旨在修正和简化 HTTP/1.1 规范。2014 年 6 月，HTTP 工作组发布了一个更新的六份规范：
+2007 年，HTTPbis 工作组成立，旨在修正和简化 HTTP/1.1 规范。至 2014 年 6 月，HTTP 工作组发布并更新了 HTTP/1.1 的六份规范：
 - [RFC-7230](https://tools.ietf.org/html/rfc7230) Hypertext Transfer Protocol (HTTP/1.1): Message Syntax and Routing
 - [RFC-7231](https://tools.ietf.org/html/rfc7231) Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content
 - [RFC-7232](https://tools.ietf.org/html/rfc7232) Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests
@@ -40,27 +41,23 @@ tags:
 ## 术语解释
 > HTTP is a stateless request/response protocol that operates by exchanging messages across a reliable transport- or session-layer "connection".
 
-HTTP 是一个无状态的请求（Request）／响应（Response）的协议，通过在传输层或会话层的可靠连接之间交换信息来工作的。
+HTTP 是一个无状态的 `Request`／`Response` 机制的协议，通过在传输层或会话层的可靠的 `Connection` 之间交换信息来工作的。
 
 > An HTTP "client" is a program that establishes a connection to a server for the purpose of sending one or more HTTP requests.  An HTTP "server" is a program that accepts connections in order to service HTTP requests by sending HTTP responses.
 
-HTTP 客户端是为了发送一个或多个 Request，而与服务端建立连接的程序。HTTP 服务端是为了以 Response 返回给客户端所发送的 Request，而接收连接的程序。
+HTTP 客户端是为了发送一个或多个 `Request`，而与服务端建立 `Connection` 的程序。HTTP 服务端是为了以发送 `Response` 来服务 `Request`，而接受客户端发起 `Connection` 的程序。
 
 > The terms "client" and "server" refer only to the roles that these programs perform for a particular connection. The same program might act as a client on some connections and a server on others.
 
-client and server：术语「客户端」和「服务端」仅指程序在特定连接上执行的角色。同一个程序可能在一个连接上作为客户端，而在另一个连接上作为服务端。
+client and server：术语「客户端」和「服务端」仅指程序在特定 `Connection` 上执行的角色。同一个程序可能在一个 `Connection` 上作为客户端，而在另一个 `Connection` 上作为服务端。
 
 > The term "user agent" refers to any of the various client programs that initiate a request, including (but not limited to) browsers, spiders (web-based robots), command-line tools, custom applications, and mobile apps.
 
-user agent：术语「用户代理」指任意可以发起请求的客户端程序，包括（但不限于）浏览器、网络爬虫、命令行工具、定制应用、移动应用（App）。
+user agent：术语「用户代理」指任意可以发起 `Request` 的客户端程序，包括但不限于浏览器、网络爬虫、命令行工具、定制应用、移动应用（App）。
 
 > The term "origin server" refers to the program that can originate authoritative responses for a given target resource.
 
-origin server：术语「源服务器」指可以为给定的目标资源作出权威性的源响应的程序。
-
-> The terms "sender" and "recipient" refer to any implementation that sends or receives a given message, respectively.
-
-sender and recipient：术语「寄件人」和「收件人」分别指可以发送或接收给定信息的任意实现。
+origin server：术语「源服务器」指可以为给定的目标资源作出原始性的权威性的 `Response` 的程序。
 
 > The terms "upstream" and "downstream" are used to describe directional requirements in relation to the message flow: all messages flow from upstream to downstream.
 
@@ -68,28 +65,33 @@ upstream and downstream：术语「上游」和「下游」是用于描述关于
 
 > The terms "inbound" and "inbound" are used to describe directional requirements in relation to the request route: "inbound" means toward the origin server and "outbound" means toward the user agent.
 
-inbound and inbound：术语「入站」和「出站」是用于描述关于请求路由的方向说明：入站是指（请求）朝向源服务器，出站是指（请求）朝向用户代理。
+inbound and inbound：术语「入站」和「出站」是用于描述关于请求路由的方向说明：入站是指朝向源服务器，出站是指朝向用户代理。
 
 > A "proxy" is a message-forwarding agent that is selected by the client, usually via local configuration rules, to receive requests for some type(s) of absolute URI and attempt to satisfy those requests via translation through the HTTP interface.
 
-proxy：「代理」是客户端通过本地配置的规则，所选择的信息转发代理，用于接收一些绝对 URI 类型的请求，并且尝试通转译 HTTP 接口来满足这些请求。
+proxy：「代理」是客户端通常以本地的配置规则，而选择的信息转发中介，用于接收一些绝对 URI 类型的请求，并且尝试通转译 HTTP 接口来满足这些请求。
 
 > A "gateway" (a.k.a. "reverse proxy") is an intermediary that acts as an origin server for the outbound connection but translates received requests and forwards them inbound to another server or servers.
 
-gateway：「网关」（又称「反向代理」）是一个作为源服务器出站连接的中介，但也会转译接收到的请求，将它们转发入站到一台或多台服务器。
+gateway：「网关」（又称「反向代理」）是一个作为源服务器出站连接的中介，但也会转译接收到的请求，并将它们转发入站到其它一台或多台服务器。
 
 > A "tunnel" acts as a blind relay between two connections without changing the messages.
 
-tunnel：「隧道」是一个作为两个连接之间的盲中转（blind relay），并且不改变信息内容。
+tunnel：「隧道」是两个连接之间的隐蔽中转（blind relay），并且不改变其中的任何信息。
 
 > A "cache" is a local store of previous response messages and the subsystem that controls its message storage, retrieval, and deletion. A cache stores cacheable responses in order to reduce the response time and network bandwidth consumption on future, equivalent requests.
 
-cache：「缓存」是一份之前响应信息的本地存储，和其控制信息存储、检索、删除的子系统。缓存可以存储能被缓存的响应，为了减少后续等效请求的响应时间和带宽消耗。
+cache：「缓存」是一份之前 `Response` 信息的本地存储，和其控制信息存储、检索、删除的子系统。缓存会存储可缓存的 `Responses`，为了减少后续等效的 `Requests` 的响应时间和网络带宽消耗。
 
 ## 报文简析
 ![iamges](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/2.png)
 
+Common Method Properties: Safe Methods、Idempotent Methods、Cacheable Methods
+
+Message Body: Transfer-Encoding、Content-Length、Message Body Length
+
 推荐阅读：
+- [RFC-7230#page-19](https://tools.ietf.org/html/rfc7230#page-19) Message Format
 - [RFC-7231#page-21](https://tools.ietf.org/html/rfc7231#page-21) Request Methods
 - [RFC-7231#page-33](https://tools.ietf.org/html/rfc7231#page-33) Request Header Fields
 - [RFC-7231#page-47](https://tools.ietf.org/html/rfc7231#page-47) Response Status Codes
@@ -100,14 +102,14 @@ cache：「缓存」是一份之前响应信息的本地存储，和其控制信
 # 实现机制
 
 ## 无状态性和 Cookie
-HTTP 是一种不保存状态，即无状态的协议。HTTP 协议自身不对请求和响应之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯中对于发送的任何请求或响应都不会做持久化处理，协议本身并不保存之前的一切请求或响应信息。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
+HTTP 是一种不保存状态，即无状态（stateless）的协议。HTTP 协议自身不对 `Request` 和 `Response` 之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯过程中对于任何发送的 `Request` 或 `Response` 都不会做持久化处理。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
 
 随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 Cookie 技术。
 
-[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术通过在请求和响应报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的响应报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务端发送请求时，客户端会自动在请求报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务端上的记录，最后得到请求之前的状态信息。
+[Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术通过在 `Request` 和 `Response` 报文中写入 Cookie 信息来控制客户端的状态，它会根据从服务端发送的 `Response` 报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务端发送请求时，客户端会自动在 `Request` 报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的请求，然后对比服务端上的记录，最后得到请求之前的状态信息。
 
 ## HTTP 内容协商
-一个 [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) 可能对应多种不同表现形式的资源，例如不同的语言、不同的媒体类型等等。[HTTP 内容协商](https://en.wikipedia.org/wiki/Content_negotiation)（HTTP content negotiation）可以对同一个 URI 提供多个不同版本的资源，以便客户端能指定和获取最适合它们版本的资源。HTTP 协议提供了以下几种不同的内容协商机制：server-driven、agent-driven、transparent、其它混合的组合。
+一个 [URI](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier) 可能对应多种不同表现形式的资源，例如不同的语言、不同编码、不同的媒体类型。[HTTP 内容协商](https://en.wikipedia.org/wiki/Content_negotiation)（HTTP content negotiation）机制允许对同一个 URI 提供多个不同版本的资源，以便客户端能指定和获取最适合它们的版本资源。HTTP 协议提供了以下几种不同的内容协商机制：`server-driven`、`agent-driven`、`transparent`、其它混合的组合。
 
 server-driven：服务端驱动（或称主动）内容协商是根据在服务端上执行的算法来选择资源的最合适的表现形式。这通常是基于客户端所提供的可接受标准来执行的。具体来说，当客户端向服务端发送请求时，在请求头的 `Accept` 字段中列出可接受的媒体类型和相关的质量因素，而服务端则按照客户端所提供的这些参数，选择其最合适的资源版本返回响应。
 
@@ -121,7 +123,7 @@ agent-driven：用户代理驱动（或称被动）内容协商是根据在客�
 ## HTTP 持久连接
 在 HTTP 协议的初始版本中，每进行一次 HTTP 通信就要建立和断开一次 TCP 连接。这样频繁地建立和断开无谓的 TCP 连接，会增加网络通信的开销。于是，HTTP/1.1 提出了 [HTTP 持久连接](https://en.wikipedia.org/wiki/HTTP_persistent_connection)（HTTP persistent connection，也称作 HTTP keep-alive 或 HTTP connection reuse），它可以解决上述 TCP 连接的问题。HTTP 持久连接是使用同一个 TCP 连接来发送和接收多个请求和响应，而不是为每一个新的请求或响应打开新的 TCP 连接。
 
-在 HTTP/1.0 中，没有官方的 keep-alive 操作。为了实现持久连接，通常的操作是在现有版本的协议上添加一个标记。比如，如果浏览器支持的话，它会在请求头中添加 `Connection: Keep-Alive`，然后当服务端接收到请求，作出响应的时候，它也会在响应头中添加 `Connection: Keep-Alive`。这样做，HTTP 请求就不会中断 TCP 连接，而是保持连接。当客户端发送另一个 HTTP 请求时，它会使用同一个 TCP 连接。这种情况会一直持续到客户端或服务端的任意一方，在明确提出断开连接之后终止。
+在 HTTP/1.0 中，没有官方的 keep-alive 操作。为了实现持久连接，通常的操作是在现有版本的协议上添加一个标记。比如，如果浏览器支持的话，它会在请求头中添加 `Connection: Keep-Alive`，然后当服务端接收到请求，作出响应的时候，它也会在响应头中添加 `Connection: Keep-Alive`。这样做，HTTP 请求就不会中断 TCP 连接，而是保持连接。当客户端发送另一个 HTTP 请求时，它会使用同一个 TCP 连接。**这种情况会一直持续到客户端或服务端的任意一方，在明确提出断开连接之后终止。**
 
 在 HTTP/1.1 中，所有的连接默认都是持久连接，除非特殊声明不支持。
 
@@ -157,7 +159,7 @@ Wireshark 抓包示意图：
 ![images]()
 
 ## HTTP 分块传输编码
-[HTTP 分块传输编码](https://en.wikipedia.org/wiki/Chunked_transfer_encoding)（Chunked transfer encoding）是一种允许服务端将响应的数据分块传输给客户端的数据传输机制。在分块传输编码中，数据流被分成一系列不重叠的「数据块」，以字节为单位被发送，且彼此独立地被客户端接收。
+[HTTP 分块传输编码](https://en.wikipedia.org/wiki/Chunked_transfer_encoding)（HTTP Chunked transfer encoding）是一种允许服务端将响应的数据分块传输给客户端的数据传输机制。在分块传输编码中，数据流被分成一系列不重叠的「数据块」，以字节为单位被发送，且彼此独立地被客户端接收。
 
 在一次 HTTP 响应的报文中，通过使用 `Transfer-Encoding:chunked` 指示当前响应是分块传输编码的，并以传输一个 0 字节的「数据块」为结束标识。
 
