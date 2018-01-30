@@ -5,7 +5,7 @@ categories: 数据库
 tags: 
 - MySQL
 ---
-摘自《高性能 MySQL》第 5 章 创建高性能的索引。
+摘自[《高性能 MySQL》](https://book.douban.com/subject/23008813/)第 5 章 创建高性能的索引。
 
 B-Tree 索引、聚簇索引的实现可参考：[http://blog.codinglabs.org/articles/theory-of-mysql-index.html](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)<!-- more -->
 

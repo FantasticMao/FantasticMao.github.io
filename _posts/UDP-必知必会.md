@@ -5,7 +5,7 @@ categories: 网络基础
 tags:
 - UDP
 ---
-摘自[《计算机网络》](https://book.douban.com/subject/26960678/) 第 5 章 传输层，并参考自维基百科。<!-- more -->
+摘自[《计算机网络》](https://book.douban.com/subject/26960678/) 第 5 章 传输层，并参考自维基百科与 RFC-768。<!-- more -->
 
 # 协议概述
 [UDP](https://en.wikipedia.org/wiki/User_Datagram_Protocol)（User Datagram Protocol，用户数据报协议）是 OSI 参考模型中一种无连接的传输层协议，提供面向事务的简单不可靠的数据传送服务，是 TCP/IP 协议族的核心成员之一，由 David P. Reed 于 1980 设计，并在 [RFC-768](https://tools.ietf.org/html/rfc768) 中正式定义。

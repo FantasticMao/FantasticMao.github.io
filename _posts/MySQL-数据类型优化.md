@@ -5,7 +5,7 @@ categories: 数据库
 tags: 
 - MySQL
 ---
-摘自《高性能 MySQL》第 4 章 Schema 与数据类型优化。<!-- more -->
+摘自[《高性能 MySQL》](https://book.douban.com/subject/23008813/)第 4 章 Schema 与数据类型优化。<!-- more -->
 
 # 选择优化的数据类型
 MySQL 支持的数据类型非常多，选择正确的数据类型对于获取高性能至关重要。不管存储哪种类型的数据，都应遵从下面几个原则：

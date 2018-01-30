@@ -5,17 +5,17 @@ categories: 网络基础
 tags:
 - HTTP
 ---
+摘自[《图解 HTTP》](https://book.douban.com/subject/25863515/)，并参考自维基百科与系列 RFC。<!-- more -->
+
+为了避免阅读歧义，本篇博客中术语「请求」、「响应」、「连接」会分别用英文 `Request`、`Response`、`Connection` 表示。内容思维导图如下：
 ![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/1.png)
 
-摘自《图解 HTTP》，并参考自维基百科。<!-- more -->
-
 # 协议概述
-<!-- HTTP 协议的标准是由 [IETF](https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force)（Internet Engineering Task Force，互联网工程任务组）和 [W3C](https://en.wikipedia.org/wiki/World_Wide_Web_Consortium)（World Wide Web Consortium，万维网协会）协商制定的，由其最终发布了一系列 RFC（Request for Comments，征求意见稿）定义。 -->
 
 ## 发展历史
 1989 年，[Tim Berners-Lee](https://en.wikipedia.org/wiki/Tim_Berners-Lee) 和他的团队在 [CERN](https://en.wikipedia.org/wiki/CERN)（European Organization for Nuclear Research，欧洲核子研究中心）发明了 HTTP 和 HTML，以及相关 web 服务器与 web 浏览器的技术。同年，他首次提出了 World Wide Web 项目，也就是现在众所周知的万维网。
 
-1991 年，HTTP 协议的第一个版本 HTTP/0.9 发布。这个版本仅有一个 `GET` 方法，客户端向服务端请求网页，服务端响应且仅能响应 HTML 页面给客户端。
+1991 年，HTTP 协议的第一个版本 HTTP/0.9 发布。这个版本仅有一个 GET 方法，客户端向服务端请求网页，服务端响应且仅能响应 HTML 页面给客户端。
 
 1995 年，[Dave Raggett](https://en.wikipedia.org/wiki/Dave_Raggett) 领导了 HTTP 工作组，他希望通过扩展操作、扩展协商、提供更丰富的元信息等手段来扩展 HTTP 协议，并且希望通过添加额外的方法和首部字段来与更加高效的安全协议绑定。
 
@@ -101,7 +101,7 @@ Message Body: Transfer-Encoding、Content-Length、Message Body Length
 
 # 实现机制
 
-## 无状态性和 Cookie
+## 无状态和 Cookie
 HTTP 是一种不保存状态，即无状态（stateless）的协议。HTTP 协议自身不对 `Request` 和 `Response` 之间的通信状态进行保存。也就是说在 HTTP 协议这个级别，网络通讯过程中对于任何发送的 `Request` 或 `Response` 都不会做持久化处理。这是为了更快地处理大量事务，确保协议的可伸缩性，而特意把 HTTP 协议设计成如此简单。
 
 随着 Web 的不断发展，因无状态而导致业务处理变得棘手的情况增多了。HTTP 协议为了实现期望保持状态的功能，于是引入了 Cookie 技术。
