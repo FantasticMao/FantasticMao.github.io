@@ -79,7 +79,7 @@ MySQL 支持多种字符串类型，每种类型还有很多变种。这些数�
 ## BLOB 和 TEXT 类型
 `BLOB` 和 `TEXT`都是为存储很大的数据而设计的字符串数据类型，分别采用二进制和字符方式存储。
 
-实际上，它们分别属于两组不同的数据类型家族：字符类型是 `TINYTEXT`、`SMALLTEXT`、`TEXT`、`MEDIUMTEXT`、`LONGTEXT`；二进制类型是 `TINYBLOB`、`SMALLBLOB`、`BLOB`、`MEDIUMBLOB`、`LONGBLOB`。`TEXT` 是 `SMALLTEXT`的同义词，`BLOB` 是 `SMALLBLOB`的同义词。
+实际上，它们分别属于两组不同的数据类型家族：字符类型是 `TINYTEXT`、`SMALLTEXT`、`TEXT`、`MEDIUMTEXT`、`LONGTEXT`；二进制类型是 `TINYBLOB`、`SMALLBLOB`、`BLOB`、`MEDIUMBLOB`、`LONGBLOB`。`TEXT` 是 `SMALLTEXT`的同义词，`BLOB` 是 `SMALLBLOB` 的同义词。
 
 与其它类型不同，MySQL 把每个 `BLOB` 和 `TEXT` 值当作一个独立的对象处理。存储引擎在存储时通常会特殊处理。当 `BLOB` 和 `TEXT` 值太大时，InnoDB 会使用专门的「外部」存储区域来进行存储，此时每个值在行内需要 1 ~ 4 个字节存储一个指针，然后在外部区域存储实际值。
 
