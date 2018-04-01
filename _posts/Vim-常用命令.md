@@ -43,7 +43,7 @@ p | 执行 a／向下，再粘贴剪贴板内容
 P | 执行 i／向上，再粘贴剪贴板内容
 x | 向右删除一个字符，相当于插入模式中的 fn + Delete
 X | 向左删除一个字符，相当于插入模式中的 Delete
-dd | 删除当前行，**并把删除的内容保存至剪贴板中**
+dd | 删除当前行，**并把删除的内容保存至剪贴板中**，相当于「剪切」功能
 d + [移动光标](#移动光标) | 删除光标移动过程中的内容
 [选中内容](#选中内容) + d | 删除光标选中的内容
 
@@ -58,12 +58,16 @@ N | 反向重复前一个搜索动作
 ## 普通命令
 命令 | 描述
 --- | ---
+= | 缩进当前行
+[选中内容](#选中内容) + = | 缩进光标选中的内容
+guu | 转换当前行为小写
+[选中内容](#选中内容) + gu | 转换选中内容为小写
+gUU | 转换当前行为大写
+[选中内容](#选中内容) + gU | 转换选中内容为大写
 u | undo，撤销上一次操作
 Ctrl + r | redo，撤销 u 操作
 . | 重复执行上一次命令
 ${n}`command` | 重复执行 n 次 `command` 命令
-gu | 转换为小写
-gU | 转换为大写
 ZZ | 相当于 `:wq`
 
 ---
@@ -100,17 +104,20 @@ Ctrl + p | 开启自动补全，并跳至最后一个选项
 命令 | 描述
 --- | ---
 :${n} | 移动光标至当前文件的第 n 行
+:! + ${shell} | 执行一条 `shell` 命令
+:sh、:shell | 挂起 Vim，执行多条 `shell` 命令
+:pwd | 打印当前目录
+:cd ${dir} | 改变当前目录
+:e ${fileName}| 打开新的文件
+:r ${fileName} | 读取文件内容至当前文件中
+:r! ${shell} | 读取 `shell` 命令的输出内容至当前文件中
 :w | 保存当前文件内容
 :w ${fileName} | 保存当前文件内容为新的文件，类似于「文件另存为」功能
 :q | 退出 Vim
 :q! | 强制退出 Vim
-:e ${fileName}| 打开新的文件
-:r ${fileName} | 读取文件内容至当前文件中
 :n | 编辑下一个文件
 :N | 编辑上一个文件
 :files | 列出打开的所有文件
-:! + ${shell} | 执行一条 `shell` 命令
-:sh、:shell | 挂起 Vim，执行多条 `shell` 命令
 :sp、:split | 创建水平分屏
 :vsp、:vsplit | 创建垂直分屏
 :Ctrl + w + [h, j, k, l] | 在分屏窗口中移动光标
@@ -118,16 +125,17 @@ Ctrl + p | 开启自动补全，并跳至最后一个选项
 
 ---
 
-# 附录
-
-## 备注
+# 后序
 - 组合使用 Vim 命令会有很神奇的效果。
 - blank 字符指空格符、制表符、回车符、换行符等。
 - 本文中的 `$` 表示美元符号；`${}` 表示占位符，其内容是实际变量。
 - 本文中的按键以 MacBook 自带键盘为例，与一般键盘有些不同。例如 MacBook 键盘的 Delete 键对应一般键盘的 Backspace、fn + Delete 对应一般键盘的 Delete。
 
 ## 参考资料
-- [Vim](https://zh.wikipedia.org/wiki/Vim) —— 维基百科
 - Vim :help —— VIM main help file
-- [Vim 程式編輯器](https://coolshell.cn/articles/5426.html) —— 鳥哥的 Linux 私房菜
-- [简明 Vim 练级攻略](http://linux.vbird.org/linux_basic/0310vi.php) —— 酷 壳 - CoolShell
+- <a href="https://en.wikipedia.org/wiki/Vim_(text_editor)" target="_blank" ref="external">Vim (text editor)</a> —— Wikipedia
+- [Vim 程式編輯器](http://linux.vbird.org/linux_basic/0310vi.php) —— 鳥哥的 Linux 私房菜
+- [Vim 的分屏功能](https://coolshell.cn/articles/1679.html) —— 酷 壳 - CoolShell
+- [简明 Vim 练级攻略](https://coolshell.cn/articles/5426.html) —— 酷 壳 - CoolShell
+- [无插件 Vim 编程技巧](https://coolshell.cn/articles/11312.html) —— 酷 壳 - CoolShell
+
