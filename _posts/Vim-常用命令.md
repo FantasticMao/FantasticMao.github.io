@@ -127,17 +127,16 @@ Ctrl + p | 开启自动补全，并跳至最后一个选项
 
 ---
 
-# 后序
+# #附
 - 组合使用 Vim 命令会有很神奇的效果。
 - blank 字符指空格符、制表符、回车符、换行符等。
 - 本文中的 `$` 表示美元符号；`${}` 表示占位符，其内容是实际变量。
 - 本文中的按键以 MacBook 自带键盘为例，与一般键盘有些不同。例如 MacBook 键盘的 Delete 键对应一般键盘的 Backspace、fn + Delete 对应一般键盘的 Delete。
-
-## 参考资料
-- Vim :help —— VIM main help file
-- <a href="https://en.wikipedia.org/wiki/Vim_(text_editor)" target="_blank" ref="external">Vim (text editor)</a> —— Wikipedia
-- [Vim 程式編輯器](http://linux.vbird.org/linux_basic/0310vi.php) —— 鳥哥的 Linux 私房菜
-- [Vim 的分屏功能](https://coolshell.cn/articles/1679.html) —— 酷 壳 - CoolShell
-- [简明 Vim 练级攻略](https://coolshell.cn/articles/5426.html) —— 酷 壳 - CoolShell
-- [无插件 Vim 编程技巧](https://coolshell.cn/articles/11312.html) —— 酷 壳 - CoolShell
+- 参考资料
+    - Vim :help —— VIM main help file
+    - <a href="https://en.wikipedia.org/wiki/Vim_(text_editor)" target="_blank" ref="external">Vim (text editor)</a> —— Wikipedia
+    - [Vim 程式編輯器](http://linux.vbird.org/linux_basic/0310vi.php) —— 鳥哥的 Linux 私房菜
+    - [Vim 的分屏功能](https://coolshell.cn/articles/1679.html) —— 酷 壳 - CoolShell
+    - [简明 Vim 练级攻略](https://coolshell.cn/articles/5426.html) —— 酷 壳 - CoolShell
+    - [无插件 Vim 编程技巧](https://coolshell.cn/articles/11312.html) —— 酷 壳 - CoolShell
 
