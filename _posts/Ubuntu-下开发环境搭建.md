@@ -57,13 +57,13 @@ tags:
 
 *JDK*：
 1. 打开环境变量配置文件 `sudo vim /etc/profile`，如下图添加 Java 环境变量。
-2. 重新登录用户。
+2. 使用 `source /etc/profile` 重新读取配置，或者重新登录用户。
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/3.png)
 
 *Tomcat*：
 1. 打开环境变量配置文件 `sudo vim /etc/profile`，如下图一添加 Tomcat 环境变量。
 2. 打开 Tomcat 配置文件 `sudo vim /usr/local/tomcat8/conf/server.conf`，如下图二修改 Tomcat 的 URI 默认编码。
-3. 重新登录用户。
+3. 使用 `source /etc/profile` 重新读取配置，或者重新登录用户。
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/4.png)
 ![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/5.png)
 
