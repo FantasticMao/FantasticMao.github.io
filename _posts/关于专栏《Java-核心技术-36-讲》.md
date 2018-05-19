@@ -26,6 +26,7 @@ Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也
 ---
 
 # Exception 与 Error 有什么区别
+
 在 Java 标准异常中，`Throwable` 类表示任何可以被作为异常抛出的类，`Exception` 类和 `Error` 类都继承了 `Throwable` 类。
 
 `Error` 类表示编译错误和系统错误，是在程序正常运行情况下，不大可能会出现的异常，例如 `OutOfMemoryError`、`StackOverflowError`。
@@ -39,7 +40,25 @@ Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也
 - 在知道如何处理异常的情况下，再捕获并处理异常；
 - 尽量不要 try 整段代码块，也要避免使用异常控制代码流程；
 - 不要捕获类似 `Exception` 类的通用异常，而是应该捕获特定异常；
-- 受检查异常被抛出后，往往不能被恢复，并且对函数式编程十分不友好；
-- JDK 7 支持 Multiple Catch 语法和基于 `AutoCloseable` 接口的 Try With Resource 语法；
-- finally 语句在任何时候都会被执行，通常被用于清理系统资源，并且不应在 finally 语句中 return 方法的执行结果，因为这会导致异常信息的丢失；
+- 受检查异常被抛出后，往往不能被恢复，并且对函数式编程和三元表达式十分不友好；
+- JDK 7 支持 multiple-catch 语法和基于 `java.lang.AutoCloseable` 接口的 try-with-resource 语法；
+- 当程序未被中断时，finally 语句都会被正常执行，并且通常被用于清理系统资源。不应在 finally 语句中 return 方法的执行结果，因为这会导致异常信息的丢失；
 - 可以通过 `java.lang.Throwable#Throwable(String, Throwable)` 构造方法，捕获一个异常的同时抛出另一个异常，并且保留原始异常的堆栈信息。Spring Data 正是通过这种方式，将不同 ORM 框架中的不同异常封装成了一个通用的异常结构体系，详情可见 [官方文档](https://docs.spring.io/spring/docs/current/spring-framework-reference/data-access.html#orm-introduction) 描述。
+
+---
+
+# 谈谈 final、finally、finalize 有什么不同
+
+finally 关键字是在 try-finally 或 try-catch-finally 语句块中，保证 Java 代码必须被执行的一种机制。另外，若在 finally 语句块中需要关闭实现了 `java.lang.AutoCloseable` 接口的资源，则可以使用 JDK 7 中提供的 try-with-resource 语法简化代码。
+
+需要额外注意的是，以下这段示例代码的 finally 语句块并不会被执行：
+```java
+try {
+    // do something
+    System.exit(1);
+} finally {
+    System.out.println("Print from finally");
+}
+```
+
+finalize() 是基础类 `java.lang.Object` 的一个方法，它的设计目的在于保证对象被垃圾收集之前，完成特定资源的回收。然而 JVM 在垃圾收集时，需要对实现了 finalize() 的对象进行特殊处理，所以 finalize() 本质上已经成为了垃圾收集的阻碍者，它可能导致对象需要经过多轮垃圾收集周期才能被回收。现在，finalize 机制已经不被推荐使用，并且在 JDK 9 中被标记为 `@Deprecated`。
