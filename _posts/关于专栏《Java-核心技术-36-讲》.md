@@ -49,6 +49,12 @@ Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也
 
 # 谈谈 final、finally、finalize 有什么不同
 
+final 关键字可以用于修饰变量、方法、类，并且在不同场景下的 final 关键字的语义不尽相同。当 final 修饰成员变量／局部变量／方法参数时，表示该变量的引用是不能被修改的；当 final 修饰方法时，表示该方法是不能被重写的；当 final 修饰类时，表示该类是不能被继承的。
+
+需要注意的是，使用 final 修饰对象类型的变量时，并不代表此变量具有 [immutable](https://en.wikipedia.org/wiki/Immutable_object) 的特性。例如在 `final List<String> list = new ArrayList<>()` 示例代码中，final 仅能保证 list 变量无法再次被赋值，而不能保证 list 的内容不被修改。
+
+很多类似使用 final 可以提高性能的结论，都是基于假设得出的。实际上， JVM 对于 final 的优化，是和它的实现密切相关。在日常开发中，建议不要指望使用这些小技巧，来获得所谓的性能上提升处。关于这点，可以参阅 RednaxelaFX 在知乎上的相关回答：[final 修饰递归方法会提高效率吗？](https://www.zhihu.com/question/66083114/answer/242241071)、[JVM 对于声明为 final 的局部变量做了哪些性能优化？](https://www.zhihu.com/question/21762917/answer/19239387)
+
 finally 关键字是在 try-finally 或 try-catch-finally 语句块中，保证 Java 代码必须被执行的一种机制。另外，若在 finally 语句块中需要关闭实现了 `java.lang.AutoCloseable` 接口的资源，则可以使用 JDK 7 中提供的 try-with-resource 语法简化代码。
 
 需要额外注意的是，以下这段示例代码的 finally 语句块并不会被执行：
