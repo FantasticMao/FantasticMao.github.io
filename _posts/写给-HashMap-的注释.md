@@ -77,7 +77,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         // 当 size > threshold 时，Node 数组将会调用 resize() 扩容
         transient int size;
 
-        // 冗余字段，可抛出 ConcurrentModificationException，用于避免同时迭代和修改 Node 数组
+        // 冗余字段，用于抛出 ConcurrentModificationException，为了避免同时迭代和修改 Node 数组
         transient int modCount;
 
         // Node 数组的扩容阈值，threshold = capacity * loadFactor
@@ -95,6 +95,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         }
 
         public HashMap() {
+            ......
         }
 
         ......
@@ -208,7 +209,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                     threshold = Integer.MAX_VALUE;
                     return oldTab;
                 }
-                // Node 数组的新容量为旧容量了 * 2
+                // Node 数组的新容量为旧容量 * 2
                 else if ((newCap = oldCap << 1) < MAXIMUM_CAPACITY &&
                         oldCap >= DEFAULT_INITIAL_CAPACITY)
                     // Node 数组的扩容阈值 * 2
@@ -237,7 +238,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                     if ((e = oldTab[j]) != null) {
                         oldTab[j] = null;
                         if (e.next == null)
-                            // LinedList 或者 Tree 节点没有下一个节点
+                            // 当 Node 节点是根节点
                             newTab[e.hash & (newCap - 1)] = e;
                         else if (e instanceof TreeNode)
                             // 当 Node 节点是 Tree
@@ -249,7 +250,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                             Node<K,V> next;
                             do {
                                 next = e.next;
-                                // 此处实现设计得很巧妙
+                                // 此处设计非常巧妙
                                 // 根据 Key.hashCode & oldCap == 0，来区分迁移数据
                                 if ((e.hash & oldCap) == 0) {
                                     if (loTail == null)
@@ -266,6 +267,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                                     hiTail = e;
                                 }
                             } while ((e = next) != null);
+
                             // 1. 若 Key.hashCode & oldCap == 0，则新 Node 节点在新数组中的索引为原索引
                             // 2. 若 Key.hashCode & oldCap != 0，则新 Node 节点在新数组中的索引为原索引 + 旧数组容量（即原索引 * 2）
                             if (loTail != null) {
