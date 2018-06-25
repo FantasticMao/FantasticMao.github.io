@@ -65,13 +65,11 @@ public class Hashtable<K,V>
 
     // 同步向 Entry 数组添加 Key-Value 键值对
     public synchronized V put(K key, V value) {
-        // Make sure the value is not null
         if (value == null) {
             // Node 节点不为 null
             throw new NullPointerException();
         }
 
-        // Makes sure the key is not already in the hashtable.
         Entry<?,?> tab[] = table;
         int hash = key.hashCode();
         // 存储在 Entry 数组中的索引值为 (hashCode & 0x7FFFFFFF) % table.length
@@ -92,14 +90,13 @@ public class Hashtable<K,V>
         return null;
     }
 
-    // 根据 Key 的 hashCode，向 Entry 数组添加 Key-Value 键值对
+    // 根据 Key 的 hashCode，同步向 Entry 数组添加 Key-Value 键值对
     private void addEntry(int hash, K key, V value, int index) {
         // 记录修改一次 Entry 数组
         modCount++;
 
         Entry<?,?> tab[] = table;
         if (count >= threshold) {
-            // Rehash the table if the threshold is exceeded
             // 当 count >= threshold 时，扩容 Entry 数组
             rehash();
 
@@ -109,7 +106,6 @@ public class Hashtable<K,V>
             index = (hash & 0x7FFFFFFF) % tab.length;
         }
 
-        // Creates the new entry.
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>) tab[index];
         // 创建新的 Entry 节点，并链接旧 Entry 节点
@@ -122,14 +118,11 @@ public class Hashtable<K,V>
         int oldCapacity = table.length;
         Entry<?,?>[] oldMap = table;
 
-        // overflow-conscious code
         // 新 Entry 数组的容量为 (旧容量 * 2) + 1
         int newCapacity = (oldCapacity << 1) + 1;
-        // 当新 Entry 数组的容量大于 Entry 数组的最大容量
-        // 则保持运行最大容量的 Entry 数组
+        // 当新 Entry 数组的容量大于 Entry 数组的最大容量，则保持运行最大容量的 Entry 数组
         if (newCapacity - MAX_ARRAY_SIZE > 0) {
             if (oldCapacity == MAX_ARRAY_SIZE)
-                // Keep running with MAX_ARRAY_SIZE buckets
                 return;
             newCapacity = MAX_ARRAY_SIZE;
         }
