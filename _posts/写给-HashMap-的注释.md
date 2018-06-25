@@ -12,7 +12,6 @@ package java.util;
 
 ......
 
-
 public class HashMap<K,V> extends AbstractMap<K,V>
     implements Map<K,V>, Cloneable, Serializable {
 
@@ -113,7 +112,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             if ((tab = table) != null && (n = tab.length) > 0 &&
                 // 存储在 Node 数组中的索引值为 (table.lenth - 1) & hashCode
                 (first = tab[(n - 1) & hash]) != null) {
-                // 判断 Key 是否匹配的条件：Node的哈希值相等 && key的引用相等 || key的equals()方法执行成功
+                // 判断 Key 是否匹配的条件：Node的哈希值相等 && key的引用相等 || key的equals()执行成功
                 if (first.hash == hash && // always check first node
                     ((k = first.key) == key || (key != null && key.equals(k))))
                     return first;
@@ -156,7 +155,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 tab[i] = newNode(hash, key, value, null);
             else {
                 Node<K,V> e; K k;
-                // 判断 Key 是否匹配的条件：Node的哈希值相等 && key的引用相等 || key的equals()方法执行成功
+                // 判断 Key 是否匹配的条件：Node的哈希值相等 && key的引用相等 || key的equals()执行成功
                 if (p.hash == hash &&
                     ((k = p.key) == key || (key != null && key.equals(k))))
                     // 替换 Node 节点
@@ -284,5 +283,86 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             }
             return newTab;
         }
+
+        // 根据 Key 删除 Value
+        public V remove(Object key) {
+            Node<K,V> e;
+            return (e = removeNode(hash(key), key, null, false, true)) == null ?
+                null : e.value;
+        }
+
+        // 根据 Key 的 hashCode，向 Node 数组删除 Key-Value 键值对
+        final Node<K,V> removeNode(int hash, Object key, Object value,
+                                   boolean matchValue, boolean movable) {
+            Node<K,V>[] tab; Node<K,V> p; int n, index;
+            if ((tab = table) != null && (n = tab.length) > 0 &&
+                (p = tab[index = (n - 1) & hash]) != null) {
+                Node<K,V> node = null, e; K k; V v;
+                // 获取 Key 对应的 Node 节点
+                if (p.hash == hash &&
+                    ((k = p.key) == key || (key != null && key.equals(k))))
+                    node = p;
+                else if ((e = p.next) != null) {
+                    if (p instanceof TreeNode)
+                        node = ((TreeNode<K,V>)p).getTreeNode(hash, key);
+                    else {
+                        do {
+                            if (e.hash == hash &&
+                                ((k = e.key) == key ||
+                                (key != null && key.equals(k)))) {
+                                node = e;
+                                break;
+                            }
+                            p = e;
+                        } while ((e = e.next) != null);
+                    }
+                }
+
+                // 删除 Node 节点
+                if (node != null && (!matchValue || (v = node.value) == value ||
+                                    (value != null && value.equals(v)))) {
+                    if (node instanceof TreeNode)
+                        ((TreeNode<K,V>)node).removeTreeNode(this, tab, movable);
+                    else if (node == p)
+                        tab[index] = node.next;
+                    else
+                        p.next = node.next;
+                    ++modCount;
+                    --size;
+                    afterNodeRemoval(node);
+                    return node;
+                }
+            }
+            return null;
+        }
+
+        // 清空 Node 数组
+        public void clear() {
+            Node<K,V>[] tab;
+            modCount++;
+            if ((tab = table) != null && size > 0) {
+                size = 0;
+                for (int i = 0; i < tab.length; ++i)
+                    tab[i] = null;
+            }
+        }
+
+        // 判断 Value 是否存在
+        public boolean containsValue(Object value) {
+            Node<K,V>[] tab; V v;
+            if ((tab = table) != null && size > 0) {
+                for (int i = 0; i < tab.length; ++i) {
+                    // 遍历 Node 节点
+                    for (Node<K,V> e = tab[i]; e != null; e = e.next) {
+                        if ((v = e.value) == value ||
+                            (value != null && value.equals(v)))
+                            return true;
+                    }
+                }
+            }
+            return false;
+        }
+
+        ......
 }
 ```
