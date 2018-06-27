@@ -5,7 +5,7 @@ categories: 编程
 tags:
 - Java
 ---
-基于 JDK8 为 HashMap 实现编写个人理解的注释。<!-- more -->
+基于 JDK8 为 HashMap 编写个人理解的注释。<!-- more -->
 
 ```java
 package java.util;
