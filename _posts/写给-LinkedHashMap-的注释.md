@@ -131,7 +131,7 @@ public class LinkedHashMap<K,V>
             a.before = b;
     }
 
-    // 在插入 HashMap.Node 节点时，更新 LinkedHashMap 双向链表
+    // 插入 HashMap.Node 节点时，更新 LinkedHashMap 双向链表
     void afterNodeInsertion(boolean evict) { // possibly remove eldest
         LinkedHashMap.Entry<K,V> first;
         // 若需要在插入节点时，删除 LinkedHashMap 双向链表的 eldest 节点，可以通过重写 removeEldestEntry(Map.Entry<K, V>) 并返回结果 true 实现
