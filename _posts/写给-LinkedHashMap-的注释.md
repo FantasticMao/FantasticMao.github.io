@@ -32,23 +32,27 @@ public class LinkedHashMap<K,V>
     // Entry 节点，记录 LinkedHashMap 双向链表的最后一个节点（也是 youngest 节点）
     transient LinkedHashMap.Entry<K,V> tail;
 
-    // 定义遍历 LinkedHashMap 内部节点排序方式
+    // 定义遍历 LinkedHashMap 内部节点的排序方式
     final boolean accessOrder;
 
+    // 将新生成的 Entry 节点关联到 LinkedHashMap 双向链表中
     private void linkNodeLast(LinkedHashMap.Entry<K,V> p) {
         // 在添加新的 Entry 节点之前，保存 LinkedHashMap 双向链表的「最后一个节点」为局部变量 last
-        // last 变量表示在添加新的 Entry 节点之后，LinkedHashMap 双向链表的「上一个最后一个节点」
+        // last 局部变量表示在添加新的 Entry 节点之后，LinkedHashMap 双向链表的「上一个最后一个节点」
         LinkedHashMap.Entry<K,V> last = tail;
 
-        // 开始添加新的 Entry 节点至 LinkedHashMap 节点
+        // 开始添加新的 Entry 节点至 LinkedHashMap 双向链表
 
         // 将 LinkedHashMap 双向链表的「最后一个节点」赋值为新添加的 Entry 节点
         tail = p;
         if (last == null)
-            // 若 LinkedHashMap 双向链表的「上一个最后一个节点」不存在，则表示双向链表为空，并将双向链表的「第一个节点」也赋值为新添加的 Entry 节点
+            // 若 LinkedHashMap 双向链表的「上一个最后一个节点」不存在，则表示双向链表为空
+            // 并将双向链表的「第一个节点」也赋值为新添加的 Entry 节点
             head = p;
         else {
-            // 若 LinkedHashMap 双向链表的「上一个最后一个节点」存在，则表示双向链表不为空，并将新添加的 Entry 节点的「上一个节点」链接到双向链表的「上一个最后一个节点」，将双向链表的「上一个最后一个节点」的「下一个节点」链接到新添加的 Entry 节点
+            // 若 LinkedHashMap 双向链表的「上一个最后一个节点」存在，则表示双向链表不为空
+            // 并将新添加的 Entry 节点的「上一个节点」链接到双向链表的「上一个最后一个节点」
+            // 并将双向链表的「上一个最后一个节点」的「下一个节点」链接到新添加的 Entry 节点
             p.before = last;
             last.after = p;
         }
@@ -72,7 +76,7 @@ public class LinkedHashMap<K,V>
     // 重新初始化 LinkedHashMap
     void reinitialize() {
         super.reinitialize();
-        // 将LinkedHashMap 双向链表也置空
+        // 将 LinkedHashMap 双向链表也置空
         head = tail = null;
     }
 
