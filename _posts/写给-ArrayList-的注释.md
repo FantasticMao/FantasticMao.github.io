@@ -30,6 +30,7 @@ public class ArrayList<E> extends AbstractList<E>
     // 内部数组中的元素个数
     private int size;
 
+    // 记录链表的内部节点的改变次数
     // 用于抛出 ConcurrentModificationException，为了避免同时迭代和修改内部数组
     protected transient int modCount = 0;
 
@@ -79,7 +80,7 @@ public class ArrayList<E> extends AbstractList<E>
 
     // 计算内部数组需要扩容的容量
     private static int calculateCapacity(Object[] elementData, int minCapacity) {
-        // 若当前内部数组是 DEFAULTCAPACITY_EMPTY_ELEMENTDATA 时，则选择 minCapacity 和 DEFAULT_CAPACITY 的最大值
+        // 若当前内部数组是 DEFAULTCAPACITY_EMPTY_ELEMENTDATA 时，则选择 DEFAULT_CAPACITY 和 minCapacity 的最大值
         if (elementData == DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
             return Math.max(DEFAULT_CAPACITY, minCapacity);
         }
@@ -145,36 +146,6 @@ public class ArrayList<E> extends AbstractList<E>
                     return i;
         }
         return -1;
-    }
-
-    // 复制当前 ArrayList，并返回一个新的实例
-    public Object clone() {
-        try {
-            ArrayList<?> v = (ArrayList<?>) super.clone();
-            v.elementData = Arrays.copyOf(elementData, size);
-            v.modCount = 0;
-            return v;
-        } catch (CloneNotSupportedException e) {
-            // this shouldn't happen, since we are Cloneable
-            throw new InternalError(e);
-        }
-    }
-
-    // 转换当前 ArrayList 为 Object[]
-    public Object[] toArray() {
-        return Arrays.copyOf(elementData, size);
-    }
-
-    // 转换当前 ArrayList 为 T[]
-    @SuppressWarnings("unchecked")
-    public <T> T[] toArray(T[] a) {
-        if (a.length < size)
-            // Make a new array of a's runtime type, but my contents:
-            return (T[]) Arrays.copyOf(elementData, size, a.getClass());
-        System.arraycopy(elementData, 0, a, 0, size);
-        if (a.length > size)
-            a[size] = null;
-        return a;
     }
 
     // 按下标获取内部数组的元素
@@ -272,48 +243,6 @@ public class ArrayList<E> extends AbstractList<E>
                              numMoved);
         // 将数组最后一位元素置空
         elementData[--size] = null; // clear to let GC do its work
-    }
-
-    // 清空内部数组
-    public void clear() {
-        modCount++;
-
-        for (int i = 0; i < size; i++)
-            elementData[i] = null; // clear to let GC do its work
-        
-        size = 0;
-    }
-
-    // 添加集合元素至内部数组的末尾位置
-    public boolean addAll(Collection<? extends E> c) {
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        // 确认内部数组是否需要扩容
-        ensureCapacityInternal(size + numNew);  // Increments modCount
-        System.arraycopy(a, 0, elementData, size, numNew);
-        size += numNew;
-        return numNew != 0;
-    }
-
-    // 添加集合元素至内部数组的指定下标位置
-    public boolean addAll(int index, Collection<? extends E> c) {
-        // 校验参数
-        rangeCheckForAdd(index);
-
-        Object[] a = c.toArray();
-        int numNew = a.length;
-        // 确认内部数组是否需要扩容
-        ensureCapacityInternal(size + numNew);  // Increments modCount
-
-        // 将内部数组 index 之后的元素向前移动一位
-        int numMoved = size - index;
-        if (numMoved > 0)
-            System.arraycopy(elementData, index, elementData, index + numNew,
-                             numMoved);
-
-        System.arraycopy(a, 0, elementData, index, numNew);
-        size += numNew;
-        return numNew != 0;
     }
 
     // 集合的差集：删除内部数组中的指定元素
