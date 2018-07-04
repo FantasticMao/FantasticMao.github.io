@@ -26,6 +26,7 @@ public class LinkedList<E>
     transient Node<E> last;
 
     // 记录链表的内部节点的改变次数
+    // 用于抛出 ConcurrentModificationException，为了避免同时迭代和修改内部数组
     protected transient int modCount = 0
 
     // LinkedList 内部节点，用于存放 LinkedList 的 <E> 数据 
@@ -42,6 +43,14 @@ public class LinkedList<E>
             this.next = next;
             this.prev = prev;
         }
+    }
+
+    public LinkedList() {
+    }
+
+    public LinkedList(Collection<? extends E> c) {
+        this();
+        addAll(c);
     }
 
     // 将元素关联为链表的第一个节点
