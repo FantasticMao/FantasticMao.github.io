@@ -99,7 +99,7 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     private void grow(int minCapacity) {
-        // 新扩容的数组长度：旧数组长度 + 旧数组长度 * 2
+        // 新扩容的数组长度：旧数组长度 + 旧数组长度 / 2
         int oldCapacity = elementData.length;
         int newCapacity = oldCapacity + (oldCapacity >> 1);
         if (newCapacity - minCapacity < 0)
