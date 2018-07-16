@@ -145,11 +145,74 @@ finalize() 是基础类 `java.lang.Object` 的一个方法，它的设计目的�
 
 # 一个线程调用两次 start() 方法会出现什么情况
 
-会抛出 `java.lang.IllegalThreadStateException` 异常
+会抛出 `java.lang.IllegalThreadStateException` 异常。
 
 ---
 
 # 什么情况下 Java 程序会产生死锁，如何定位、修复
+
+在现代计算中，[死锁](https://en.wikipedia.org/wiki/Deadlock) 是一种特定的程序运行状态。当两个以上的运算单元（线程或进程），双方都在等待对方停止运行，以获取系统资源，但却没有一方提前退出时，就称为死锁。如下示例代码将会产生死锁问题：
+```java
+public static void main(String[] args) {
+    Object lock1 = new Object();
+    Object lock2 = new Object();
+
+    new Thread(() -> { // 持有 lock1，等待 lock2
+        synchronized (lock1) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (lock2) {
+            }
+        }
+    }, "run1").start();
+
+    new Thread(() -> { // 持有 lock2，等待 lock1
+        synchronized (lock2) {
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (lock1) {
+            }
+        }
+    }, "run2").start();
+}
+```
+
+程序发生死锁时，可以借助 JDK 自带的 jstack 命令，分析线程的栈信息来排查和定位。具体思路是：区分线程状态 -> 查找 `BLOCKED` 状态的线程 -> 分析各个线程的 monitor 状态。以下是上例死锁程序的 jstack 输出：
+```
+Found one Java-level deadlock:
+=============================
+"run2":
+  waiting to lock monitor 0x00007fc8f98204a8 (object 0x00000007957151e8, a java.lang.Object),
+  which is held by "run1"
+"run1":
+  waiting to lock monitor 0x00007fc8f981dcc8 (object 0x00000007957151f8, a java.lang.Object),
+  which is held by "run2"
+
+Java stack information for the threads listed above:
+===================================================
+"run2":
+	at priv.mm.thread.Deadlock.lambda$main$1(Deadlock.java:38)
+	- waiting to lock <0x00000007957151e8> (a java.lang.Object)
+	- locked <0x00000007957151f8> (a java.lang.Object)
+	at priv.mm.thread.Deadlock$$Lambda$2/1389133897.run(Unknown Source)
+	at java.lang.Thread.run(Thread.java:748)
+"run1":
+	at priv.mm.thread.Deadlock.lambda$main$0(Deadlock.java:25)
+	- waiting to lock <0x00000007957151f8> (a java.lang.Object)
+	- locked <0x00000007957151e8> (a java.lang.Object)
+	at priv.mm.thread.Deadlock$$Lambda$1/317574433.run(Unknown Source)
+	at java.lang.Thread.run(Thread.java:748)
+
+Found 1 deadlock.
+```
+
+程序的死锁问题在大多数情况下都无法在线解决，通常只能重启应用，修正代码逻辑。
 
 ---
 
