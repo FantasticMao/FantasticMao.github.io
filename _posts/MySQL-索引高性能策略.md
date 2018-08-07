@@ -21,24 +21,26 @@ tags:
 ---
 
 # 索引的类型
-索引有很多种类型，可以为不同的场景提供更好的性能。在 MySQL 中，索引是在存储引擎层而不是服务器层实现的，MySQL 逻辑架构可以参考下图（图片来源自 [网络](https://www.rathishkumar.in/2016/04/understanding-mysql-architecture.html)）。所以，并没有统一的索引标准，不同存储引擎的索引的工作方式并不一样，也不是所有的存储引擎都支持所有类型的索引，即使多个存储引擎支持同一种类型的索引，其底层实现也可能不同。
+索引有很多种类型，可以为不同的场景提供更好的性能。在 MySQL 中，索引是在存储引擎层而不是服务器层实现的。所以，并没有统一的索引标准，不同存储引擎的索引的工作方式并不一样，也不是所有的存储引擎都支持所有类型的索引，即使多个存储引擎支持同一种类型的索引，其底层实现也可能不同。
+
+MySQL 逻辑架构可以参考下图（图片来源自 [网络](https://www.rathishkumar.in/2016/04/understanding-mysql-architecture.html)）:
 
 ![image](http://ogvr8n3tg.bkt.clouddn.com/MySQL%E7%B4%A2%E5%BC%95%E9%AB%98%E6%80%A7%E8%83%BD%E7%AD%96%E7%95%A5/1.png)
 
 ## B-Tree 索引
-当人们谈论索引的时候，如果没有特别指明类型，多半说的是 [B-Tree](https://en.wikipedia.org/wiki/B-tree) 索引，它使用 B-Tree 数据结构来存储数据。底层的存储引擎也可能使用不同的存储结构，例如 NDB 群集存储引擎内部实际上使用了 [T-Tree](https://en.wikipedia.org/wiki/T-tree) 结构存储索引；InnoDB 则使用的是 [B+Tree](https://en.wikipedia.org/wiki/B%2B_tree) 数据结构。
+当人们谈论索引的时候，如果没有特别指明类型，多半说的是 [B-Tree](https://en.wikipedia.org/wiki/B-tree) 索引，它使用 B-Tree 数据结构来存储数据。底层的存储引擎也可能使用不同的存储结构，例如 NDB 群集存储引擎内部实际上使用了 [T-Tree](https://en.wikipedia.org/wiki/T-tree) 结构存储索引，InnoDB 则使用的是 [B+Tree](https://en.wikipedia.org/wiki/B%2B_tree) 数据结构。
 
-存储引擎以不同的方式使用 B-Tree 索引，性能也各有不同，各有优劣。例如 MyISAM 使用前缀压缩技术使得索引更小，但 InnoDB 则按照原数据格式进行存储。再如 MyISAM 索引通过数据的物理位置引用被索引的行，而 InnoDB 则根据主键引用被索引的行。
+存储引擎以不同的方式使用 B-Tree 索引，性能也各有不同、各有优劣。例如 MyISAM 使用前缀压缩技术使得索引更小，但 InnoDB 则按照原数据格式进行存储。再如 MyISAM 索引通过数据的物理位置引用被索引的行，而 InnoDB 则根据主键引用被索引的行。
 
-B-Tree 通常意味着所有的值都是按顺序存储的，并且每一个叶子节点到根节点的距离相同。叶子节点比较特别，它们的指针指向的是被索引的数据，而不是其它的节点。数的深度和表的大小直接相关。
+B-Tree 数据结构和算法原理可以参考文章 [MySQL 索引背后的数据结构及算法原理 ](http://blog.codinglabs.org/articles/theory-of-mysql-index.html)。
+
+B-Tree 通常意味着所有的值都是按顺序存储的，并且每一个叶子节点到根节点的距离相同。叶子节点比较特别，它们的指针指向的是被索引的数据，而不是其它的节点。树的深度和表的大小直接相关。
 
 B-Tree 索引能加快访问数据的速度，因为存储引擎不再需要进行全表扫描来获取需要的数据，取而代之的是从索引的根节点开始进行搜索。根节点的槽中存放了指向子节点的指针，存储引擎根据这些指针向下层查找。通过比较节点中的值和需要查找的值，找到合适的指针进入下层子节点。这些指针实际上定义了子节点中值的上限和下限。最终存储引擎要么是找到对应的值，要么是得出该值的记录不存在。
 
-叶子节点比较特别，它们的指针指向的是被索引的数据，而不是其它的节点页。B-Tree 树的深度和表的大小直接相关。
-
 B-Tree 对索引列是顺序组织存储的，所以很适合查找范围数据。例如，在一个基于文本域的索引树上，按字母顺序连续传递的值进行查找是非常合适的。索引对多个值进行排序的依据是 CREATE TABLE 语句中定义索引时列的顺序。
 
-B-Tree 的数据结构和算法原理可以参考文章 [CodingLabs - MySQL 索引背后的数据结构及算法原理 ](http://ogvr8n3tg.bkt.clouddn.com/MySQL%E7%B4%A2%E5%BC%95%E9%AB%98%E6%80%A7%E8%83%BD%E7%AD%96%E7%95%A5/1.png)。一次 B-Tree 索引的插入、搜索、删除过程如下视频所示：
+一次 B-Tree 索引的插入、搜索、删除过程如下视频所示：
 
 <p><video src="http://ogvr8n3tg.bkt.clouddn.com/MySQL%E7%B4%A2%E5%BC%95%E9%AB%98%E6%80%A7%E8%83%BD%E7%AD%96%E7%95%A5/B-Tree-Insert.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
 
