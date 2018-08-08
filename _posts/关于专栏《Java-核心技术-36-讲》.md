@@ -206,11 +206,12 @@ Found 1 deadlock.
 ---
 
 # Java 并发包提供了哪些并发工具
-- Executor
+阅读 `java.util.concurrent` 的 [JavaDoc 文档](https://docs.oracle.com/javase/10/docs/api/java/util/concurrent/package-summary.html) 可以总结得出该包下提供的并发工具有：
+- Executors
     - ThreadPoolExecutor
     - ScheduledThreadPoolExecutor
     - ForkJoinPool
-- Queue
+- Queues
     - ConcurrentLinkedQueue
     - ConcurrentLinkedDeque
     - BlockingQueue
@@ -220,7 +221,7 @@ Found 1 deadlock.
         - PriorityBlockingQueue
         - DelayQueue
 - Timing
-- Synchronizer
+- Synchronizers
     - Semaphore
     - CountDownLatch
     - CyclicBarrier
