@@ -20,8 +20,6 @@ Java 是一种被广泛使用的面向对象编程语言，支持面向对象的
 
 Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也经受了业界苛刻的考验。JVM（Java Virtual Machine）不仅支持了 Java 宣传标语 —— Write Once, Run Anywhere —— 的跨平台特性，并且提供了丰富的垃圾收集机制来自动分配和回收内存。其中，常用的垃圾收集器如 Serial、Parallel、CMS、G1 等。另外，JVM 除了支持 source code -> byte code -> machine code 的编译 & 解释运行方式，还支持 JIT（Just In Time）编译方式，能够极大提高 Java 程序的运行性能。最后，JVM 作为一个强大的虚拟机，还支持运行例如 Clojure、Scala、Groovy、JRuby、Jython 等等大量的符合 JVM 字节码规范的语言。
 
-由此衍生的问题：谈谈你对 Spring Framework 的理解
-
 ---
 
 # Exception 与 Error 有什么区别
@@ -32,23 +30,21 @@ Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也
 `Exception` 类则表示可以被作为异常抛出的基本类型，是在程序正常运行情况下的可预料错误。`Exception` 类的异常分为 **受检查异常**（checked）和 **不受检查异常**（unchecked）。受检查异常必须在程序编译期被显示捕获和被正确处理，例如 `IOException`、`SQLException`。不受检查异常需继承于 `RuntimeException` 类，会在程序运行时被自动抛出，不需要被显示捕获，例如 `NullPointerException`、`ArrayIndexOutOfBoundsException`、`IllegalArgumentException`。
 
 编写异常处理代码的最佳实践：
-- 不要掩盖／生吞异常；
 - Throw Early, Catch Late；
-- 在抛出异常信息时，避免泄漏敏感信息；
 - 在知道如何处理异常的情况下，再捕获并处理异常；
 - 尽量不要 try 整段代码块，也要避免使用异常控制代码流程；
+- 不要掩盖／生吞异常，在抛出异常信息时避免泄漏敏感信息；
 - 不要捕获类似 `Exception` 类的通用异常，而是应该捕获特定异常；
 - 受检查异常被抛出后，往往不能被恢复，并且对函数式编程和三元表达式十分不友好；
 - JDK 7 支持 multiple-catch 语法和基于 `java.lang.AutoCloseable` 接口的 try-with-resource 语法；
 - 当程序未被中断时，finally 语句都会被正常执行，并且通常被用于清理系统资源。不应在 finally 语句中 return 方法的执行结果，因为这会导致异常信息的丢失；
-- 可以通过 `java.lang.Throwable#Throwable(String, Throwable)` 构造方法，捕获一个异常的同时抛出另一个异常，并且保留原始异常的堆栈信息。Spring Data 正是通过这种方式，将不同 ORM 框架中的不同异常封装成了一个通用的异常结构体系，详情可见 [官方文档](https://docs.spring.io/spring/docs/current/spring-framework-reference/data-access.html#orm-introduction) 描述。
 
 ---
 
 # 谈谈 final、finally、finalize 有什么不同
 final 关键字可以用于修饰变量、方法、类，并且在不同场景下的 final 关键字的语义不尽相同。当 final 修饰成员变量／局部变量／方法参数时，表示该变量的引用是不能被修改的；当 final 修饰方法时，表示该方法是不能被重写的；当 final 修饰类时，表示该类是不能被继承的。
 
-需要注意的是，使用 final 修饰引用类型的变量时，并不代表此变量具有 [immutable](https://en.wikipedia.org/wiki/Immutable_object) 的特性。例如在 `final List<String> list = new ArrayList<>()` 示例代码中，final 仅能保证 list 变量无法再次被赋值，而不能保证 list 的内容不被修改。
+需要注意的是，使用 final 修饰引用类型的变量时，并不代表此变量具有 [Immutable](https://en.wikipedia.org/wiki/Immutable_object) 的特性。例如在 `final List<String> list = new ArrayList<>()` 示例代码中，final 仅能保证 list 变量无法再次被赋值，而不能保证 list 的内容不被修改。
 
 很多类似使用 final 可以提高性能的结论，都是基于假设得出的。实际上， JVM 对于 final 的优化，是和它的实现细节密切相关。在日常开发中，建议不要指望使用这些小技巧，来获得所谓的性能上的提升。关于这点，可以参阅 RednaxelaFX 在知乎上的相关回答：[final 修饰递归方法会提高效率吗？](https://www.zhihu.com/question/66083114/answer/242241071)、[JVM 对于声明为 final 的局部变量做了哪些性能优化？](https://www.zhihu.com/question/21762917/answer/19239387)
 
@@ -144,7 +140,6 @@ finalize() 是基础类 `java.lang.Object` 的一个方法，它的设计目的�
 ---
 
 # 什么情况下 Java 程序会产生死锁，如何定位、修复
-
 在现代计算中，[死锁](https://en.wikipedia.org/wiki/Deadlock) 是一种特定的程序运行状态。当两个以上的运算单元（线程或进程），双方都在等待对方停止运行，以获取系统资源，但却没有一方提前退出时，就称为死锁。如下示例代码将会产生死锁问题：
 ```java
 public static void main(String[] args) {
@@ -211,17 +206,40 @@ Found 1 deadlock.
 ---
 
 # Java 并发包提供了哪些并发工具
+- Executor
+    - ThreadPoolExecutor
+    - ScheduledThreadPoolExecutor
+    - ForkJoinPool
+- Queue
+    - ConcurrentLinkedQueue
+    - ConcurrentLinkedDeque
+    - BlockingQueue
+        - LinkedBlockingQueue
+        - ArrayBlockingQueue
+        - SynchronousQueue
+        - PriorityBlockingQueue
+        - DelayQueue
+- Timing
+- Synchronizer
+    - Semaphore
+    - CountDownLatch
+    - CyclicBarrier
+    - Phaser
+    - Exchanger
+- Concurrent Collections
+    - ConcurrentHashMap
+    - ConcurrentSkipListMap
+    - ConcurrentSkipListSet
+    - CopyOnWriteArrayList
+    - CopyOnWriteArraySet
 
-- CountDownLatch
-- CyclicBarrier
-- Semaphore
 ---
 
 # 并发包中的 ConcurrentLinkedQueue 和 LinkedBlockingQueue 有什么区别
 
 ---
 
-# Java 并发类库提供的线程有哪几种，分别有什么特点
+# Java 并发类库提供的线程池有哪几种，分别有什么特点
 
 ---
 
