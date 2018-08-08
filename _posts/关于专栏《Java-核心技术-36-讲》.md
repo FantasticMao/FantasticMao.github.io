@@ -16,7 +16,6 @@ tags:
 ---
 
 # 谈谈你对 Java 平台的理解
-
 Java 是一种被广泛使用的面向对象编程语言，支持面向对象的封装、多态、继承三大特性。Java 的基本语法类似于 C 语言，相对规范和严谨（区别于 PHP、Python 等弱类型语言），支持 Annotaion、Generic、Lambda、Method Reference 等等。除此之外，Java 的核心类库和第三方库也十分丰富，核心类库包括 IO／NIO、Collection、Network、Concurrent、Security、Date／Time 等等，第三方库包括 Spring Framework、Netty、Hibernate、Jackson、Guava 等等。
 
 Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也经受了业界苛刻的考验。JVM（Java Virtual Machine）不仅支持了 Java 宣传标语 —— Write Once, Run Anywhere —— 的跨平台特性，并且提供了丰富的垃圾收集机制来自动分配和回收内存。其中，常用的垃圾收集器如 Serial、Parallel、CMS、G1 等。另外，JVM 除了支持 source code -> byte code -> machine code 的编译 & 解释运行方式，还支持 JIT（Just In Time）编译方式，能够极大提高 Java 程序的运行性能。最后，JVM 作为一个强大的虚拟机，还支持运行例如 Clojure、Scala、Groovy、JRuby、Jython 等等大量的符合 JVM 字节码规范的语言。
@@ -26,7 +25,6 @@ Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也
 ---
 
 # Exception 与 Error 有什么区别
-
 在 Java 标准异常中，`Throwable` 类表示任何可以被作为异常抛出的类，`Exception` 类和 `Error` 类都继承了 `Throwable` 类。
 
 `Error` 类表示编译错误和系统错误，是在程序正常运行情况下，不大可能会出现的异常，例如 `OutOfMemoryError`、`StackOverflowError`。
@@ -48,7 +46,6 @@ Java 作为一个老牌且成熟的编程语言，其发展多年的虚拟机也
 ---
 
 # 谈谈 final、finally、finalize 有什么不同
-
 final 关键字可以用于修饰变量、方法、类，并且在不同场景下的 final 关键字的语义不尽相同。当 final 修饰成员变量／局部变量／方法参数时，表示该变量的引用是不能被修改的；当 final 修饰方法时，表示该方法是不能被重写的；当 final 修饰类时，表示该类是不能被继承的。
 
 需要注意的是，使用 final 修饰引用类型的变量时，并不代表此变量具有 [immutable](https://en.wikipedia.org/wiki/Immutable_object) 的特性。例如在 `final List<String> list = new ArrayList<>()` 示例代码中，final 仅能保证 list 变量无法再次被赋值，而不能保证 list 的内容不被修改。
@@ -78,20 +75,17 @@ finalize() 是基础类 `java.lang.Object` 的一个方法，它的设计目的�
 
 # 强引用、软引用、弱引用、虚引用有什么区别
 这个问题，可以在[《深入理解 Java 虚拟机》](https://book.douban.com/subject/24722612/) 的 3.2.3 章节中找到答案：
-> 垃圾收集器在对堆进行回收前，第一件事情就是要确定堆中的对象哪些还「存活」，哪些已经「死去」。
->
-> 引用计数算法：给对象添加一个引用计数器，每当有一个地方引用它时，计数器值就加 1；当引用失效时，计数器值就减 1；任何时刻计数器值为 0 的对象就是不可能再被使用的。
->
-> 可达性分析算法：通过一系列称为 GC Roots 的对象作为起始点，从这些节点开始向下搜索，搜索所经过的路径称为引用链。当一个对象到 GC Roots 没有任何引用链的时候，则证明此对象是不可用的。
->
-> 引用计数算法很难解决对象之间相互循环引用的问题。在主流的商用程序语言的主流实现中，都是通过可达性分析算法来判定对象是否存活的。
->
-> 无论是通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象的引用链是否可达，判断对象是否存活都与「引用」有关。在 JDK 1.2 以前，Java 中的引用定义很传统：如果 reference 类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存地址代表着一个引用。在 JDK 1.2 之后，Java 对引用的概念进行了扩充，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，这四种引用强度依次逐渐减弱。
+> 无论是通过 [引用计数算法（Reference Counting）](https://en.wikipedia.org/wiki/Reference_counting) 判断对象的引用数量，还是通过 [可达性分析算法（Tracing Garbage Collection）](https://en.wikipedia.org/wiki/Tracing_garbage_collection) 判断对象的引用链是否可达，判断对象是否存活都与「引用」有关。在 JDK 1.2 以前，Java 中的引用定义很传统：如果 reference 类型的数据中存储的数值代表的是另一块内存的起始地址，就称这块内存地址代表着一个引用。在 JDK 1.2 之后，Java 对引用的概念进行了扩充，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（Weak Reference）、虚引用（Phantom Reference）四种，这四种引用强度依次逐渐减弱。
 >
 > - 强引用就是指程序代码之中普遍存在的，类似 `Object obj = new Object()` 这类的引用。只要强引用还存在，垃圾收集器就永远不会回收被引用的对象。
 > - 软引用是用来描述一些还有用但并非必需的对象。对于软引用关联着的对象，在系统将要发生内存溢出异常之前，将会把这些对象列进回收范围之中，进行第二次回收。如果这次回收还没有足够的内存，才会抛出内存溢出异常。
 > - 弱引用也是用来描述非必需的对象，但是它的强度比软引用更弱一些，被弱引用关联的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。
 > - 虚引用也称为幽灵引用或幻影引用，是最弱的一种引用关系。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的，就是能在这个对象被垃圾收集器回收时，收到一个系统通知。
+
+软引用可以用来实现内存敏感的缓存机制，弱引用可以用来实现没有强制约束的关联关系。不同引用类型的应用案例有：
+- `ThreadLocal.ThreadLocalMap` 使用弱引用存储 `ThreadLocal` 实例；
+- `WeakCache<K, P, V>` 使用弱引用存储 Key 和 Value，使用强引用存储 SubKey；
+- `com.google.common.cache.LocalCache` 支持使用软引用和弱引用的缓存失效策略，详情可参见 [文档](https://github.com/google/guava/wiki/CachesExplained#reference-based-eviction)；
 
 ---
 
