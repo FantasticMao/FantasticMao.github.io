@@ -6,13 +6,7 @@ tags:
 - Linux
 - Ubuntu
 ---
-
 记一次个人 PC 的 Ubuntu 16.04 LTS 重装记录，包含开发环境的搭建、日常软件的安装、几个踩过的坑。<!-- more -->
-
-### 前言
-最近在知乎上看到了 [一篇回答](https://www.zhihu.com/question/19811112/answer/132006027)，决定重装（升级？） Ubuntu......
-
-不得不说，Ubuntu 相比于 CentOS，体验真的棒很多，尤其是在桌面应用上。
 
 ---
 
