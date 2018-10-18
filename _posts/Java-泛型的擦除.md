@@ -103,7 +103,7 @@ Java 泛型是使用擦除来实现的，这意味着当在使用泛型时，类
 > It is misleading, because the declaration of a generic is never actually expanded in this way. There aren't multiple copies of the code--not in source, not in binary, not on disk and not in memory. If you are a C++ programmer, you'll understand that this is very different than a C++ template.
 
 反编译例 [1.1 Generic泛型类](#泛型类) 中的代码，可见结果如下图。这也证实了 Java 在字节码文件中存储泛型类的 **具体类型** 确实只是简单的 `java.lang.Object` 类型，也就意味着类在运行时的 **具体类型** 已经被擦除了。
-![images](http://ogvr8n3tg.bkt.clouddn.com/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E6%93%A6%E9%99%A4/1.png)
+![images](/images/Java泛型的擦除/1.png)
 
 由于擦除现象的存在，泛型代码在不指定边界的情况下，其类定义的 **参数类型** 在代码运行时只能被作为 `java.lang.Object` 使用，我们因此也无法使用反射获取 **具体类型** 的任何信息。
 
@@ -124,7 +124,7 @@ public class Generic<T> {
 
 ## 如何弥补擦除
 为了明确类在运行时的 **具体类型**，我们可以使用 Java 泛型的 [边界](#通配符和边界) 来指定擦除的边界。将 [1.1 Generic 泛型类](#泛型类) 的 **参数类型** 调整为 `<T extends Number>` 然后再次进行反编译，结果如下图。可见此时的 **参数类型** 在代码运行时确实仅被擦除到了 `java.lang.Number` 类型，我们也由此可以在泛型代码中调用 `java.lang.Number` 的所有属性和方法。
-![images](http://ogvr8n3tg.bkt.clouddn.com/Java%E6%B3%9B%E5%9E%8B%E7%9A%84%E6%93%A6%E9%99%A4/2.png)
+![images](/images/Java泛型的擦除/2.png)
 
 除此之外，我们还可以通过显示地传入 `java.lang.Class` 对象，结合使用反射来弥补一些泛型擦导致的缺陷。以及，数组类型的泛型定义可以通过 `List<T>` 来替换。如下所示：
 ```java

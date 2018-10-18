@@ -25,7 +25,7 @@ tags:
 
 MySQL 逻辑架构可以参考下图（图片来源自 [网络](https://www.rathishkumar.in/2016/04/understanding-mysql-architecture.html)）:
 
-![image](http://ogvr8n3tg.bkt.clouddn.com/MySQL%E7%B4%A2%E5%BC%95%E9%AB%98%E6%80%A7%E8%83%BD%E7%AD%96%E7%95%A5/1.png)
+![image](/images/MySQL索引高性能策略/1.png)
 
 ## B-Tree 索引
 当人们谈论索引的时候，如果没有特别指明类型，多半说的是 [B-Tree](https://en.wikipedia.org/wiki/B-tree) 索引，它使用 B-Tree 数据结构来存储数据。底层的存储引擎也可能使用不同的存储结构，例如 NDB 群集存储引擎内部实际上使用了 [T-Tree](https://en.wikipedia.org/wiki/T-tree) 结构存储索引，InnoDB 则使用的是 [B+Tree](https://en.wikipedia.org/wiki/B%2B_tree) 数据结构。
@@ -42,11 +42,11 @@ B-Tree 对索引列是顺序组织存储的，所以很适合查找范围数据�
 
 一次 B-Tree 索引的插入、搜索、删除过程如下视频所示：
 
-<p><video src="http://ogvr8n3tg.bkt.clouddn.com/MySQL%E7%B4%A2%E5%BC%95%E9%AB%98%E6%80%A7%E8%83%BD%E7%AD%96%E7%95%A5/B-Tree-Insert.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
+<p><video src="/images/MySQL索引高性能策略/B-Tree-Insert.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
 
-<p><video src="http://ogvr8n3tg.bkt.clouddn.com/MySQL%E7%B4%A2%E5%BC%95%E9%AB%98%E6%80%A7%E8%83%BD%E7%AD%96%E7%95%A5/B-Tree-Search.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
+<p><video src="/images/MySQL索引高性能策略/B-Tree-Search.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
 
-<p><video src="http://ogvr8n3tg.bkt.clouddn.com/MySQL%E7%B4%A2%E5%BC%95%E9%AB%98%E6%80%A7%E8%83%BD%E7%AD%96%E7%95%A5/B-Tree-Remove.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
+<p><video src="/images/MySQL索引高性能策略/B-Tree-Remove.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
 
 假设有如下数据表：
 ```sql

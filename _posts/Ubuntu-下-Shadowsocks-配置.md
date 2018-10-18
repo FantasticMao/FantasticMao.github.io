@@ -14,24 +14,24 @@ Shadowsocks 中文名影梭，是一个使用 socks5 协议的开源代理工具
 
 # 获取 Shadowsocks 配置
 获取 Shadowsocks 配置的渠道有很多，可以自己搭建海外 Shadowsocks 服务器，也可以依靠搜索引擎获取。个人是在某一站点（站长要求保密）购买 Shadowsocks 配置，服务稳定，速度很快。
-![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/1.png)
+![image](/images/Ubuntu环境下Shadowsocks配置/1.png)
 
 # 安装并配置 Shadowsocks
 使用 `sudo apt-get install shadowsocks` 安装 Shadowsocks 客户端。结束安装之后，编辑 Shadowsocks 配置文件 `sudo vim /etc/shadowsocks/config.json`，将 **server**、**server_port**、**password** 与 Shadowsocks 服务端配置相匹配。
-![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/2.png)
+![image](/images/Ubuntu环境下Shadowsocks配置/2.png)
 使用命令`sslocal -c /etc/shadowsocks/config.json`开启 Shadowsocks 代理。
-![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/3.png)
+![image](/images/Ubuntu环境下Shadowsocks配置/3.png)
 
 # 使用 Chrome 浏览器翻墙
 新开一个终端，使用命令 `google-chrome --proxy-server="socks5://127.0.0.1:1080"` 让 Chrome 代理本机请求，实现 Chrome 浏览器翻墙。
 **注意**：该命令应在 Chrome 未启动时执行，否则失败。
-![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/4.png)
+![image](/images/Ubuntu环境下Shadowsocks配置/4.png)
 
 # 配置全局 Socks 代理翻墙
 第 3 步中仅单独实现了 Chrome 翻墙，局限性很大。在系统设置 -> 网络 -> 网络代理中，填写 Socks 主机 127.0.0.1 和监听端口 1080，并应用到整个系统，即可实现所有应用翻墙。
 **注意**：开启全局网络代理之后，退出时应 **注意关闭**，否则将无法联网。
-![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/5.png)
+![image](/images/Ubuntu环境下Shadowsocks配置/5.png)
 
 # #附
 * 安装 Chrome 时，若由依赖关系问题导致安装失败，应当使用 `sudo apt-get -f install` 修复。
-![image](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E7%8E%AF%E5%A2%83%E4%B8%8BShadowsocks%E9%85%8D%E7%BD%AE/6.png)
+![image](/images/Ubuntu环境下Shadowsocks配置/6.png)

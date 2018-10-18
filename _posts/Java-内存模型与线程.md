@@ -14,15 +14,15 @@ tags:
 # 硬件的效率与一致性
 计算机的大部分运算任务都不可能只靠处理器（CPU）计算就能完成。因为大部分情况下，处理器都需要与存储设备（内存）进行交互，例如读取数据、存储运算结果等。
 
-![iamge](http://ogvr8n3tg.bkt.clouddn.com/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/1.png)
+![iamge](/images/Java内存模型与线程/1.png)
 
 由于计算的 CPU 与内存的运算速度存在几个数量级的差距，所以现代大部分计算机系统都加入了一层读写速度尽可能接近 CPU 运算速度的 [高速缓存（Cache）](https://en.wikipedia.org/wiki/CPU_cache)，用来作为 CPU 和内存的缓冲。这种缓冲的运行机制是：将 CPU 运算所需要使用到的数据复制到缓存中，让运算能快速进行；当运算结束之后再从缓冲同步回内存之中。通过这种方式，CPU 就无需等待对内存的缓慢读写了。
 
-![image](http://ogvr8n3tg.bkt.clouddn.com/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/2.png)
+![image](/images/Java内存模型与线程/2.png)
 
 不过这种运行机制也引入了一个新的问题：[缓存一致性（Cache Coherence）](https://en.wikipedia.org/wiki/Cache_coherence)。当多个 CPU 的运算任务都涉及同一块内存区域时，将可能导致 CPU 的寄存器、高速缓存、内存中的数据不一致问题。为了解决内存一致性问题，需要各个 CPU 在访问内存时都遵循一致的协议，在读写数据时需要根据协议来进行操作，类似的协议有 [MSI Protocol](https://en.wikipedia.org/wiki/MSI_protocol)、[MESI Protocol](https://en.wikipedia.org/wiki/MESI_protocol)、[MOSI Protocol](https://en.wikipedia.org/wiki/MOSI_protocol)、<a href="https://en.wikipedia.org/wiki/Firefly_(cache_coherence_protocol)" target="_blank" rel="noopener">Firefly</a>、[Dragon Protocol](https://en.wikipedia.org/wiki/Dragon_protocol) 等。
 
-![image](http://ogvr8n3tg.bkt.clouddn.com/Java%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B%E4%B8%8E%E7%BA%BF%E7%A8%8B/3.png)
+![image](/images/Java内存模型与线程/3.png)
 
 [内存模型（Memory Module）](https://en.wikipedia.org/wiki/Memory_module) 一词可以理解为在特定的操作协议下，计算机对特定的内存或高速缓存进行读写访问的抽象过程。不同架构的物理机器可以拥有不同的内存模型，Java 虚拟机也拥有自己的内存模型。
 

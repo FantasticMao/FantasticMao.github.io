@@ -31,7 +31,7 @@ tags:
 3. 执行 `mysql> SHOW VARIABLES LIKE 'character%';` 语句查看 MySQL 字符集编码。
 4. 打开 MySQL 主配置文件 `sudo vim /etc/mysql/my.conf`，如下图添加 client 和 mysqld 配置，修改默认字符集编码。
 5. 执行 `service mysql restart` 重启MySQL服务。
-![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/1.png)
+![images](/images/Ubuntu下开发环境搭建/1.png)
 
 ---
 
@@ -42,7 +42,7 @@ tags:
 1. 新增配置文件 `sudo vim /usr/share/X11/xorg.conf.d/20-intel.conf`，贴入下图内容保存。
 2. 进入 chrome://flags/ 页面，停用「加速的2D画布 」，启用「零副本光栅化处理程序 」。
 3. 重新登录用户。
-![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/2.png)
+![images](/images/Ubuntu下开发环境搭建/2.png)
 
 ---
 
@@ -52,14 +52,14 @@ tags:
 *JDK*：
 1. 打开环境变量配置文件 `sudo vim /etc/profile`，如下图添加 Java 环境变量。
 2. 使用 `source /etc/profile` 重新读取配置，或者重新登录用户。
-![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/3.png)
+![images](/images/Ubuntu下开发环境搭建/3.png)
 
 *Tomcat*：
 1. 打开环境变量配置文件 `sudo vim /etc/profile`，如下图一添加 Tomcat 环境变量。
 2. 打开 Tomcat 配置文件 `sudo vim /usr/local/tomcat8/conf/server.conf`，如下图二修改 Tomcat 的 URI 默认编码。
 3. 使用 `source /etc/profile` 重新读取配置，或者重新登录用户。
-![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/4.png)
-![images](http://ogvr8n3tg.bkt.clouddn.com/Ubuntu%E4%B8%8B%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/5.png)
+![images](/images/Ubuntu下开发环境搭建/4.png)
+![images](/images/Ubuntu下开发环境搭建/5.png)
 
 *IDEA*：
 1. 执行 `/usr/local/idea/bin/idea.sh`，以 **普通用户权限** 启动 IDEA，而非是管理员用户权限。

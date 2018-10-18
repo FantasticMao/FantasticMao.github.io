@@ -92,7 +92,7 @@ Cache：「缓存」是一份之前 `Response` 信息的本地存储，和其控
 ---
 
 ## 报文简析
-![iamges](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/2.png)
+![images](/images/HTTP必知必会/1.png)
 
 Common Method Properties: Safe Methods、Idempotent Methods、Cacheable Methods
 
@@ -117,7 +117,7 @@ HTTP 是一种不保存状态，即无状态（stateless）的协议。HTTP 协�
 [Cookie](https://en.wikipedia.org/wiki/HTTP_cookie) 技术通过在 `Request` 和 `Response` 报文中写入 Cookie 信息来控制客户端的状态。它会根据从服务端发送的 `Response` 报文内的一个叫做 `Set-Cookie` 的首部字段，通知客户端保存 Cookie 值。当下次客户端再往该服务端发送 `Request` 时，客户端会自动在报文中加入 Cookie 值后发送出去。此时，服务端发现客户端发送过来的 Cookie 值后，会去检查究竟是从哪一个客户端发来的，然后对比服务端上的记录，最后得到请求之前的状态信息。
 
 Wireshark 抓包示意图：
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/Cookie.png)
+![images](/images/HTTP必知必会/Cookie.png)
 
 ---
 
@@ -127,7 +127,7 @@ Wireshark 抓包示意图：
 server-driven：服务端驱动（或称主动）内容协商是根据在服务端上执行的算法来选择资源的最合适的表现形式。这通常是基于客户端所提供的可接受标准来执行的。具体来说，当客户端向服务端发送 `Request` 时，在请求首部的 `Accept` 系列字段中给出可接受的媒体类型和相关的质量因素，而服务端则按照客户端所提供的这些参数，选择其最合适的资源版本返回 `Response`。
 
 Wireshark 抓包示意图：
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/HTTP-content-negotiation.png)
+![images](/images/HTTP必知必会/HTTP-content-negotiation.png)
 
 agent-driven：用户代理驱动（或称被动）内容协商是根据在客户端上执行的算法来选择资源的最合适的表现形式。这通常是基于服务端所提供的资源的表现形式列表和元数据，以此来执行的。
 
@@ -146,9 +146,9 @@ agent-driven：用户代理驱动（或称被动）内容协商是根据在客�
 ![images](https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/450px-HTTP_persistent_connection.svg.png)
 
 Wireshark 抓包示意图：
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/HTTP-persistent-connection-1.png)
+![images](/images/HTTP必知必会/HTTP-persistent-connection-1.png)
 
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/HTTP-persistent-connection-2.png)
+![images](/images/HTTP必知必会/HTTP-persistent-connection-2.png)
 
 ---
 
@@ -163,7 +163,7 @@ HTTP 管线化需要客户端和服务端的同时支持。虽然使用 HTTP/1.1
 ![images](https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/640px-HTTP_pipelining2.svg.png)
 
 Wireshark 抓包示意图：
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/HTTP-pipelining.png)
+![images](/images/HTTP必知必会/HTTP-pipelining.png)
 
 PS：在理想情况下，HTTP 响应报文是作为整包且有序地发送给客户端的，并且服务端会在响应报文中使用 `Content-Length` 首部字段标志响应实体的长度，因此客户端可以依据 `Content-Length` 值来计算当前响应实体的结束和下一个响应实体的开始。而使用 HTTP 持久连接和 HTTP 管线化，则会使客户端难以确认服务端返回的响应的先后顺序，以至于 `Content-Length` 无法被正常使用。为了解决这个问题，HTTP/1.1 引入了 [分块传输编码](#HTTP-分块传输编码)。它定义了一个 `last-chunk` 比特位，可以用来设置每一个响应的结束标识，客户端也由此可以得知每一个响应实体的结束状态了。
 
@@ -179,7 +179,7 @@ PS：在理想情况下，HTTP 响应报文是作为整包且有序地发送给�
 - identity：默认值，不压缩内容；
 
 Wireshark 抓包示意图：
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/HTTP-compression.png)
+![images](/images/HTTP必知必会/HTTP-compression.png)
 
 ---
 
@@ -189,7 +189,7 @@ Wireshark 抓包示意图：
 在一次 HTTP `Response` 报文中，通过使用 `Transfer-Encoding:chunked` 指示当前 `Response` 是分块传输编码的，并以最终传输一个 0 字节的「数据块」为结束标识。
 
 Wireshark 抓包示意图：
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/HTTP-Chunked-transfer-encoding.png)
+![images](/images/HTTP必知必会/HTTP-chunked-transfer-encoding.png)
 
 ---
 
@@ -203,7 +203,7 @@ Validation 机制用于校验一个被缓存的 `Response` 在过时之后，是
 Invalidation 机制通常是针对使用缓存技术的副作用。例如，一个关联着缓存数据的 URL，若被以 PUT/POST/DELETE 方法请求了，那么其缓存数据就会失效。
 
 Wireshark 抓包示意图：
-![images](http://ogvr8n3tg.bkt.clouddn.com/HTTP%E5%BF%85%E7%9F%A5%E5%BF%85%E4%BC%9A/HTTP-cache.png)
+![images](/images/HTTP必知必会/HTTP-cache.png)
 
 更全面地了解 HTTP 条件请求，推荐阅读：[RFC 7232 - Hypertext Transfer Protocol (HTTP/1.1): Conditional Requests](https://tools.ietf.org/html/rfc7232)
 
