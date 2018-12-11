@@ -23,10 +23,10 @@ HashMap.TreeNode 间接继承了 HashMap.Node。当 HashMap.Node 类型的链表
 ![image]()
 
 ### 计算数组下标
-HashMap 为了将元素均匀地分散在 `table` 数组上（避免哈希碰撞），使用元素 key 的哈希值进行了一系列的位运算，从而最终确定元素的数组下标。HashMap 计算元素的数组下标的关键代码如下图所示：
+HashMap 为了将节点均匀地分散在 `table` 数组上（避免哈希碰撞），使用节点 key 的哈希值进行了一系列的位运算，从而最终确定节点的数组下标。HashMap 计算节点的数组下标的关键代码如下图所示：
 ![image](/images/Java集合框架概览/HashMapHash.png)
 
-阅读源码可以得出，在 HashMap 中计算元素的数组下标逻辑为：
+阅读源码可以得出，在 HashMap 中计算节点的数组下标规则为：
 * 当 key == null 时，数组下标为 0；
 * 当 key != null 时，数组下标为 (table.length - 1) & (key.hashCode() ^ (key.hashCode() >>> 16))。
 
@@ -35,7 +35,7 @@ HashMap get 方法的关键代码如下图所示：
 ![image](/images/Java集合框架概览/HashMapGet.png)
 
 HashMap get 方法的关键步骤：
-1. 根据 key，计算元素的数组下标；
+1. 根据 key，计算节点的数组下标；
 2. 根据数组下标，获取对应的 Node 节点，判断该节点的哈希值和 key 是否与目标节点的哈希值和 key 匹配，若匹配成功则直接返回；
 3. 若在 2 中匹配节点失败，则获取当前节点的下一个节点，依据当前节点的类型（链表或红黑树），使用不同方式遍历后续的所有节点，查找与目标节点的哈希值和 key 匹配的节点。若匹配成功则直接返回对应的节点；
 4. 若在 2 和 3 中匹配节点失败，则表示目标元素不存在。get 方法最终返回的目标元素为 null。
@@ -45,23 +45,35 @@ HashMap put 方法的关键代码如下图所示：
 ![image](/images/Java集合框架概览/HashMapPut.png)
 
 HashMap put 方法的关键步骤：
-1. 根据 key，计算元素的数组下标；
+1. 根据 key，计算节点的数组下标；
 2. 根据数组下标，获取对应的 Node 节点，判断该节点是否为 null，若节点为 null 则直接为该节点赋值；
 3. 若在 2 中的节点不为 null，则判断当前节点的哈希值和 key 是否与待插入节点的哈希值和 key 匹配，若匹配成功则获取该节点；
 4. 若在 3 中匹配节点失败，则依据该节点的类型（链表或红黑树），使用不同方式遍历后续的所有节点，查找与待插入节点的哈希值和 key 匹配的节点。若匹配成功则获取对应的节点，如果匹配失败则为最后一个节点的下一个节点赋值。当在链表类型的节点中查找时，若发现链表长度大于或等于 HashMap 定义的常量 `TREEIFY_THRESHOLD` 时，则需将当前节点的类型由链表转置为红黑树；
-5. 若在 3 或 4 中获取节点成功，则表示此次插入操作是替换 HashMap 中的旧元素，需要使用待插入元素的新值替换旧元素的旧值，并直接返回旧值；
-6. 若在 3 和 4 中匹配节点失败，则表示此次插入操作是新插入元素，需要更新 HashMap 中统计信息的相关字段，并判断插入新元素后的 HashMap 是否需要扩容。此时 put 方法最终返回的旧元素值为 null。
+5. 若在 3 或 4 中获取节点成功，则表示此次插入操作是替换旧节点，需要使用待插入元素的新值替换旧元素的旧值，并直接返回旧值；
+6. 若在 3 和 4 中匹配节点失败，则表示此次插入操作是插入新节点，需要更新 HashMap 中统计信息的相关字段，并判断插入新元素后的 HashMap 是否需要扩容。此时 put 方法最终返回的旧元素值为 null。
 
 ### resize 方法
 HashMap resize 方法的关键代码如下图所示：
+![image](/images/Java集合框架概览/HashMapResize.png)
+
+HashMap resize 方法的关键步骤：
+1. 计算 `newCap` 和 `newThr`，在正常扩容的情况下，`newCap` 是 `oldCap` 的两倍，`newThr` 是 `oldThr` 的两倍；
+2. 创建新 `Node<K,V>[] newTab`;
+3. 遍历旧 `Node<K,V>[] oldTab`，移动 `oldTab` 旧节点至 `newTab` 的新节点。
+
+在 HashMap resize 移动节点时，计算新节点的数组下标逻辑为：
+* 若 `oldTab` 上的节点没有后续节点，则将其移动到 `newTab[e.hash & (newCap - 1)]` 位置；
+* 若 `oldTab` 上的节点存在后续节点，则通过 `(e.hash & oldCap) == 0` 来判断该节点的哈希值的最高位是否为零，若是则将其移动到 `newTab[j]` 位置，若不是则将其移动到 `newTab[j + oldCap]` 位置，其中 `j` 为该节点的原数组下标。
 
 ### 注意事项
-关于 HashMap，有几点是需要注意一下的：
+关于 HashMap，有以下几点是需要注意的：
 1. HashMap 不保障线程安全；
 2. HashMap 允许 key 和 value 是 null；
-3. HashMap 以哈希算法确定元素的位置，不会保证元素的插入顺序；
+3. HashMap 以哈希算法确定节点的位置，不会保证节点的插入顺序；
 4. 可以通过优化 HashMap 持有元素的 `hashCode()`，从而降低哈希碰撞的可能性。
 
+### 参考资料
+* [Java 8系列之重新认识HashMap](https://tech.meituan.com/java_hashmap.html)
 
 ---
 
