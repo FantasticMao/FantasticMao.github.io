@@ -19,7 +19,7 @@ HashMap.Node 实现了 Map.Entry 接口，它为 HashMap 保存了 key-value 元
 
 HashMap.TreeNode 间接继承了 HashMap.Node。当 HashMap.Node 类型的链表长度大于 HashMap 定义的常量 `TREEIFY_THRESHOLD` 时，链表就会被 `treeifyBin(Node<K,V>[], int)` 方法转置成 HashMap.TreeNode 类型的红黑树。（红黑树的数据结构此处暂不讨论）
 
-综上所述，HashMap 中所涉及的数据结构，大致如下图所示：
+综上所述，HashMap 中所涉及的数据结构如下图所示：
 ![image]()
 
 ### 计算数组下标
@@ -78,6 +78,17 @@ HashMap resize 方法的关键步骤：
 ---
 
 ## LinkedHashMap
+LinkedHashMap 基于 HashMap 实现了双向链表的功能。LinkedHashMap 继承了 HashMap，并添加了 `LinkedHashMap.Entry<K,V> head` 和 `LinkedHashMap.Entry<K,V> tail` 两给字段，用于保存双向链表的头和尾。LinkedHashMap 的内部节点 LinkedHashMap.Entry 继承了 HashMap.Entry，并添加了 `Entry<K,V> before, after` 两个字段，用于保存每个双向链表节点的上下位节点。LinkedHashMap 可以通过 `boolean accessOrder` 构造参数来指定双向链表的排序模型 —— 按访问顺序或按插入顺序，默认是按插入顺序。
+
+LinkedHashMap 的数据结构如下图所示：
+![image]()
+
+LinkedHashMap 本身并没有对 HashMap 的 get、put 等操作进行修改，而是通过重写 HashMap 中的几个钩子方法（hook method）来维护它本身和链表顺序的相关字段。LinkedHashMap 重写的钩子方法主要涉及内部节点的创建、访问、增加和删除操作，相关代码如下图 1 和 2 中所示：
+![image](/images/Java集合框架概览/LinkedHashMapVsHashMap.png)
+
+### 注意事项
+关于 LinkedHashMap，有以下几点是需要注意的：
+1. LinkedHashMap 按插入顺序的访问模型可以被用于实现 <a href="https://en.wikipedia.org/wiki/Cache_replacement_policies#Least_recently_used_(LRU)" target="_blank" rel="noopener">LRU</a> 算法，具体实现时仅需重写 `removeEldestEntry(Map.Entry<K,V> eldest)` 方法即可。
 
 ## TreeMap
 
