@@ -14,8 +14,8 @@ tags:
 ## HashMap
 HashMap 使用一个 `transient Node<K, V>[] table` 字段存储 key-value 键值对的数据，`Node<K, V>` 默认情况下的 HashMap.Node 是链表类型，特殊情况下是 HashMap.TreeNode 红黑树类型。因为 HashMap.TreeNode 间接继承了 HashMap.Node，所以这两种类型可以同时适用于上述的 `table` 字段。
 
-HashMap.Node 实现了 Map.Entry 接口，它为 HashMap 保存了 key-value 元素的基本数据和经过 `hash(object)` 方法计算的 key 的散列值。除此之外，HashMap.Node 作为链表的节点，它还保存了它的下一个节点的引用。HashMap.Node 类的字段如下图所示：
-![image](/images/Java集合框架概览/HashMapEntry.png)
+HashMap.Node 实现了 Map.Entry 接口，它为 HashMap 保存了 key-value 元素的基本数据和经过 `hash(object)` 方法计算的 key 的散列值。除此之外，HashMap.Node 作为链表的节点，它还保存了它的下一个节点。HashMap.Node 类的字段如下图所示：
+![image](/images/Java集合框架概览/HashMapNode.png)
 
 HashMap.TreeNode 间接继承了 HashMap.Node。当 HashMap.Node 类型的链表长度大于 HashMap 定义的常量 `TREEIFY_THRESHOLD` 时，链表就会被 `treeifyBin(Node<K,V>[], int)` 方法转置成 HashMap.TreeNode 类型的红黑树。（红黑树的数据结构此处暂不讨论）
 
@@ -93,11 +93,36 @@ LinkedHashMap 本身并没有对 HashMap 的 get、put 等操作进行修改，�
 ---
 
 ## TreeMap
+TreeMap 基于红黑树算法实现，TreeMap 使用 `private transient Entry<K,V> root` 字段存储红黑树的根节点，使用 `private final Comparator<? super K> comparator` 字段存储内部节点的排序规则。
+
+TreeMpa.Entry 实现了 Map.Entry 接口，它为 TreeMap 保存了 key-value 元素的基本数据和当前节点的父节点、左子节点、右子节点，以及当前节点红或黑的颜色。TreeMap.Entry 类的字段如下图所示：
+![image](/images/Java集合框架概览/TreeMapEntry.png)
+
+TreeMap 中所涉及的数据结构如下图所示：
+![image](/images/Java集合框架概览/TreeMap.png)
+
+### get 方法
+TreeMap get 方法的关键代码如下图所示：
+
+TreeMap get 方法的关键步骤：
+
+### put 方法
+TreeMap put 方法的关键代码如下图所示：
+
+TreeMap put 方法的关键步骤：
+
+### remove 方法
+TreeMap remove 方法的关键代码如下图所示：
+
+TreeMap remove 方法的关键步骤：
+
+### 参考资料
+* [红黑树深入剖析及Java实现](https://tech.meituan.com/redblack_tree.html)
 
 ---
 
 ## Hashtable
-Hashtable 的数据结构与 HashMap 类似，其内部使用一个 `private transient Entry<?,?>[] table` 字段存储 key-value 键值对的数据，但与 HashMap 不同的是，Hashtable 的内部节点 Hashtable.Entry 只能是链表类型。Hashtable 并没有针对在哈希冲突严重的情况下，使用红黑树类型节点替换过长的链表类型节点。Hashtable 的所有方法都被 synchronized 关键字修饰，这意味着 Hashtable 是属于相对线程安全的类。
+Hashtable 的数据结构与 HashMap 类似，其内部使用 `private transient Entry<?,?>[] table` 字段存储 key-value 键值对的数据，但与 HashMap 不同的是，Hashtable 的内部节点 Hashtable.Entry 只能是链表类型。Hashtable 并没有针对在哈希冲突严重的情况下，使用红黑树类型节点替换过长的链表类型节点。Hashtable 的所有方法都被 synchronized 关键字修饰，这意味着 Hashtable 是属于相对线程安全的类。
 
 Hashtable 中所涉及的数据结构如下图所示：
 ![image](/images/Java集合框架概览/Hashtable.png)
