@@ -40,14 +40,6 @@ B-Tree 索引能加快访问数据的速度，因为存储引擎不再需要进�
 
 B-Tree 对索引列是顺序组织存储的，所以很适合查找范围数据。例如，在一个基于文本域的索引树上，按字母顺序连续传递的值进行查找是非常合适的。索引对多个值进行排序的依据是 CREATE TABLE 语句中定义索引时列的顺序。
 
-一次 B-Tree 索引的插入、搜索、删除过程如下视频所示：
-
-<p><video src="/images/MySQL索引高性能策略/B-Tree-Insert.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
-
-<p><video src="/images/MySQL索引高性能策略/B-Tree-Search.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
-
-<p><video src="/images/MySQL索引高性能策略/B-Tree-Remove.mov" controls="controls" width="100%">您的浏览器不支持 video 标签</video></p>
-
 假设有如下数据表：
 ```sql
 CREATE TABLE People (
